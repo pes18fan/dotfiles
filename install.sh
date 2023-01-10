@@ -42,7 +42,7 @@ echo "Downloading vim-plug..."
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # copying all dotfiles to home directory
-cp -r .config /home/.config
-cp .vimrc /home/.vimrc
+cp -r .config $HOME/.config
+cp .vimrc $HOME/.vimrc
 
 echo "Basic setup complete! Please change your default shell to fish. To fully complete the vim setup, please run the command :PlugInstall in vim."
