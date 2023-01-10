@@ -37,21 +37,12 @@ curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | 
 sudo $PACKAGES exa
 
 # adding vim-plug
-echo "Downloading vim-plug and necessary vim plugins..."
+echo "Downloading vim-plug..."
 
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-# installing plugins in vim
-touch dummy.out
-vim -E -s dummy.out << EOF
-:PlugInstall
-EOF
-
-echo "vim setup complete!"
-
 # copying all dotfiles to home directory
-cp .config /home/.config
-cp -s .vim /home/.vim
-cp -s .vimrc /home/.vimrc
+cp -r .config /home/.config
+cp .vimrc /home/.vimrc
 
-echo "Setup complete! Please change your default shell to fish."
+echo "Basic setup complete! Please change your default shell to fish. To fully complete the vim setup, please run the command :PlugInstall in vim."
