@@ -11,7 +11,6 @@ set -x STARSHIP_LOG "error"
 zoxide init fish | source
 
 # aliases
-alias ls "exa"
 alias la "ls -a"
 alias ll "ls -l"
 alias lal "ls -la"
@@ -19,7 +18,6 @@ alias tree "ls -T"
 alias cls "clear"
 alias rm "rm -i"
 alias cd "z"
-alias dotfiles="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
 
 if status is-interactive
     # Commands to run in interactive sessions can go here
