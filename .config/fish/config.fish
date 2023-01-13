@@ -5,12 +5,12 @@ set -x PATH "$PATH:/mnt/c/Users/Dell/AppData/Local/Programs/Microsoft VS Code/bi
 
 # starship initialization
 starship init fish | source
-set -x STARSHIP_LOG "error"
 
 # zoxide initialization
 zoxide init fish | source
 
 # aliases
+alias ls "exa"
 alias la "ls -a"
 alias ll "ls -l"
 alias lal "ls -la"
