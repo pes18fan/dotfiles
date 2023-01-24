@@ -1,7 +1,7 @@
 # env variables
 set -x EDITOR "vim"
 set -x PAGER "less"
-set -x PATH "$PATH:/mnt/c/Users/Dell/AppData/Local/Programs/Microsoft VS Code/bin:/home/vezei/.local/bin"
+set -x PATH "$PATH:/home/vezei/.local/bin"
 
 # starship initialization
 starship init fish | source
