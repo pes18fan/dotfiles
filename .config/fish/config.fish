@@ -54,6 +54,7 @@ function sfmlr
 		g++ -c $argv[1]
 		g++ $OUT.o -o $OUT -lsfml-graphics -lsfml-window -lsfml-system
 		./$OUT
+		rm -f $OUT $OUT.o
 	else
 		echo "Please input a C++ source file!"
 	end
