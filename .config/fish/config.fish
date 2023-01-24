@@ -1,7 +1,7 @@
 # env variables
 set -x EDITOR "vim"
 set -x PAGER "less"
-set -x PATH "$PATH:/mnt/c/Users/Dell/AppData/Local/Programs/Microsoft VS Code/bin"
+set -x PATH "$PATH:/mnt/c/Users/Dell/AppData/Local/Programs/Microsoft VS Code/bin:/home/vezei/.local/bin"
 
 # starship initialization
 starship init fish | source
@@ -46,3 +46,17 @@ function mkcd
     mkdir $argv[1]
     cd $argv[1]
 end
+
+# function to run a sfml program
+function sfmlr
+	if string match -qr ".cpp\$" $argv[1]
+		set OUT $(echo $argv[1] | awk '{ print substr( $0, 1, length($0)-4 ) }')
+		g++ -c $argv[1]
+		g++ $OUT.o -o $OUT -lsfml-graphics -lsfml-window -lsfml-system
+		./$OUT
+	else
+		echo "Please input a C++ source file!"
+	end
+end
+
+thefuck --alias | source
