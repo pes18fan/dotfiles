@@ -51,9 +51,17 @@ end
 function sfmlr
 	if string match -qr ".cpp\$" $argv[1]
 		set OUT $(echo $argv[1] | awk '{ print substr( $0, 1, length($0)-4 ) }')
-		g++ -c $argv[1]
-		g++ $OUT.o -o $OUT -lsfml-graphics -lsfml-window -lsfml-system
-		./$OUT
+		
+		if test -e $argv[1] && string match -qr "^/" # if given argument is absolute path to file
+			g++ -c $argv[1]
+			g++ $OUT.o -o $OUT -lsfml-graphics -lsfml-window -lsfml-system
+			./$OUT
+		else # if given argument is relative path to file
+			g++ -c $argv[1] -o $OUT.o
+			g++ $OUT.o -o $OUT -lsfml-graphics -lsfml-window -lsfml-system
+			/.$OUT
+		end
+
 		rm -f $OUT $OUT.o
 	else
 		echo "Please input a C++ source file!"
