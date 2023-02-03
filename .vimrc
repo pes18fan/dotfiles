@@ -19,6 +19,9 @@ Plug 'codechips/coc-svelte', {'do': 'npm install'}
 
 call plug#end()
 
+inoremap <silent><expr> <tab> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<TAB>"
+inoremap <silent><expr> <cr> "\<c-g>u\<CR>"
+
 let g:svelte_indent_script = 0
 let g:svelte_indent_style = 0
 
