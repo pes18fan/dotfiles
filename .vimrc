@@ -28,10 +28,6 @@ let g:svelte_indent_style = 0
 
 let g:cpp_class_decl_highlight = 1
 
-"let g:tokyonight_style = 'night' " available: night, storm
-"let g:tokyonight_enable_italic = 1
-"let g:tokyonight_disable_italic_comment = 1
-
 let g:ale_fixers = {'javascript': ['eslint'], 'typescript': ['eslint']}
 
 let g:ale_disable_lsp = 1
