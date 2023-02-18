@@ -1,7 +1,7 @@
 # env variables
 set -x EDITOR "vim"
 set -x PAGER "less"
-set -x PATH "$PATH:/home/vezei/.local/bin"
+set -x PATH "$PATH:/home/vezei/.local/bin:/home/vezei/.cargo/bin"
 
 # starship initialization
 starship init fish | source
