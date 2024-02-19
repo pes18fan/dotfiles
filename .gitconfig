@@ -1,0 +1,11 @@
+[user]
+	name = pes18fan
+	email = pes18fan@disr.it
+[init]
+	defaultBranch = main
+[alias]
+	logd = log --oneline --decorate --graph
+[pull]
+	rebase = true
+[core]
+	editor = nvim
