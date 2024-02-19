@@ -16,13 +16,31 @@ try_install() {
     fi
 }
 
+# function that sets up neovim
 nvim_setup() {
+    echo "Setting up neovim..."
+
     # packer install
     git clone --depth 1 https://github.com/wbthomason/packer.nvim\
     ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
     # syncing packer
     nvim --headless -c ":PackerSync" -c "quitall"
+    
+    echo ""
+    echo "Neovim setup complete."
+    echo ""
+}
+
+# change default shell
+change_shell() {
+    if [ -n "$FISH_VERSION" ]; then
+        echo "fish is already the default shell."
+    else
+        echo "Changing default shell to fish..."
+        chsh -s $(which fish)
+    fi
+    echo ""
 }
 
 echo "------------------------------ BOOTSTRAPPER ------------------------------"
@@ -39,13 +57,13 @@ echo "Updating packages."
 sudo $PKG_UPDATE
 echo ""
 
-try_install git
+# no need to try install git, as it is required by yadm in the first place
 try_install curl
 try_install fish
 try_install neovim
 
 echo "Installing additional utilities..."
-sudo $PKGMGR_INSTALL git curl ripgrep fd exa bat tmux
+sudo $PKGMGR_INSTALL ripgrep fd exa bat tmux
 echo ""
 
 # starship
@@ -56,3 +74,8 @@ curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh\
     | bash
 
 nvim_setup
+
+change_shell
+
+echo "Bootstrapping complete."
+echo "Make sure to install a NerdFont for the best experience."
