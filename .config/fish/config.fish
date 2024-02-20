@@ -1,3 +1,6 @@
+# custom greeting
+set fish_greeting (set_color --bold efcf40)">"(set_color ef9540)"<"(set_color ea3838)">" (set_color normal)"welcome to fish, the friendly interactive shell"
+
 # env variables
 set -x GPG_TTY $(tty)
 set -x EDITOR "vim"
@@ -26,10 +29,6 @@ alias vide "neovide.exe --multigrid --wsl"
 
 if status is-interactive
     # Commands to run in interactive sessions can go here
-end
-
-function fish_greeting
-    echo "well cum"
 end
 
 # functions
