@@ -21,14 +21,8 @@ return require('packer').startup(function(use)
 	}
 
     use 'sheerun/vim-polyglot' -- support for a LOT of languages
-	use 'tpope/vim-endwise' -- add end to, well... end of blocks in ruby, crystal etc
 
-	-- auto pairs but lua
-	use {
-		"windwp/nvim-autopairs",
-
-		config = function() require("nvim-autopairs").setup {} end
-	}
+	use 'jiangmiao/auto-pairs'
 
 	-- status bar
 	use {
