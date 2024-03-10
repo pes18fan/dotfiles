@@ -20,7 +20,8 @@ require("lazy").setup({
     {
         'nvim-telescope/telescope.nvim', tag = "0.1.5",
         -- or                            , branch = '0.1.x',
-        dependencies = { 'nvim-lua/plenary.nvim' }
+        dependencies = { 'nvim-lua/plenary.nvim' },
+        lazy = true,
     },
 
     -- treesitter
@@ -30,10 +31,7 @@ require("lazy").setup({
         event = "BufReadPre",
     },
 
-    {
-        "jiangmiao/auto-pairs",
-        lazy = true,
-    },
+    "jiangmiao/auto-pairs",
 
     -- status bar
     {
@@ -64,6 +62,6 @@ require("lazy").setup({
 
     {
         "zbirenbaum/copilot.lua",
-        lazy = true,
+        event = "InsertEnter",
     },
 })
