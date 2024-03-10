@@ -16,22 +16,6 @@ try_install() {
     fi
 }
 
-# function that sets up neovim
-nvim_setup() {
-    echo "Setting up neovim..."
-
-    # packer install
-    git clone --depth 1 https://github.com/wbthomason/packer.nvim\
-    ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-
-    # syncing packer
-    nvim --headless -c ":PackerSync" -c "quitall"
-    
-    echo ""
-    echo "Neovim setup complete."
-    echo ""
-}
-
 # change default shell
 change_shell() {
     if [ -n "$FISH_VERSION" ]; then
@@ -57,7 +41,7 @@ echo "Updating packages."
 sudo $PKG_UPDATE
 echo ""
 
-# no need to try install git, as it is required by yadm in the first place
+# No need to try install git, as it is required by yadm in the first place
 try_install curl
 try_install fish
 try_install neovim
@@ -73,7 +57,9 @@ curl -sS https://starship.rs/install.sh | sh
 curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh\ 
     | bash
 
-nvim_setup
+# Previously when I used packer.nvim, I'd set nvim up around here.
+# However, with lazy.nvim, the plugin bootstraps itself and all of your other
+# plugins when you boot up nvim for the first time. Awesome!
 
 change_shell
 
