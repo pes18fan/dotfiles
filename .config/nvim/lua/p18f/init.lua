@@ -1,6 +1,6 @@
 require("p18f.remap")
 require("p18f.set")
-require("p18f.packer")
+require("p18f.lazy")
 require("p18f.neovide")
 
 -- suppress annoying offset_encoding popup, whatever that is

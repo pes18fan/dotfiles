@@ -1,13 +1,17 @@
 local lsp = require("lsp-zero")
 
-lsp.preset("recommended")
+lsp.on_attach(function(client, bufnr)
+    lsp.default_keymaps({buffer = bufnr})
+end)
 
-lsp.ensure_installed({
-	"clangd",
-	"tsserver",
-	"rust_analyzer",
+require("mason").setup({})
+require("mason-lspconfig").setup({
+    ensure_installed = {
+        "clangd",
+        "tsserver",
+        "ols",
+    },
+    handlers = {
+        lsp.default_setup,
+    },
 })
-
-lsp.setup()
-
-require("lspconfig").ols.setup({})
