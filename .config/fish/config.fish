@@ -5,9 +5,12 @@ set fish_greeting (set_color --bold efcf40)">"(set_color ef9540)"<"(set_color ea
 set -x GPG_TTY $(tty)
 set -x EDITOR "vim"
 set -x PAGER "less"
-set -x PATH "$PATH:/home/vexe41/.local/bin:/home/vexe41/.cargo/bin"
-set -x PATH "$PATH:/home/vexe41/Odin:/home/vexe41/craftinginterpreters/"
-set -x PATH "$PATH:/home/vexe41/zen/bin/rel/"
+set -x PATH "$PATH:$HOME/.local/bin"
+set -x PATH ":$HOME/.cargo/bin"
+set -x PATH "$PATH:$HOME/Odin"
+set -x PATH "$PATH:$HOME/zen/bin/rel/"
+set -x PATH "$PATH:$HOME/.yarn/bin"
+set -x PATH "$PATH:$HOME/go/bin"
 
 # starship initialization
 starship init fish | source
