@@ -6,7 +6,7 @@ set -x GPG_TTY $(tty)
 set -x EDITOR "vim"
 set -x PAGER "less"
 set -x PATH "$PATH:$HOME/.local/bin"
-set -x PATH ":$HOME/.cargo/bin"
+set -x PATH "$PATH:$HOME/.cargo/bin"
 set -x PATH "$PATH:$HOME/Odin"
 set -x PATH "$PATH:$HOME/zen/bin/rel/"
 set -x PATH "$PATH:$HOME/.yarn/bin"
