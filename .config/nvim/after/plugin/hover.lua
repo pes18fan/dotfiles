@@ -12,4 +12,3 @@ require("hover").setup {
 
 -- Keymaps
 vim.keymap.set("n", "<A-h>", require("hover").hover, {desc = "hover.nvim"})
-vim.keymap.set("n", "<A-k>", require("hover").hover_select, {desc = "hover.nvim (select)"})

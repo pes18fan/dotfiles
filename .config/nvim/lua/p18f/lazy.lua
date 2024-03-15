@@ -21,7 +21,7 @@ require("lazy").setup({
         'nvim-telescope/telescope.nvim', tag = "0.1.5",
         -- or                            , branch = '0.1.x',
         dependencies = { 'nvim-lua/plenary.nvim' },
-        lazy = true,
+        event = "VeryLazy"
     },
 
     -- treesitter
@@ -31,12 +31,15 @@ require("lazy").setup({
         event = "BufReadPre",
     },
 
+    "vim-crystal/vim-crystal",
+
     "jiangmiao/auto-pairs",
 
     -- status bar
     {
         'nvim-lualine/lualine.nvim',
-        dependencies = { 'nvim-tree/nvim-web-devicons' }
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        event = "VeryLazy"
     },
 
     -- lsp
@@ -56,16 +59,33 @@ require("lazy").setup({
     -- catppuccin theme
     { "catppuccin/nvim", name = "catppuccin" },
 
-    "lewis6991/hover.nvim",
-    "folke/trouble.nvim",
-    "NvChad/nvterm",
+    {
+        "lewis6991/hover.nvim",
+        event = "VeryLazy",
+    },
+
+    {
+        "folke/trouble.nvim",
+        event = "VeryLazy",
+    },
+
+    {
+        "NvChad/nvterm",
+        event = "VeryLazy",
+    },
 
     {
         'Exafunction/codeium.vim',
-        config = function ()
+        config = function()
             vim.g.codeium_no_map_tab = 1
 
             vim.keymap.set('i', '<M-l>', function () return vim.fn['codeium#Accept']() end, { expr = true, silent = true })
         end
+    },
+
+    {
+        "ThePrimeagen/harpoon",
+        branch = "harpoon2",
+        dependencies = { "nvim-lua/plenary.nvim" },
     },
 })

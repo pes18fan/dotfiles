@@ -10,6 +10,7 @@ require("mason-lspconfig").setup({
         "clangd",
         "tsserver",
         "ols",
+        "html",
     },
     handlers = {
         lsp.default_setup,
