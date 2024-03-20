@@ -19,7 +19,7 @@ starship init fish | source
 zoxide init fish | source
 
 # aliases
-alias ls "exa"
+alias ls "eza"
 alias la "ls -a"
 alias ll "ls -l"
 alias tree "ls -T"
@@ -74,6 +74,18 @@ function sfmlr
 	else
 		echo "Please input a valid C++ source file!"
 	end
+end
+
+function topdf
+    set -l source $argv[1]
+    set -l output $argv[2]
+
+    if not test -e $source
+        echo "$source does not exist."
+        return 1
+    end
+
+    pandoc $argv[1] --pdf-engine=weasyprint --css=$HOME/.pandoc/print.css -o $argv[2]
 end
 
 # Function to automatically recompile a LaTeX source file when
