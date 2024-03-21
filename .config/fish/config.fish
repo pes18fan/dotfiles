@@ -77,6 +77,16 @@ function sfmlr
 end
 
 function topdf
+    if ! command -v pandoc >/dev/null
+        echo "you need pandoc to run this command, it isn't installed!" 
+        return 1
+    end
+
+    if ! command -v weasyprint >/dev/null
+        echo "you need weasyprint to run this command, it isn't installed!" 
+        return 1
+    end
+
     set -l source $argv[1]
     set -l output $argv[2]
 
@@ -92,6 +102,11 @@ end
 # it is modified. Note that it requires inotify-tools to be
 # installed.
 function texdf
+    if ! command -v pdflatex >/dev/null
+        echo "you need pdflatex to run this command, it isn't installed!" 
+        return 1
+    end
+
     set -l tex_file $argv[1]
 
     if not test -e $tex_file
