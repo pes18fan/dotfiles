@@ -5,6 +5,3 @@
 ((inline) @injection.content
     (#lua-match? @injection.content "^%s*export")
     (#set! injection.language "typescript"))
-((inline) @injection.content
-    (#lua-match? @injection.content "^%s*<")
-    (#set! injection.language "tsx"))
