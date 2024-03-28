@@ -2,6 +2,7 @@ return {
     "ThePrimeagen/harpoon",
     dependencies = { "nvim-lua/plenary.nvim" },
     branch = "harpoon2",
+    event = "VimEnter",
     config = function()
         local harpoon = require("harpoon")
 

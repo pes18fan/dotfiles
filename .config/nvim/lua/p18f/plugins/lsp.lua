@@ -1,6 +1,7 @@
 return {
     'VonHeikemen/lsp-zero.nvim',
     branch = 'v3.x',
+    event = "VimEnter",
     dependencies = {
         { 'williamboman/mason.nvim' },
         { 'williamboman/mason-lspconfig.nvim' },
@@ -19,8 +20,7 @@ return {
 
         cmp.setup({
             mapping = cmp.mapping.preset.insert({
-                -- confirm completion with Ctrl + Tab
-                ["<leader><Tab>"] = cmp.mapping.confirm({ select = true }),
+                ["<C-c>"] = cmp.mapping.confirm({ select = true }),
             })
         })
 

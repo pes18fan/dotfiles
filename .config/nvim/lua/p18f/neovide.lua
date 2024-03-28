@@ -2,9 +2,9 @@ if vim.g.neovide then
     vim.o.guifont = "Rec Mono Semicasual:h12"
     vim.g.neovide_floating_blur_amount_x = 2.0
     vim.g.neovide_floating_blur_amount_y = 2.0
-    vim.g.neovide_transparency = 0.95
+    vim.g.neovide_transparency = 0.9
 
     vim.g.neovide_remember_window_size = true
 
-    vim.g.neovide_cursor_vfx_mode = "sonicboom"
+    vim.g.neovide_cursor_vfx_mode = "wireframe"
 end
