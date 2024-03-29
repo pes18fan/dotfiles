@@ -1,6 +1,6 @@
 return {
     'Exafunction/codeium.vim',
-    event = "VeryLazy",
+    event = "VimEnter",
     config = function()
         vim.g.codeium_no_map_tab = 1
 

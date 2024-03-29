@@ -1,6 +1,6 @@
 return {
     "folke/trouble.nvim",
-    event = "VeryLazy",
+    event = "VimEnter",
     config = function()
         require("trouble").setup({
             auto_close = true,

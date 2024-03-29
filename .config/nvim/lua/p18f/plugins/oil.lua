@@ -9,6 +9,6 @@ return {
             },
         })
 
-        vim.keymap.set("n", "<leader>pv", ":Oil<CR>", { desc = "Open oil.nvim" })
+        vim.keymap.set("n", "-", ":Oil<CR>", { desc = "Open oil.nvim" })
     end,
 }
