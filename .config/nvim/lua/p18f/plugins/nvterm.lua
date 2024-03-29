@@ -6,17 +6,17 @@ return {
         local toggle_modes = { 'n', 't' }
 
         local mappings = {
-            { toggle_modes, "<A-j>", function()
+            { toggle_modes, "<M-j>", function()
                 require("nvterm.terminal").toggle("horizontal")
-            end },
-            { toggle_modes, "<A-k>", function()
+            end, { desc = "Toggle horizontal terminal" } },
+            { toggle_modes, "<M-k>", function()
                 require("nvterm.terminal").toggle("float")
-            end }
+            end, { desc = "Toggle float terminal" } }
         }
 
         local opts = {
             noremap = true,
-            silent = true
+            silent = true,
         }
 
         for _, mapping in ipairs(mappings) do

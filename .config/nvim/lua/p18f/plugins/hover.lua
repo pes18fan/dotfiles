@@ -15,6 +15,6 @@ return {
         }
 
         -- Keymaps
-        vim.keymap.set("n", "<A-h>", require("hover").hover, { desc = "Run hover.nvim over word under cursor" })
+        vim.keymap.set("n", "<M-h>", require("hover").hover, { desc = "Run hover.nvim over word under cursor" })
     end,
 }
