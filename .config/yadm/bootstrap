@@ -47,7 +47,7 @@ try_install fish
 try_install neovim
 
 echo "Installing additional utilities..."
-sudo $PKGMGR_INSTALL ripgrep fd exa bat tmux
+sudo $PKGMGR_INSTALL ripgrep fd eza bat tmux
 echo ""
 
 # starship
