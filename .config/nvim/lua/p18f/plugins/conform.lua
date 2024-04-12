@@ -22,7 +22,7 @@ return {
             javascript = { "prettier" },
             typescript = { "prettier" },
             crystal = { "crystal" },
-            json = { "fixjson" }
+            json = { "yq" }
         },
         format_on_save = { timeout_ms = 500, lsp_fallback = true },
     }

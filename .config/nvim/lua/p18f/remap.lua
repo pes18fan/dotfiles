@@ -19,12 +19,6 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 vim.keymap.set("n", "<leader>-", ":split<CR>", { desc = "Split horizontally" })
 vim.keymap.set("n", "<leader>\\", ":vsplit<CR>", { desc = "Split vertically" })
 
--- make split navigation easier
-vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Move focus to left window" })
-vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move focus to lower window" })
-vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move focus to upper window" })
-vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move focus to right window" })
-
 -- remove arrow keys
 vim.keymap.set("n", "<Up>", "<nop>", { noremap = true })
 vim.keymap.set("n", "<Down>", "<nop>", { noremap = true })
@@ -35,3 +29,6 @@ vim.keymap.set("i", "<Up>", "<nop>", { noremap = true })
 vim.keymap.set("i", "<Down>", "<nop>", { noremap = true })
 vim.keymap.set("i", "<Left>", "<nop>", { noremap = true })
 vim.keymap.set("i", "<Right>", "<nop>", { noremap = true })
+
+-- esc to go to normal mode from terminal
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")

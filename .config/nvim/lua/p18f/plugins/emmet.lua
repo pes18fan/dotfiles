@@ -1,4 +1,4 @@
 return {
     "mattn/emmet-vim",
-    event = "BufReadPre",
+    event = "BufReadPost",
 }
