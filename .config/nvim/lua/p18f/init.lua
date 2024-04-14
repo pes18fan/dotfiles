@@ -4,7 +4,7 @@ require("p18f.set")
 require("p18f.neovide")
 require("p18f.filetype")
 
--- suppress annoying offset_encoding popup, whatever that is
+-- suppress annoying and non-useful notification
 local notify = vim.notify
 vim.notify = function(msg, ...)
     if msg:match("warning: multiple different client offset_encodings") then

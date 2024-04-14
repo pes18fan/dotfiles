@@ -19,6 +19,11 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 vim.keymap.set("n", "<leader>-", ":split<CR>", { desc = "Split horizontally" })
 vim.keymap.set("n", "<leader>\\", ":vsplit<CR>", { desc = "Split vertically" })
 
+-- tabs
+vim.keymap.set("n", "<leader>n", ":tabnew<CR>", { desc = "Create a new tab" })
+vim.keymap.set("n", "<leader>]", "gt", { desc = "Go to next tab" })
+vim.keymap.set("n", "<leader>[", "gT", { desc = "Go to previous tab" })
+
 -- remove arrow keys
 vim.keymap.set("n", "<Up>", "<nop>", { noremap = true })
 vim.keymap.set("n", "<Down>", "<nop>", { noremap = true })
