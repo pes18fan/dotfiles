@@ -1,3 +1,4 @@
+-- Note: This is only for Windows.
 local wezterm = require("wezterm")
 local act = wezterm.action
 
@@ -26,23 +27,23 @@ config.inactive_pane_hsb = {
 config.leader = { key = "Space", mods = "CTRL", timeout_milliseconds = 1000 }
 config.keys = {
     -- create panes
-    { key = "-", mods = "LEADER", action = act.SplitVertical { domain = "CurrentPaneDomain"} },
+    { key = "-",  mods = "LEADER", action = act.SplitVertical { domain = "CurrentPaneDomain" } },
     { key = "\\", mods = "LEADER", action = act.SplitHorizontal { domain = "CurrentPaneDomain" } },
 
     -- pane movement
-    { key = "h", mods = "LEADER", action = act.ActivatePaneDirection("Left") },
-    { key = "j", mods = "LEADER", action = act.ActivatePaneDirection("Down") },
-    { key = "k", mods = "LEADER", action = act.ActivatePaneDirection("Up") },
-    { key = "l", mods = "LEADER", action = act.ActivatePaneDirection("Right") },
+    { key = "h",  mods = "LEADER", action = act.ActivatePaneDirection("Left") },
+    { key = "j",  mods = "LEADER", action = act.ActivatePaneDirection("Down") },
+    { key = "k",  mods = "LEADER", action = act.ActivatePaneDirection("Up") },
+    { key = "l",  mods = "LEADER", action = act.ActivatePaneDirection("Right") },
 
     -- resize panes
-    { key = "r", mods = "LEADER", action = act.ActivateKeyTable { name = "resize_pane", one_shot = false } },
+    { key = "r",  mods = "LEADER", action = act.ActivateKeyTable { name = "resize_pane", one_shot = false } },
 
     -- tabs
-    { key = "n", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
-    { key = "[", mods = "LEADER", action = act.ActivateTabRelative(-1) },
-    { key = "]", mods = "LEADER", action = act.ActivateTabRelative(1) },
-    { key = "t", mods = "LEADER", action = act.ShowTabNavigator }
+    { key = "n",  mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
+    { key = "[",  mods = "LEADER", action = act.ActivateTabRelative(-1) },
+    { key = "]",  mods = "LEADER", action = act.ActivateTabRelative(1) },
+    { key = "t",  mods = "LEADER", action = act.ShowTabNavigator }
 }
 
 config.key_tables = {
