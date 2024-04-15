@@ -33,5 +33,8 @@ vim.keymap.set("i", "<Down>", "<nop>", { noremap = true })
 vim.keymap.set("i", "<Left>", "<nop>", { noremap = true })
 vim.keymap.set("i", "<Right>", "<nop>", { noremap = true })
 
+-- lsp hovering
+vim.keymap.set("n", "<M-h>", vim.lsp.buf.hover, { desc = "Hover over word under cursor" })
+
 -- esc to go to normal mode from terminal
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
