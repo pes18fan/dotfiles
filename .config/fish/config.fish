@@ -37,8 +37,8 @@ alias vide "neovide.exe --wsl"
 function fish_greeting
     echo (set_color --bold efcf40)">"(set_color ef9540)"<"(set_color ea3838)">"(set_color normal) $(random choice "well cum" "welcome") "to fish, the friendly interactive shell"
     echo ""
-    if command -v ncal >/dev/null
-        ncal
+    if command -v pfetch >/dev/null
+        pfetch
     end
 end
 
