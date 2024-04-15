@@ -4,16 +4,6 @@ require("p18f.set")
 require("p18f.neovide")
 require("p18f.filetype")
 
--- suppress annoying and non-useful notification
-local notify = vim.notify
-vim.notify = function(msg, ...)
-    if msg:match("warning: multiple different client offset_encodings") then
-        return
-    end
-
-    notify(msg, ...)
-end
-
 -- make background transparent
 function Transparent()
     -- Make background transparent
