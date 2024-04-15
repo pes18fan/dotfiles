@@ -1,5 +1,4 @@
 # env variables
-set -x GPG_TTY $(tty)
 set -x EDITOR "vim"
 set -x PAGER "less"
 set -x PATH "$PATH:$HOME/.local/bin"
@@ -10,7 +9,11 @@ set -x PATH "$PATH:$HOME/.yarn/bin"
 set -x PATH "$PATH:$HOME/go/bin"
 set -x PATH "$PATH:$HOME/ncal/bin/"
 
-set -x DISPLAY :0
+# make wslg work (only wayland works unfortunately)
+ln -s /mnt/wslg/runtime-dir/wayland-0* /run/user/1000/ &> /dev/null
+
+set -x DISPLAY $(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0.0 #GWSL
+set -x PULSE_SERVER tcp:$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}') #GWSL
 set -x LIBGL_ALWAYS_INDIRECT 1
 
 # starship initialization
