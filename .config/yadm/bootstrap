@@ -1,16 +1,47 @@
 #!/bin/bash
 
+echo "------------------------------ BOOTSTRAPPER ------------------------------"
+echo ""
+
+# Package manager inputs
+read -p "Tell me your package manager. " PKG
+read -p "What's $PKGMGR's install command? E.g. pacman -S for pacman. " PKG_INSTALL
+read -p "What's $PKGMGR's update command? E.g pacman -Syu for pacman. If there
+    is more than one command, for example in Ubuntu, connect them with && in the
+    answer. " PKG_UPDATE
+
+echo "Updating packages."
+sudo $PKG_UPDATE
+echo ""
+
 # function that attempts to install a package if it is not already installed
 # exits the program with an error if install fails
+# $1: name of package in the package manager
+# $2: name of installed executable
 try_install() {
-    if command -v $1 &> /dev/null; then
-        echo "$1 is installed. Skipping..."
+    if command -v $2 &> /dev/null; then
+        echo "$2 is installed. Skipping..."
     else
-        echo "No $1. Installing..."
+        echo "No $2. Installing..."
         if ! sudo $PKG_INSTALL $1; then
-            echo "Failed to install $1."
-            echo "Please manually install it and restart the script."
-            exit 1
+            echo "Failed to install $2."
+            echo "This may be due to the name of $1 being different in $PKG."
+            echo "If that is the case, please enter the name of the package in $PKG, else enter 1 to skip this package or enter 0 to exit. "
+            read PKG_NAME
+            
+            case $PKG_NAME in
+                0)
+                    exit 1
+                    ;;
+
+                1)
+                    echo "Skipping $2..."
+                    ;;
+
+                *)
+                    try_install $PKG_NAME $2
+                    ;;
+            esac
         fi
         echo ""
     fi
@@ -27,33 +58,22 @@ change_shell() {
     echo ""
 }
 
-echo "------------------------------ BOOTSTRAPPER ------------------------------"
-echo ""
-
-# Package manager inputs
-read -p "Tell me your package manager. " PKG
-read -p "What's $PKGMGR's install command? E.g. pacman -S for pacman. " PKG_INSTALL
-read -p "What's $PKGMGR's update command? E.g pacman -Syu for pacman. If there
-    is more than one command, for example in Ubuntu, connect them with && in the
-    answer. " PKG_UPDATE
-
-echo "Updating packages."
-sudo $PKG_UPDATE
-echo ""
-
 # No need to try install git, as it is required by yadm in the first place
-try_install curl
-try_install fish
-try_install neovim
-
-echo "Installing additional utilities..."
-sudo $PKG_INSTALL ripgrep fd eza bat tmux
-echo ""
+try_install curl curl
+try_install fish fish
+try_install neovim nvim
+try_install ripgrep rg
+try_install starship starship
+try_install fd fd
+try_install eza eza
+try_install bat bat
 
 # starship
+echo "Installing starship..."
 curl -sS https://starship.rs/install.sh | sh
 
 # zoxide
+echo "Installing zoxide..."
 curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
 
 # Previously when I used packer.nvim, I'd set nvim up around here.
