@@ -1,12 +1,12 @@
 #!/bin/bash
 
-echo "------------------------------ BOOTSTRAPPER ------------------------------"
+printf "\x1b[33m------------------------------ BOOTSTRAPPER ------------------------------\x1b[0m\n"
 echo ""
 
 # Package manager inputs
 read -p "Tell me your package manager. " PKG
-read -p "What's $PKGMGR's install command? E.g. pacman -S for pacman. " PKG_INSTALL
-read -p "What's $PKGMGR's update command? E.g pacman -Syu for pacman. If there
+read -p "What's $PKG's install command? E.g. pacman -S for pacman. " PKG_INSTALL
+read -p "What's $PKG's update command? E.g pacman -Syu for pacman. If there
     is more than one command, for example in Ubuntu, connect them with && in the
     answer. " PKG_UPDATE
 
@@ -20,13 +20,17 @@ echo ""
 # $2: name of installed executable
 try_install() {
     if command -v $2 &> /dev/null; then
-        echo "$2 is installed. Skipping..."
+        printf "$2 is \x1b[32minstalled\x1b[0m. Skipping...\n"
+        echo ""
     else
         echo "No $2. Installing..."
         if ! sudo $PKG_INSTALL $1; then
-            echo "Failed to install $2."
-            echo "This may be due to the name of $1 being different in $PKG."
-            echo "If that is the case, please enter the name of the package in $PKG, else enter 1 to skip this package or enter 0 to exit. "
+            echo ""
+            printf "\x1b[31mFailed to install $1.\x1b[0m\n"
+            echo "This may be due to the name of $1 being different in $PKG's repository."
+            echo "If that is the case, please enter the name of the package in 
+                $PKG, else enter 1 to skip this package or enter 0 to exit and try to install
+                it manually. "
             read PKG_NAME
             
             case $PKG_NAME in
@@ -63,7 +67,6 @@ try_install curl curl
 try_install fish fish
 try_install neovim nvim
 try_install ripgrep rg
-try_install starship starship
 try_install fd fd
 try_install eza eza
 try_install bat bat
