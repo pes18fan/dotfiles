@@ -9,5 +9,7 @@ return {
             group = true,
             indent_lines = true,
         })
+
+        vim.keymap.set("n", "<leader>;", ":TroubleToggle<CR>", { desc = "Toggle trouble.nvim" })
     end,
 }

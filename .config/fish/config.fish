@@ -10,6 +10,9 @@ set -x PATH "$PATH:$HOME/.yarn/bin"
 set -x PATH "$PATH:$HOME/go/bin"
 set -x PATH "$PATH:$HOME/ncal/bin/"
 
+set -x DISPLAY :0
+set -x LIBGL_ALWAYS_INDIRECT 1
+
 # starship initialization
 starship init fish | source
 

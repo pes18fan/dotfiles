@@ -33,6 +33,8 @@ vim.opt.colorcolumn = "80"
 -- show the line the cursor is on
 vim.opt.cursorline = true
 
+vim.opt.signcolumn = "yes"
+
 -- highlight when yanking text
 vim.api.nvim_create_autocmd("TextYankPost", {
     desc = "Highlight when yanking text",

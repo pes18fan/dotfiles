@@ -1,8 +1,6 @@
 -- map <space> as the leader
 vim.g.mapleader = " "
 
-vim.keymap.set("n", "<leader>;;", ":TroubleToggle<CR>", { desc = "Toggle trouble.nvim" })
-
 -- move highlighted stuff around effortlessly pressing J and K
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move highlighted text down" })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move highlighted text up" })
