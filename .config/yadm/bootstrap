@@ -47,15 +47,14 @@ try_install fish
 try_install neovim
 
 echo "Installing additional utilities..."
-sudo $PKGMGR_INSTALL ripgrep fd eza bat tmux
+sudo $PKG_INSTALL ripgrep fd eza bat tmux
 echo ""
 
 # starship
 curl -sS https://starship.rs/install.sh | sh
 
 # zoxide
-curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh\ 
-    | bash
+curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
 
 # Previously when I used packer.nvim, I'd set nvim up around here.
 # However, with lazy.nvim, the plugin bootstraps itself and all of your other
