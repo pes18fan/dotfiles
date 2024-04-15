@@ -1,4 +1,3 @@
--- Note: This is only for Windows.
 local wezterm = require("wezterm")
 local act = wezterm.action
 
@@ -8,14 +7,20 @@ if wezterm.config_builder then
 end
 
 config.default_prog = { "E:/ArchWSL2/Arch.exe" }
+
+config.line_height = 1.05
 config.font = wezterm.font_with_fallback({
-    { family = "JetBrainsMono Nerd Font", scale = 1 }
+    { family = "Rec Mono Semicasual",     scale = 1 },
+    { family = "JetBrainsMono Nerd Font", scale = 1 },
+    { family = "Consolas",                scale = 1 }
 })
+
 config.color_scheme = "Catppuccin Mocha"
 config.window_background_opacity = 0.95
-config.window_decorations = "RESIZE"
+config.window_close_confirmation = "NeverPrompt"
 config.scrollback_lines = 3000
 config.cursor_thickness = "1pt"
+config.tab_bar_at_bottom = true
 
 -- dim inactive panes
 config.inactive_pane_hsb = {
@@ -57,5 +62,18 @@ config.key_tables = {
 }
 
 config.use_fancy_tab_bar = false
+config.status_update_interval = 1000
+
+local date = wezterm.strftime("%b %d, %Y")
+local time = wezterm.strftime("%I:%M %p")
+
+wezterm.on("update-right-status", function(window, _)
+    -- Date and time
+    window:set_right_status(wezterm.format({
+        { Text = wezterm.nerdfonts.md_calendar .. " " .. date },
+        { Text = " | " },
+        { Text = wezterm.nerdfonts.md_clock .. " " .. time }
+    }))
+end)
 
 return config
