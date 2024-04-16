@@ -9,6 +9,7 @@ return {
         { "hrsh7th/nvim-cmp" },
         { "hrsh7th/cmp-nvim-lsp" },
         { "L3MON4D3/LuaSnip" },
+        { "j-hui/fidget.nvim" },
     },
     config = function()
         local lsp = require("lsp-zero")
@@ -24,6 +25,7 @@ return {
             })
         })
 
+        require("fidget").setup({})
         require("mason").setup({})
         require("mason-lspconfig").setup({
             ensure_installed = {

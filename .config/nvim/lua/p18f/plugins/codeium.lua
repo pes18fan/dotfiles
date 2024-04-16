@@ -6,6 +6,6 @@ return {
 
         vim.keymap.set("i", "<M-l>", function()
             return vim.fn["codeium#Accept"]()
-        end, { expr = true, silent = true, desc = "Accept codeium suggestion" })
+        end, { expr = true, silent = true })
     end,
 }
