@@ -10,9 +10,7 @@ config.default_prog = { "E:/ArchWSL2/Arch.exe" }
 
 config.line_height = 1.05
 config.font = wezterm.font_with_fallback({
-    { family = "Rec Mono Semicasual",     scale = 1 },
-    { family = "JetBrainsMono Nerd Font", scale = 1 },
-    { family = "Consolas",                scale = 1 }
+    { family = "Rec Mono Semicasual", scale = 0.95 },
 })
 
 config.color_scheme = "Catppuccin Mocha"
