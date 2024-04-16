@@ -34,6 +34,9 @@ alias icr "crystal i"
 alias vim "nvim"
 alias vide "neovide.exe --wsl"
 
+alias open "wsl-open"
+alias xdg-open "wsl-open"
+
 function fish_greeting
     echo (set_color --bold efcf40)">"(set_color ef9540)"<"(set_color ea3838)">"(set_color normal) $(random choice "well cum" "welcome") "to fish, the friendly interactive shell"
     echo ""

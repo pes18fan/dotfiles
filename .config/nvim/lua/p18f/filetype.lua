@@ -4,6 +4,7 @@ vim.filetype.add({
         mdx = "mdx"
     }
 })
-
 vim.treesitter.language.register("markdown", "mdx")
 
+-- specific formatting for crystal
+vim.cmd "autocmd FileType crystal setlocal shiftwidth=2 sts=2 tabstop=2 expandtab"

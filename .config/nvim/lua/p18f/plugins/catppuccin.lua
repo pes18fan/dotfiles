@@ -1,21 +1,35 @@
+function Color(color)
+    color = color or "catppuccin-mocha"
+    vim.cmd.colorscheme(color)
+
+    vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+    vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
+    vim.api.nvim_set_hl(0, "FloatTitle", { bg = "none" })
+end
+
 return {
     "catppuccin/nvim",
     name = "catppuccin",
     priority = 1000,
-    opts = {
-        transparent_background = true,
-        dim_inactive = {
-            enabled = true,
-            shade = "dark",
-            percentage = 0.2,
-        },
-        integrations = {
-            telescope = {
+    config = function()
+        require("catppuccin").setup({
+            transparent_background = true,
+            dim_inactive = {
                 enabled = true,
+                shade = "dark",
+                percentage = 0.2,
             },
-            which_key = true,
-            mason = true,
-            harpoon = true,
-        }
-    },
+            integrations = {
+                telescope = {
+                    enabled = true,
+                },
+                which_key = true,
+                mason = true,
+                harpoon = true,
+            }
+        })
+
+        Color()
+    end
 }
