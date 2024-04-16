@@ -8,18 +8,24 @@ return {
 
         harpoon:setup()
 
-        vim.keymap.set("n", "<leader>a", function() harpoon:list():append() end, { desc = "Add current file to Harpoon" })
+        vim.keymap.set("n", "<leader>ha",
+            function()
+                harpoon:list():add()
+            end,
+            { desc = "Add current file to harpoon" })
         vim.keymap.set("n", "<leader>m", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
-            { desc = "Open Harpoon menu" })
-        vim.keymap.set("n", "<leader>c", function() harpoon:list():clear() end, { desc = "Clear Harpoon" })
+            { desc = "Open harpoon menu" })
+        vim.keymap.set("n", "<leader>c", function() harpoon:list():clear() end, { desc = "Clear harpoon list" })
 
-        vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end,
-            { desc = "Select first file from Harpoon" })
-        vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end,
-            { desc = "Select second file from Harpoon" })
-        vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end,
-            { desc = "Select third file from Harpoon" })
-        vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end,
-            { desc = "Select fourth file from Harpoon" })
+        for i = 1, 5, 1 do
+            vim.keymap.set("n", "<leader>" .. i, function() harpoon:list():select(i) end,
+                { desc = "Select file " .. i .. " from Harpoon" })
+        end
+
+        for i = 1, 5, 1 do
+            vim.keymap.set("n", "<leader>r" .. i, function()
+                harpoon:list():replace_at(i)
+            end, { desc = "Replace file " .. i .. " from harpoon" })
+        end
     end,
 }

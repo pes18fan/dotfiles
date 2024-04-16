@@ -4,5 +4,5 @@ return {
     event = "VeryLazy",
     config = function()
         require("which-key").setup()
-    end,
+    end
 }
