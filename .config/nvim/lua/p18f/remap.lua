@@ -17,6 +17,12 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 vim.keymap.set("n", "<leader>-", ":split<CR>", { desc = "Split horizontally" })
 vim.keymap.set("n", "<leader>\\", ":vsplit<CR>", { desc = "Split vertically" })
 
+-- copy and paste text from and to system clipboard
+vim.keymap.set("n", "<leader>Y", "\"+yy", { desc = "Yank a line to system clipboard" })
+vim.keymap.set("v", "<leader>y", "\"+y", { desc = "Yank to system clipboard" })
+
+vim.keymap.set("n", "<leader>P", "\"+p", { desc = "Paste from system clipboard" })
+
 -- tabs
 vim.keymap.set("n", "<leader>n", ":tabnew<CR>", { desc = "Create a new tab" })
 vim.keymap.set("n", "<leader>]", "gt", { desc = "Go to next tab" })
