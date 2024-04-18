@@ -1,7 +1,16 @@
 return {
     "NvChad/nvterm",
     config = function()
-        require("nvterm").setup()
+        require("nvterm").setup({
+            terminals = {
+                type_opts = {
+                    horizontal = {
+                        location = "rightbelow",
+                        split_ratio = 0.35
+                    }
+                }
+            }
+        })
 
         local toggle_modes = { 'n', 't' }
 

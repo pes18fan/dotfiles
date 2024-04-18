@@ -10,6 +10,7 @@ return {
         { "hrsh7th/cmp-nvim-lsp" },
         { "L3MON4D3/LuaSnip" },
         { "j-hui/fidget.nvim" },
+        { "ray-x/lsp_signature.nvim" }
     },
     config = function()
         local lsp = require("lsp-zero")
@@ -26,6 +27,7 @@ return {
         })
 
         require("fidget").setup({})
+        require("lsp_signature").setup({})
         require("mason").setup({})
         require("mason-lspconfig").setup({
             ensure_installed = {

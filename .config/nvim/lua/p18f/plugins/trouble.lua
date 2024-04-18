@@ -1,3 +1,4 @@
+-- TODO: Update to trouble v3
 return {
     "folke/trouble.nvim",
     event = "VeryLazy",
@@ -11,5 +12,7 @@ return {
         })
 
         vim.keymap.set("n", "<leader>;;", ":TroubleToggle<CR>", { desc = "Toggle trouble.nvim" })
+        vim.keymap.set("n", "<leader>;w", ":TroubleToggle workspace_diagnostics<CR>",
+            { desc = "Toggle trouble.nvim workspace diagnostics" })
     end,
 }
