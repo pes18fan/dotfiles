@@ -45,18 +45,24 @@ function fish_greeting
     end
 end
 
-if status is-interactive
-    # Commands to run in interactive sessions can go here
-end
-
 # functions
 # function to compile and run a c or c++ source file
 # only works for relative links
 function crun
 	if string match -qr ".c\$" $argv[1]
+        if ! command -v gcc >/dev/null
+            echo "you need gcc to run this command, it isn't installed!" 
+            return 1
+        end
+
 		set OUT $(echo $argv[1] | awk '{ print substr( $0, 1, length($0)-2 ) }')
 		gcc $argv[1] -o $OUT && printf "Compilation complete, running...\n\n" && ./$OUT && rm -f $OUT
 	else if string match -qr ".cpp\$" $argv[1]
+        if ! command -v g++ >/dev/null
+            echo "you need g++ to run this command, it isn't installed!" 
+            return 1
+        end
+
 		set OUT $(echo $argv[1] | awk '{ print substr( $0, 1, length($0)-4 ) }')
 		g++ $argv[1] -o $OUT && printf "Compilation complete, running...\n\n" && ./$OUT && rm -f $OUT
 	else
@@ -119,6 +125,16 @@ end
 function texdf
     if ! command -v pdflatex >/dev/null
         echo "you need pdflatex to run this command, it isn't installed!" 
+        return 1
+    end
+
+    if ! command -v xreader >/dev/null
+        echo "you need xreader to run this command, it isn't installed!" 
+        return 1
+    end
+
+    if ! command -v inotifywait >/dev/null
+        echo "you need inotify-tools to run this command, it isn't installed!" 
         return 1
     end
 
