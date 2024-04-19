@@ -6,7 +6,9 @@ if wezterm.config_builder then
     config = wezterm.config_builder()
 end
 
-config.default_prog = { "E:/ArchWSL2/Arch.exe" }
+wezterm.default_wsl_domains()
+
+config.default_domain = "WSL:Arch"
 
 config.line_height = 1.05
 config.font = wezterm.font_with_fallback({
