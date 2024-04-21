@@ -13,6 +13,7 @@ return {
         { "ray-x/lsp_signature.nvim" }
     },
     config = function()
+        local lspconfig = require("lspconfig")
         local lsp = require("lsp-zero")
         local cmp = require("cmp")
 
@@ -41,7 +42,7 @@ return {
             },
         })
 
-        require("lspconfig").lua_ls.setup({
+        lspconfig.lua_ls.setup({
             settings = {
                 Lua = {
                     diagnostics = {
@@ -51,5 +52,6 @@ return {
                 }
             }
         })
+        lspconfig.clangd.setup({})
     end,
 }
