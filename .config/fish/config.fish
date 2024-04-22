@@ -1,6 +1,4 @@
 # env variables
-set -x EDITOR "vim"
-set -x PAGER "less"
 set -x PATH "$PATH:$HOME/.local/bin"
 set -x PATH "$PATH:$HOME/.cargo/bin"
 set -x PATH "$PATH:$HOME/Odin/"
