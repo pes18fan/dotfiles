@@ -5,7 +5,6 @@ return {
     event = "VimEnter",
     config = function()
         local harpoon = require("harpoon")
-
         harpoon:setup()
 
         vim.keymap.set("n", "<leader>a",
