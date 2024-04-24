@@ -1,6 +1,6 @@
 return {
     "mattn/emmet-vim",
-    event = "BufReadPre",
+    ft = { "html", "ejs", "jsx", "tsx", "ecr" },
     config = function()
         vim.g.user_emmet_settings = {
             html = {
