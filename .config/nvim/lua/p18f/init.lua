@@ -1,5 +1,5 @@
 require("p18f.lazy")
-require("p18f.remap")
 require("p18f.set")
-require("p18f.neovide")
+require("p18f.remap")
 require("p18f.filetype")
+require("p18f.neovide")

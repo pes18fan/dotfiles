@@ -30,7 +30,7 @@ vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "80"
 
--- show the line the cursor is on
+-- highlight the line the cursor is on
 vim.opt.cursorline = true
 
 vim.opt.signcolumn = "yes"
