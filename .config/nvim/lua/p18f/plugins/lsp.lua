@@ -21,6 +21,9 @@ return {
             lsp.default_keymaps({ buffer = bufnr })
         end)
 
+        -- lsp hovering
+        vim.keymap.set("n", "<M-h>", vim.lsp.buf.hover, { desc = "Hover over word under cursor" })
+
         cmp.setup({
             mapping = cmp.mapping.preset.insert({
                 ["<C-c>"] = cmp.mapping.confirm({ select = true }),

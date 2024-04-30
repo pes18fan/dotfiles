@@ -1,6 +1,8 @@
 -- map <space> as the leader
 vim.g.mapleader = " "
 
+vim.g.maplocalleader = "\\"
+
 -- move highlighted stuff around effortlessly pressing J and K
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move highlighted text down" })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move highlighted text up" })
@@ -38,9 +40,6 @@ vim.keymap.set("i", "<Up>", "<nop>", { noremap = true })
 vim.keymap.set("i", "<Down>", "<nop>", { noremap = true })
 vim.keymap.set("i", "<Left>", "<nop>", { noremap = true })
 vim.keymap.set("i", "<Right>", "<nop>", { noremap = true })
-
--- lsp hovering
-vim.keymap.set("n", "<M-h>", vim.lsp.buf.hover, { desc = "Hover over word under cursor" })
 
 -- esc to go to normal mode from terminal
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
