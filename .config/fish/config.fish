@@ -83,13 +83,13 @@ function run
                 return 1
             end
 
-            gcc $argv[1] -o $OUT && printf "Compilation complete, running...\n\n" && ./$OUT && rm -f $OUT
+            gcc $argv[1] -o $OUT && ./$OUT && rm -f $OUT
         case cpp
             if ! command_exists g++
                 return 1
             end
 
-            g++ $argv[1] -o $OUT && printf "Compilation complete, running...\n\n" && ./$OUT && rm -f $OUT
+            g++ $argv[1] -o $OUT && ./$OUT && rm -f $OUT
         case odin
             if ! command_exists odin
                 return 1
