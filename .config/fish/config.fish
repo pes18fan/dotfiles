@@ -43,29 +43,76 @@ function fish_greeting
     end
 end
 
+# param 1: command name
+function command_exists
+    if ! command -v $argv[1] >/dev/null
+        echo "you need $argv[1] to run this command, it isn't installed!"
+        return 1
+    end
+
+    return 0
+end
+
+# Strip the (last) extension off a file and print the filename to stdout.
+# param 1: filename
+function strip_ext
+    echo $argv[1] | sed 's/\.[^.]*$//'
+end
+
+# Strip the (last) extension off a file and print the extension to stdout.
+# param 1: filename
+function grab_ext
+    echo $argv[1] | sed 's/.*\.//'
+end
+
 # functions
-# function to compile and run a c or c++ source file
+# function to compile and run C, C++ and some other range of files
 # only works for relative links
-function crun
-	if string match -qr ".c\$" $argv[1]
-        if ! command -v gcc >/dev/null
-            echo "you need gcc to run this command, it isn't installed!" 
-            return 1
-        end
+function run
+    set -l ext (grab_ext $argv[1])
+    set -l OUT (strip_ext $argv[1])
 
-		set OUT $(echo $argv[1] | awk '{ print substr( $0, 1, length($0)-2 ) }')
-		gcc $argv[1] -o $OUT && printf "Compilation complete, running...\n\n" && ./$OUT && rm -f $OUT
-	else if string match -qr ".cpp\$" $argv[1]
-        if ! command -v g++ >/dev/null
-            echo "you need g++ to run this command, it isn't installed!" 
-            return 1
-        end
+    switch $ext
+        case c
+            if ! command_exists gcc
+                return 1
+            end
 
-		set OUT $(echo $argv[1] | awk '{ print substr( $0, 1, length($0)-4 ) }')
-		g++ $argv[1] -o $OUT && printf "Compilation complete, running...\n\n" && ./$OUT && rm -f $OUT
-	else
-		echo "Please input a C or C++ source file!"
-	end
+            gcc $argv[1] -o $OUT && printf "Compilation complete, running...\n\n" && ./$OUT && rm -f $OUT
+        case cpp
+            if ! command_exists g++
+                return 1
+            end
+
+            g++ $argv[1] -o $OUT && printf "Compilation complete, running...\n\n" && ./$OUT && rm -f $OUT
+        case odin
+            if ! command_exists odin
+                return 1
+            end
+
+            odin run $argv[1] -file && rm -f $OUT
+        case lua
+            if ! command_exists lua
+                return 1
+            end
+
+            lua $argv[1]
+        case py
+            if ! command_exists python
+                return 1
+            end
+
+            python $argv[1]
+        case cr
+            if ! command_exists crystal
+                return 1
+            end
+
+            crystal run $argv[1]
+        case "*"
+            echo "Please input a valid source file!" 1>&2
+            echo "Available options: c, cpp, odin, lua, py, cr"
+    end
 end
 
 # function to make a directory and switch to it
@@ -76,6 +123,10 @@ end
 
 # function to run a sfml program
 function sfmlr
+    if ! command_exists g++
+        return 1
+    end
+
 	if string match -qr ".cpp\$" $argv[1]
 		set OUT $(echo $argv[1] | awk '{ print substr( $0, 1, length($0)-4 ) }')
 
