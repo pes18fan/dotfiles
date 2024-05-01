@@ -69,6 +69,11 @@ end
 # function to compile and run C, C++ and some other range of files
 # only works for relative links
 function run
+    if not test -e $argv[1]
+        echo "$argv[1] does not exist."
+        return 1
+    end
+
     set -l ext (grab_ext $argv[1])
     set -l OUT (strip_ext $argv[1])
 
@@ -112,6 +117,28 @@ function run
         case "*"
             echo "Please input a valid source file!" 1>&2
             echo "Available options: c, cpp, odin, lua, py, cr"
+            return 1
+    end
+end
+
+# same as run but reruns when the file changes.
+# requires the inotifywait command to be available.
+# param 1: filename
+function wrun
+    if not command_exists inotifywait
+        echo "you need inotify-tools to run this command, it isn't installed!" 
+        return 1
+    end
+
+    if not run $argv[1]
+        return 1
+    end
+
+    while true
+        inotifywait -e modify $argv[1] &>/dev/null
+        
+        clear
+        run $argv[1]
     end
 end
 
@@ -123,12 +150,12 @@ end
 
 # function to run a sfml program
 function sfmlr
-    if ! command_exists g++
+    if not command_exists g++
         return 1
     end
 
 	if string match -qr ".cpp\$" $argv[1]
-		set OUT $(echo $argv[1] | awk '{ print substr( $0, 1, length($0)-4 ) }')
+		set OUT (echo $argv[1] | awk '{ print substr( $0, 1, length($0)-4 ) }')
 
 		if string match -qr "^/" $argv[1] # if given argument is absolute path to file
 			g++ -c $argv[1]
@@ -147,12 +174,12 @@ function sfmlr
 end
 
 function topdf
-    if ! command -v pandoc >/dev/null
+    if ! command_exists pandoc
         echo "you need pandoc to run this command, it isn't installed!" 
         return 1
     end
 
-    if ! command -v weasyprint >/dev/null
+    if ! command_exists weasyprint
         echo "you need weasyprint to run this command, it isn't installed!" 
         return 1
     end
@@ -172,17 +199,17 @@ end
 # it is modified. Note that it requires inotify-tools to be
 # installed.
 function texdf
-    if ! command -v pdflatex >/dev/null
+    if ! command_exists pdflatex
         echo "you need pdflatex to run this command, it isn't installed!" 
         return 1
     end
 
-    if ! command -v xreader >/dev/null
+    if ! command_exists xreader
         echo "you need xreader to run this command, it isn't installed!" 
         return 1
     end
 
-    if ! command -v inotifywait >/dev/null
+    if ! command_exists inotifywait
         echo "you need inotify-tools to run this command, it isn't installed!" 
         return 1
     end
