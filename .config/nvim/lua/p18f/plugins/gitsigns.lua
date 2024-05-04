@@ -5,10 +5,14 @@ return {
             on_attach = function(bufnr)
                 local gitsigns = require("gitsigns")
 
-                local function map(mode, l, r, opts)
+                ---@param mode string
+                ---@param binding string
+                ---@param callback function
+                ---@param opts? table
+                local function map(mode, binding, callback, opts)
                     opts = opts or {}
                     opts.buffer = bufnr
-                    vim.keymap.set(mode, l, r, opts)
+                    vim.keymap.set(mode, binding, callback, opts)
                 end
 
                 -- navigation

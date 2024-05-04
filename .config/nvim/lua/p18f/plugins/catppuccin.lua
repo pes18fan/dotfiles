@@ -1,3 +1,4 @@
+---@param color string?
 function Color(color)
     color = color or "catppuccin-mocha"
     vim.cmd.colorscheme(color)
