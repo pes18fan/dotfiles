@@ -1,6 +1,4 @@
-format = "$username $character"
-
-right_format = "$all"
+format = "$all$username $character"
 
 [character]
 success_symbol = "[>](bold green)"
