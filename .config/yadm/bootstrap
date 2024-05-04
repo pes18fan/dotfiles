@@ -62,6 +62,22 @@ change_shell() {
     echo ""
 }
 
+# Get the appdata dir converted to Linux format accesible from WSL.
+# ssumes that the script is being run on WSL.
+# Expands to something like /mnt/c/Users/<username>/AppData/Roaming
+get_app_data_roaming() {
+    echo $(cd /mnt/c && cmd.exe /c echo %appdata% | sed "s/\\\\/\//g; s/C:/\/mnt\/c/g; s/\\r//g")
+}
+
+if [[ $(uname -r) = *"WSL"* ]]; then
+    echo "Moving windows-specific files to Windows config dirs..."
+
+    local appdata_roaming=$(get_app_data_roaming)
+
+    # Move Alacritty config
+    cp -r ~/windows/alacritty $appdata_roaming/
+fi
+
 # No need to try install git, as it is required by yadm in the first place
 try_install curl curl
 try_install fish fish
