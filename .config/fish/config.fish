@@ -62,7 +62,16 @@ function grab_ext
     echo $argv[1] | sed 's/.*\.//'
 end
 
-# functions
+function effzeeff
+    set -l res (fd --hidden | fzf)
+
+    if test -d "$res"
+        cd $res
+    else if test "$res" != ""
+        nvim $res
+    end
+end
+
 # function to compile and run C, C++ and some other range of files
 # only works for relative links
 function run
