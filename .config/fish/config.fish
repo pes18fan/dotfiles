@@ -63,12 +63,22 @@ function grab_ext
 end
 
 function effzeeff
-    set -l res (fd --hidden | fzf)
+    if not command_exists fzf
+        echo "you need fzf to run this command, it isn't installed!" 
+        return 1
+    end
 
-    if test -d "$res"
-        cd $res
-    else if test "$res" != ""
-        nvim $res
+    set -l FIND_CMD fd --hidden
+    if not command_exists fd
+        set FIND_CMD find
+    end
+
+    set -l RES ($FIND_CMD | fzf)
+
+    if test -d "$RES"
+        cd $RES
+    else if test "$RES" != ""
+        nvim $RES
     end
 end
 
