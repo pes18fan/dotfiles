@@ -51,7 +51,7 @@ try_install() {
     fi
 }
 
-# change default shell
+# change default shell to fish
 change_shell() {
     if [ -n "$FISH_VERSION" ]; then
         echo "fish is already the default shell."
@@ -86,6 +86,7 @@ try_install ripgrep rg
 try_install fd fd
 try_install eza eza
 try_install bat bat
+try_install fzf fzf
 
 # starship
 echo "Installing starship..."
