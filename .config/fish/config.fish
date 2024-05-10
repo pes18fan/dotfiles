@@ -8,12 +8,14 @@ set -x PATH "$PATH:$HOME/.yarn/bin/"
 set -x PATH "$PATH:$HOME/go/bin/"
 set -x PATH "$PATH:$HOME/ncal/bin/"
 
-# make wslg work (only wayland works unfortunately)
-ln -s /mnt/wslg/runtime-dir/wayland-0* /run/user/1000/ &> /dev/null
+if string match "*WSL*" (uname -r) > /dev/null
+    # make wslg work (only wayland works unfortunately)
+    ln -s /mnt/wslg/runtime-dir/wayland-0* /run/user/1000/ &> /dev/null
 
-set -x DISPLAY $(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0.0 #GWSL
-set -x PULSE_SERVER tcp:$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}') #GWSL
-set -x LIBGL_ALWAYS_INDIRECT 1
+    set -x DISPLAY $(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0.0 #GWSL
+    set -x PULSE_SERVER tcp:$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}') #GWSL
+    set -x LIBGL_ALWAYS_INDIRECT 1
+end
 
 # starship initialization
 starship init fish | source
