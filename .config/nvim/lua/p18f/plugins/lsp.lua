@@ -22,7 +22,7 @@ return {
         end)
 
         -- lsp hovering
-        vim.keymap.set("n", "<M-h>", vim.lsp.buf.hover, { desc = "Hover over word under cursor" })
+        vim.keymap.set("n", "<C-h>", vim.lsp.buf.hover, { desc = "Hover over word under cursor" })
 
         cmp.setup({
             mapping = cmp.mapping.preset.insert({

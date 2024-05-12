@@ -15,10 +15,10 @@ return {
         local toggle_modes = { 'n', 't' }
 
         local mappings = {
-            { toggle_modes, "<M-j>", function()
+            { toggle_modes, "<C-j>", function()
                 require("nvterm.terminal").toggle("horizontal")
             end, { desc = "Toggle horizontal terminal" } },
-            { toggle_modes, "<M-k>", function()
+            { toggle_modes, "<C-k>", function()
                 require("nvterm.terminal").toggle("float")
             end, { desc = "Toggle float terminal" } }
         }

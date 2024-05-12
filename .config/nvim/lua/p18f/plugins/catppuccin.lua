@@ -15,11 +15,6 @@ return {
     config = function()
         require("catppuccin").setup({
             transparent_background = true,
-            dim_inactive = {
-                enabled = true,
-                shade = "dark",
-                percentage = 0.2,
-            },
             integrations = {
                 telescope = {
                     enabled = true,
