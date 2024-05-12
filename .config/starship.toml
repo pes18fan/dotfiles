@@ -1,8 +1,8 @@
 format = "$all$username $character"
 
 [character]
-success_symbol = "[>](bold green)"
-error_symbol = "[!](bold red)"
+success_symbol = "[::](bold purple)"
+error_symbol = "[!!](bold red)"
 
 [username]
 style_user = "white bold"
