@@ -88,6 +88,16 @@ def main():
         os.chdir(wd)
         userprofile = convert_windows_path_to_wsl(windows_userprofile)
 
+        input(
+            """
+              The script will now add your Firefox preferences, including the
+              vertical-tab based CSS.
+              Make sure that you've installed the Tab Center Reborn extension,
+              otherwise you'll be left stranded with no tabs.
+              Press Enter to continue running the script.
+        """
+        )
+
         # Get the name of the current Mozilla Firefox profile and rename the
         # placeholder name "profile" in the config with its name
         mozilla_profile = os.path.join(os.getenv("APPDATA"), r"Mozilla\Firefox")
