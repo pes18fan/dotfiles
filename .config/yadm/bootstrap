@@ -84,7 +84,7 @@ def main():
             "cmd.exe /c echo %USERPROFILE%".split(),
             check=True,
             stdout=subprocess.PIPE,
-        )
+        ).stdout.decode("utf-8")
         os.chdir(wd)
         userprofile = convert_windows_path_to_wsl(windows_userprofile)
 
