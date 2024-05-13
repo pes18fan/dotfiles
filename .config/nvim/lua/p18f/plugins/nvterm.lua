@@ -12,24 +12,22 @@ return {
             }
         })
 
-        local toggle_modes = { 'n', 't' }
+        local modes = { 'n', 't' }
 
-        local mappings = {
-            { toggle_modes, "<C-j>", function()
-                require("nvterm.terminal").toggle("horizontal")
-            end, { desc = "Toggle horizontal terminal" } },
-            { toggle_modes, "<C-k>", function()
-                require("nvterm.terminal").toggle("float")
-            end, { desc = "Toggle float terminal" } }
-        }
-
-        local opts = {
+        vim.keymap.set(modes, "<C-j>", function()
+            require("nvterm.terminal").toggle("horizontal")
+        end, {
+            desc = "Toggle horizontal terminal",
             noremap = true,
-            silent = true,
-        }
+            silent = true
+        })
 
-        for _, mapping in ipairs(mappings) do
-            vim.keymap.set(mapping[1], mapping[2], mapping[3], opts)
-        end
+        vim.keymap.set(modes, "<C-k>", function()
+            require("nvterm.terminal").toggle("float")
+        end, {
+            desc = "Toggle float terminal",
+            noremap = true,
+            silent = true
+        })
     end,
 }
