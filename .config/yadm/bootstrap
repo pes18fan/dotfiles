@@ -58,20 +58,9 @@ def change_shell():
             print(f"\x1b[31mFailed to change shell.\x1b[0m: {e}")
 
 
+# This assumes that `str` is a path in the C: drive
 def convert_windows_path_to_wsl(path: str) -> str:
-    wd = os.getcwd()
-    os.chdir("/mnt/c")
-    windows_userprofile = subprocess.run(
-        "cmd.exe /c echo %USERPROFILE%".split(),
-        check=True,
-        stdout=subprocess.PIPE,
-    )
-    os.chdir(wd)
-    return (
-        windows_userprofile.stdout.decode("utf-8")
-        .replace("\\", "/")
-        .replace("C:", "/mnt/c")
-    )
+    return path.replace("\\", "/").replace("C:", "/mnt/c")
 
 
 def main():
