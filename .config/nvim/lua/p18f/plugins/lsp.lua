@@ -55,6 +55,19 @@ return {
                 }
             }
         })
+
+        lspconfig.pylsp.setup({
+            settings = {
+                pylsp = {
+                    plugins = {
+                        pycodestyle = {
+                            ignore = { "E203", "E701" },
+                            maxLineLength = 88
+                        }
+                    }
+                }
+            }
+        })
         lspconfig.clangd.setup({})
     end,
 }
