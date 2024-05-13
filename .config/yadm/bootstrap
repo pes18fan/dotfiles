@@ -1,106 +1,164 @@
-#!/bin/bash
+#!/usr/bin/env python
+import configparser
+import platform
+import os
+import subprocess
+import shutil
+import urllib
 
-printf "\x1b[33m------------------------------ BOOTSTRAPPER ------------------------------\x1b[0m\n"
-echo ""
+ProcError = subprocess.CalledProcessError
 
-# Package manager inputs
-read -p "Tell me your package manager. " PKG
-read -p "What's $PKG's install command? E.g. pacman -S for pacman. " PKG_INSTALL
-read -p "What's $PKG's update command? E.g pacman -Syu for pacman. If there
+PKG = input("Tell me your package manager.")
+PKG_INSTALL = input(f"What's {PKG}'s install command? E.g. pacman -S for pacman.")
+PKG_UPDATE = input(
+    """What's $PKG's update command? E.g pacman -Syu for pacman. If there
     is more than one command, for example in Ubuntu, connect them with && in the
-    answer. " PKG_UPDATE
+    answer."""
+)
 
-echo "Updating packages."
-sudo $PKG_UPDATE
-echo ""
 
-# function that attempts to install a package if it is not already installed
-# exits the program with an error if install fails
-# $1: name of package in the package manager
-# $2: name of installed executable
-try_install() {
-    if command -v $2 &> /dev/null; then
-        printf "$2 is \x1b[32minstalled\x1b[0m. Skipping...\n"
-        echo ""
-    else
-        echo "No $2. Installing..."
-        if ! sudo $PKG_INSTALL $1; then
-            echo ""
-            printf "\x1b[31mFailed to install $1.\x1b[0m\n"
-            echo "This may be due to the name of $1 being different in $PKG's repository."
-            echo "If that is the case, please enter the name of the package in 
-                $PKG, else enter 1 to skip this package or enter 0 to exit and try to install
-                it manually. "
-            read PKG_NAME
-            
-            case $PKG_NAME in
-                0)
-                    exit 1
-                    ;;
+def try_install(package_name: str, executable: str):
+    if shutil.which(executable) is not None:
+        print(f"{package_name} is installed. Skipping...")
+    else:
+        print(f"No {package_name}. Installing...")
+        try:
+            subprocess.run(f"sudo {PKG_INSTALL} {package_name}".split(), check=True)
+        except ProcError as e:
+            print(f"\x1b[31mFailed to install {package_name}.\x1b[0m: {e}.")
+            print(
+                f"""This may be due to the name of {package_name} being different in
+                    {PKG}'s repository."""
+            )
+            print(
+                f"""If that is the case, please enter the name of the package in
+                  {PKG}, else enter 1 to skip this package or enter 0 to exit and
+                  try to install it manually."""
+            )
+            pkg_name = input().strip()
 
-                1)
-                    echo "Skipping $2..."
-                    ;;
+            match pkg_name:
+                case "1":
+                    print(f"Skipping {package_name}...")
+                case "0":
+                    print("Exiting...")
+                    exit(1)
+                case _:
+                    try_install(package_name, executable)
 
-                *)
-                    try_install $PKG_NAME $2
-                    ;;
-            esac
-        fi
-        echo ""
-    fi
-}
 
-# change default shell to fish
-change_shell() {
-    if [ -n "$FISH_VERSION" ]; then
-        echo "fish is already the default shell."
-    else
-        echo "Changing default shell to fish..."
-        chsh -s $(which fish)
-    fi
-    echo ""
-}
+def change_shell():
+    if "fish" in os.environ["SHELL"]:
+        print("fish is already the default shell.")
+    else:
+        print("Changing default shell to fish...")
+        try:
+            subprocess.run(["chsh", "-s", "$(which fish)"], check=True)
+        except ProcError as e:
+            print(f"\x1b[31mFailed to change shell.\x1b[0m: {e}")
 
-# Get the appdata dir converted to Linux format accesible from WSL.
-# ssumes that the script is being run on WSL.
-# Expands to something like /mnt/c/Users/<username>/AppData/Roaming
-get_app_data_roaming() {
-    echo $(cd /mnt/c && cmd.exe /c echo %appdata% | sed "s/\\\\/\//g; s/C:/\/mnt\/c/g; s/\\r//g")
-}
 
-if [[ $(uname -r) = *"WSL"* ]]; then
-    echo "Moving windows-specific files to Windows config dirs..."
+def convert_windows_path_to_wsl(path: str) -> str:
+    wd = os.getcwd()
+    os.chdir("/mnt/c")
+    windows_userprofile = subprocess.run(
+        "cmd.exe /c echo %USERPROFILE%".split(),
+        check=True,
+        stdout=subprocess.PIPE,
+    )
+    os.chdir(wd)
+    return (
+        windows_userprofile.stdout.decode("utf-8")
+        .replace("\\", "/")
+        .replace("C:", "/mnt/c")
+    )
 
-    local appdata_roaming=$(get_app_data_roaming)
 
-    # Move Alacritty config
-    cp -r ~/windows/alacritty $appdata_roaming/
-fi
+def main():
+    print("\x1b[33m------------------ BOOTSTRAPPER ------------------\x1b[0m\n\n")
 
-# No need to try install git, as it is required by yadm in the first place
-try_install curl curl
-try_install fish fish
-try_install neovim nvim
-try_install ripgrep rg
-try_install fd fd
-try_install eza eza
-try_install bat bat
-try_install fzf fzf
+    print("Updating packages.")
+    try:
+        subprocess.run(f"sudo {PKG_UPDATE}".split(), check=True)
+    except ProcError as e:
+        print(f"Failed to update packages: {e}")
+        exit(1)
 
-# starship
-echo "Installing starship..."
-curl -sS https://starship.rs/install.sh | sh
+    v = platform.uname().release
+    if v.endswith("-Microsoft") or v.endswith("microsoft-standard-WSL2"):
+        print("Performing Windows-specific tasks...")
 
-# zoxide
-echo "Installing zoxide..."
-curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
+        # Get the %USERPROFILE% environment variable in Windows
+        wd = os.getcwd()
+        os.chdir("/mnt/c")
+        windows_userprofile = subprocess.run(
+            "cmd.exe /c echo %USERPROFILE%".split(),
+            check=True,
+            stdout=subprocess.PIPE,
+        )
+        os.chdir(wd)
+        userprofile = convert_windows_path_to_wsl(windows_userprofile)
 
-# Previously when I used packer.nvim, I'd set nvim up around here.
-# However, with lazy.nvim, the plugin bootstraps itself and all of your other
-# plugins when you boot up nvim for the first time. Awesome!
+        # Get the name of the current Mozilla Firefox profile and rename the
+        # placeholder name "profile" in the config with its name
+        mozilla_profile = os.path.join(os.getenv("APPDATA"), r"Mozilla\Firefox")
+        mozilla_profile_ini = os.path.join(mozilla_profile, r"profiles.ini")
+        profile = configparser.ConfigParser()
+        profile.read(mozilla_profile_ini)
+        profile_path = convert_windows_path_to_wsl(
+            os.path.normpath(
+                os.path.join(mozilla_profile, profile.get("Profile0", "Path"))
+            )
+        )
+        os.rename(
+            "./windows/AppData/Roaming/Mozilla/Firefox/Profiles/profile", profile_path
+        )
 
-change_shell
+        try:
+            shutil.copytree(os.path("windows"), os.path(userprofile))
+        except ProcError as e:
+            print(f"\x1b[31mFailed to copy files to Windows.\x1b[0m: {e}")
+            exit(1)
 
-echo "Bootstrapping complete."
-echo "Make sure to install a NerdFont for the best experience."
+    print("Installing packages...")
+    try_install("curl", "curl")
+    try_install("fish", "fish")
+    try_install("neovim", "nvim")
+    try_install("tmux", "tmux")
+    try_install("ripgrep", "rg")
+    try_install("fd", "fd")
+    try_install("eza", "eza")
+    try_install("bat", "bat")
+    try_install("fzf", "fzf")
+
+    # starship.rs
+    if True:
+        starship_script = (
+            urllib.request.urlopen("https://starship.rs/install.sh")
+            .read()
+            .decode("utf-8")
+        )
+        subprocess.run(["bash", "-c", starship_script])
+
+    # zoxide
+    if True:
+        zoxide_script = (
+            urllib.request.urlopen(
+                "https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh"
+            )
+            .read()
+            .decode("utf-8")
+        )
+        subprocess.run(["bash", "-c", zoxide_script])
+
+    change_shell()
+
+    print("Bootstrapping complete.")
+    print("Make sure to install a NerdFont for the best experience.")
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        exit(0)
