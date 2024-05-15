@@ -12,8 +12,8 @@ if string match "*WSL*" (uname -r) > /dev/null
     # make wslg work (only wayland works unfortunately)
     ln -s /mnt/wslg/runtime-dir/wayland-0* /run/user/1000/ &> /dev/null
 
-    set -x DISPLAY $(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0.0 #GWSL
-    set -x PULSE_SERVER tcp:$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}') #GWSL
+    set -x DISPLAY (cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0.0 #GWSL
+    set -x PULSE_SERVER tcp:(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}') #GWSL
     set -x LIBGL_ALWAYS_INDIRECT 1
 end
 
@@ -38,7 +38,7 @@ alias open "wsl-open"
 alias xdg-open "wsl-open"
 
 function fish_greeting
-    echo (set_color --bold efcf40)">"(set_color ef9540)"<"(set_color ea3838)">"(set_color normal) $(random choice "well cum" "welcome") "to fish, the friendly interactive shell"
+    echo (set_color --bold efcf40)">"(set_color ef9540)"<"(set_color ea3838)">"(set_color normal) (random choice "well cum" "welcome") "to fish, the friendly interactive shell"
     echo ""
 end
 
