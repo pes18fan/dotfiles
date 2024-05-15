@@ -10,6 +10,7 @@ from urllib import request
 # Each is a tuple, with the first element being the package name in the package
 # repos, and the second being the name of the executable
 PACKAGES = [
+    ("git", "git"),
     ("curl", "curl"),
     ("fish", "fish"),
     ("neovim", "nvim"),
@@ -193,13 +194,14 @@ def main():
     for package_name, executable in PACKAGES:
         try_install(package_name, executable)
 
+    print("Installing starship and zoxide...")
     # starship.rs
     if True:
         starship_script = (
             request.urlopen("https://starship.rs/install.sh").read().decode("utf-8")
         )
         try:
-            subprocess.run(["sh", "-c", starship_script])
+            subprocess.run(["sh", "-c", starship_script], check=True)
         except ProcError as e:
             print(f"\x1b[31mFailed to install starship.\x1b[0m: {e}")
             exit(1)
@@ -214,10 +216,21 @@ def main():
             .decode("utf-8")
         )
         try:
-            subprocess.run(["bash", "-c", zoxide_script])
+            subprocess.run(["bash", "-c", zoxide_script], check=True)
         except ProcError as e:
             print(f"\x1b[31mFailed to install zoxide.\x1b[0m: {e}")
             exit(1)
+
+    # Get the tmux plugin manager
+    print("Getting tmux plugin manager...")
+    try:
+        subprocess.run(
+            "git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm".split(),
+            check=True,
+        )
+    except ProcError as e:
+        print(f"\x1b[31mFailed to get tmux plugin manager: {e}")
+        exit(1)
 
     change_shell()
 
