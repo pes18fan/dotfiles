@@ -33,9 +33,10 @@ PKG_INSTALL = input(
 )
 print(
     f"""
-    What are {PKG}'s update commands? Seperate each by a newline, and type in "ok" when
-    you're done. For example, it could be the single command `pacman -Syu` for pacman or
-    the two commands `apt update` and `apt upgrade` for apt.
+    What are {PKG}'s update commands? Seperate each by a newline, and type in
+    \x1b[31m"done"\x1b[0m when you're done. For example, it could be the single
+    command `pacman -Syu` for pacman or the two commands `apt update` and
+    `apt upgrade` for apt.
     \x1b[31mAgain, OMIT THE `sudo`.\x1b[0m
     """
 )
