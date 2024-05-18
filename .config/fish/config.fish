@@ -132,9 +132,21 @@ function run
             end
 
             crystal run $argv[1]
+        case rs
+            if ! command_exists rustc
+                return 1
+            end
+
+            rustc $argv[1] && ./$OUT && rm -f $OUT
+        case dart
+            if ! command_exists dart
+                return 1
+            end
+
+            dart --enable-asserts $argv[1]
         case "*"
             echo "Please input a valid source file!" 1>&2
-            echo "Available options: c, cpp, odin, lua, py, cr"
+            echo "Available options: c, cpp, odin, lua, py, cr, rs, dart"
             return 1
     end
 end
