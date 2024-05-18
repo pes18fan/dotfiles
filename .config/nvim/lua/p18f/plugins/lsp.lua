@@ -1,3 +1,5 @@
+-- Honestly I have no idea how lsp works, this is just some black magic voodoo
+-- that generally gets the job done
 return {
     "VonHeikemen/lsp-zero.nvim",
     branch = "v3.x",
@@ -21,19 +23,10 @@ return {
             lsp.default_keymaps({ buffer = bufnr })
         end)
 
-        -- lsp hovering
-        vim.keymap.set("n", "<C-h>", vim.lsp.buf.hover, { desc = "Hover over word under cursor" })
-
-        cmp.setup({
-            mapping = cmp.mapping.preset.insert({
-                ["<C-c>"] = cmp.mapping.confirm({ select = true }),
-            })
-        })
-
-        require("fidget").setup({})
-        require("lsp_signature").setup({})
-        require("mason").setup({})
-        require("mason-lspconfig").setup({
+        require("fidget").setup {}
+        require("lsp_signature").setup {}
+        require("mason").setup {}
+        require("mason-lspconfig").setup {
             ensure_installed = {
                 "clangd",
                 "tsserver",
@@ -41,11 +34,13 @@ return {
                 "html",
             },
             handlers = {
-                lsp.default_setup,
+                function(server_name)
+                    require("lspconfig")[server_name].setup({})
+                end,
             },
-        })
+        }
 
-        lspconfig.lua_ls.setup({
+        lspconfig.lua_ls.setup {
             settings = {
                 Lua = {
                     diagnostics = {
@@ -54,9 +49,9 @@ return {
                     }
                 }
             }
-        })
+        }
 
-        lspconfig.pylsp.setup({
+        lspconfig.pylsp.setup {
             settings = {
                 pylsp = {
                     plugins = {
@@ -67,7 +62,14 @@ return {
                     }
                 }
             }
-        })
-        lspconfig.clangd.setup({})
+        }
+        lspconfig.clangd.setup {}
+        lspconfig.dartls.setup {}
+
+        cmp.setup {
+            mapping = cmp.mapping.preset.insert({
+                ["<C-c>"] = cmp.mapping.confirm({ select = true }),
+            })
+        }
     end,
 }
