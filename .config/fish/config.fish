@@ -17,11 +17,22 @@ if string match "*WSL*" (uname -r) > /dev/null
     set -x LIBGL_ALWAYS_INDIRECT 1
 end
 
+
 # starship initialization
 starship init fish | source
 
 # zoxide initialization
 zoxide init fish | source
+
+# param 1: command name
+function command_exists
+    if ! command -v $argv[1] >/dev/null
+        echo "you need $argv[1] to run this command, it isn't installed!"
+        return 1
+    end
+
+    return 0
+end
 
 # aliases
 alias ls "eza"
@@ -37,19 +48,14 @@ alias vim "nvim"
 alias open "wsl-open"
 alias xdg-open "wsl-open"
 
+if command_exists apt
+    alias bat "batcat"
+    alias fd "fdfind"
+end
+
 function fish_greeting
     echo (set_color --bold efcf40)">"(set_color ef9540)"<"(set_color ea3838)">"(set_color normal) (random choice "well cum" "welcome") "to fish, the friendly interactive shell"
     echo ""
-end
-
-# param 1: command name
-function command_exists
-    if ! command -v $argv[1] >/dev/null
-        echo "you need $argv[1] to run this command, it isn't installed!"
-        return 1
-    end
-
-    return 0
 end
 
 # Strip the (last) extension off a file and print the filename to stdout.
