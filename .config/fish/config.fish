@@ -17,7 +17,6 @@ if string match "*WSL*" (uname -r) > /dev/null
     set -x LIBGL_ALWAYS_INDIRECT 1
 end
 
-
 # starship initialization
 starship init fish | source
 
@@ -48,7 +47,7 @@ alias vim "nvim"
 alias open "wsl-open"
 alias xdg-open "wsl-open"
 
-if command_exists apt
+if command_exists apt >/dev/null
     alias bat "batcat"
     alias fd "fdfind"
 end
@@ -70,6 +69,7 @@ function grab_ext
     echo $argv[1] | sed 's/.*\.//'
 end
 
+# Don't have a better name for this right now lol
 function effzeeff
     if not command_exists fzf
         echo "you need fzf to run this command, it isn't installed!" 
