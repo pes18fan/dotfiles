@@ -1,10 +1,24 @@
 #!/usr/bin/env python
-import configparser
-import platform
 import os
 import subprocess
 import shutil
-from urllib import request
+
+
+# Use the static methods to return strings in color
+# Uses ANSI codes
+class Color:
+    @staticmethod
+    def red(text: str) -> str:
+        return f"\x1b[31m{str}\x1b[0m"
+
+    @staticmethod
+    def green(text: str) -> str:
+        return f"\x1b[32m{str}\x1b[0m"
+
+    @staticmethod
+    def yellow(text: str) -> str:
+        return f"\x1b[33m{str}\x1b[0m"
+
 
 # List of all my packages that I want to bootstrap.
 # Each is a tuple, with the first element being the package name in the package
@@ -24,20 +38,20 @@ PACKAGES = [
 
 ProcError = subprocess.CalledProcessError
 
-PKG = input("Tell me your package manager.")
+PKG = input("Tell me your package manager. ")
 PKG_INSTALL = input(
     f"""
     What's {PKG}'s install command? E.g. pacman -S for pacman.
-    \x1b[31mOMIT THE `sudo`.\x1b[0m
+    {Color.red("OMIT THE sudo")}
     """
 )
 print(
     f"""
     What are {PKG}'s update commands? Seperate each by a newline, and type in
-    \x1b[31m"done"\x1b[0m when you're done. For example, it could be the single
+    {Color.yellow("done")} when you're done. For example, it could be the single
     command `pacman -Syu` for pacman or the two commands `apt update` and
     `apt upgrade` for apt.
-    \x1b[31mAgain, OMIT THE `sudo`.\x1b[0m
+    {Color.red("Again, omit the sudo.")}
     """
 )
 
@@ -72,7 +86,7 @@ def try_install(package_name: str, executable: str):
         try:
             subprocess.run(f"sudo {PKG_INSTALL} {package_name}".split(), check=True)
         except ProcError as e:
-            print(f"\x1b[31mFailed to install {package_name}.\x1b[0m: {e}.")
+            print(Color.red(f"Failed to install {package_name}.: {e}."))
             print(
                 f"""
                 This may be due to the name of {package_name} being different in
@@ -105,17 +119,7 @@ def change_shell():
         try:
             subprocess.run(["chsh", "-s", "$(which fish)"], check=True)
         except ProcError as e:
-            print(f"\x1b[31mFailed to change shell.\x1b[0m: {e}")
-
-
-# This assumes that `str` is a path in the C: drive
-def convert_windows_path_to_wsl(path: str) -> str:
-    return path.replace("\\", "/").replace("C:", "/mnt/c")
-
-
-def on_wsl():
-    v = platform.uname().release
-    return v.endswith("-Microsoft") or v.endswith("microsoft-standard-WSL2")
+            print(Color.red(f"Failed to change shell.: {e}"))
 
 
 def main():
@@ -124,116 +128,68 @@ def main():
     print("Updating packages.")
     update_pkgs()
 
-    # Get the name of the current Mozilla Firefox profile and rename the
-    # placeholder name "profile" in the config with its name
-    cfg_path = ""
-    if on_wsl():
-        cfg_path = os.getenv("APPDATA")
-    else:
-        cfg_path = os.getenv("XDG_CONFIG_HOME") or os.path.join(
-            os.getenv("HOME"), ".config"
-        )
-
-    input(
-        """
-          The script will now prepare to add your Firefox preferences, including the
-          vertical-tab based CSS.
-          Make sure that you've installed the Tab Center Reborn extension,
-          otherwise you'll be left stranded with no tabs.
-          Press Enter to continue running the script.
-    """
-    )
-
-    mozilla_profile = os.path.join(cfg_path, "Mozilla/Firefox")
-    mozilla_profile_ini = os.path.join(mozilla_profile, "profiles.ini")
-    profile = configparser.ConfigParser()
-    profile.read(mozilla_profile_ini)
-    profile_name = os.path.basename(os.path.normpath(profile.get("Profile0", "Path")))
-
-    dotfiles_moz_cfg = "./.config/Mozilla"
-    if on_wsl():
-        os.rename(
-            os.path.join(
-                dotfiles_moz_cfg,
-                "./Firefox/Profiles/profile",
-            ),
-            profile_name,
-        )
-    else:
-        os.rename(
-            os.path.join(
-                dotfiles_moz_cfg,
-                "./Firefox/Profiles/profile",
-            )
-        )
-
-    shutil.copytree(dotfiles_moz_cfg, cfg_path)
-
-    if on_wsl():
-        print("Performing Windows-specific tasks...")
-
-        # Get the %USERPROFILE% environment variable in Windows
-        wd = os.getcwd()
-        os.chdir("/mnt/c")
-        windows_userprofile = subprocess.run(
-            "cmd.exe /c echo %USERPROFILE%".split(),
-            check=True,
-            stdout=subprocess.PIPE,
-        ).stdout.decode("utf-8")
-
-        os.chdir(wd)
-        userprofile = convert_windows_path_to_wsl(windows_userprofile)
-
-        try:
-            shutil.copytree(os.path("windows"), os.path(userprofile))
-        except ProcError as e:
-            print(f"\x1b[31mFailed to copy files to Windows.\x1b[0m: {e}")
-            exit(1)
-
+    print()
     print("Installing packages...")
 
     for package_name, executable in PACKAGES:
+        print()
         try_install(package_name, executable)
 
-    print("Installing starship and zoxide...")
+    print()
+    print(Color.yellow("Installing starship and zoxide..."))
+
+    starship_script = "starship_install.sh"
+    zoxide_script = "zoxide_install.sh"
+
     # starship.rs
     if True:
-        starship_script = (
-            request.urlopen("https://starship.rs/install.sh").read().decode("utf-8")
-        )
         try:
-            subprocess.run(["sh", "-c", starship_script], check=True)
+            subprocess.run(
+                f"curl https://starship.rs/install.sh -o {starship_script}".split(),
+                check=True,
+            )
+            # starship prefers sh to bash
+            subprocess.run(f"sh {starship_script}".split(), check=True)
         except ProcError as e:
-            print(f"\x1b[31mFailed to install starship.\x1b[0m: {e}")
+            print(Color.red(f"Failed to install starship.: {e}"))
             exit(1)
 
     # zoxide
     if True:
-        zoxide_script = (
-            request.urlopen(
-                "https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh"
-            )
-            .read()
-            .decode("utf-8")
-        )
         try:
-            subprocess.run(["bash", "-c", zoxide_script], check=True)
+            subprocess.run(
+                f"curl https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh -o {zoxide_script}".split(),
+                check=True,
+            )
+            subprocess.run(f"bash {zoxide_script}".split(), check=True)
         except ProcError as e:
-            print(f"\x1b[31mFailed to install zoxide.\x1b[0m: {e}")
+            print(Color.red(f"\x1b[31mFailed to install zoxide.\x1b[0m: {e}"))
             exit(1)
 
+    os.remove(starship_script)
+    os.remove(zoxide_script)
+
+    print()
     # Get the tmux plugin manager
-    print("Getting tmux plugin manager...")
+    print(Color.yellow("Getting tmux plugin manager..."))
     try:
         subprocess.run(
             "git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm".split(),
             check=True,
         )
+        print(
+            """
+            Downloaded tmux plugin manager. Make sure to use the keybind C-s + I
+            in tmux to actually install the plugins.
+            """
+        )
     except ProcError as e:
-        print(f"\x1b[31mFailed to get tmux plugin manager: {e}")
+        print(Color.red(f"\x1b[31mFailed to get tmux plugin manager: {e}"))
         exit(1)
 
+    print()
     change_shell()
+    print()
 
     print("Bootstrapping complete.")
     print("Make sure to install a NerdFont for the best experience.")
