@@ -2,17 +2,17 @@
 shape = "Beam"
 
 [font.normal]
-family = "JetBrainsMono NF"
+family = "RecMonoCasual Nerd Font"
 
 [font.offset]
-y = 2
+y = 3
 
 [shell]
 program = 'E:\ArchWSL2\Arch.exe'
 
 [window]
 decorations = "full"
-opacity = 0.95
+opacity = 0.85
 
 [window.dimensions]
 columns = 80
