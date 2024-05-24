@@ -1,4 +1,4 @@
-# env variables
+# Environment variables
 set -x PATH "$PATH:$HOME/.local/bin"
 set -x PATH "$PATH:$HOME/.cargo/bin"
 set -x PATH "$PATH:$HOME/Odin/"
@@ -8,13 +8,19 @@ set -x PATH "$PATH:$HOME/.yarn/bin/"
 set -x PATH "$PATH:$HOME/go/bin/"
 set -x PATH "$PATH:$HOME/ncal/bin/"
 
+# WSL specific stuff
 if string match "*WSL*" (uname -r) > /dev/null
-    # make wslg work (only wayland works unfortunately)
+    # Some black magic voodoo to make wslg sort of work
+    # Only wayland works unfortunately
     ln -s /mnt/wslg/runtime-dir/wayland-0* /run/user/1000/ &> /dev/null
 
     set -x DISPLAY (cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0.0 #GWSL
     set -x PULSE_SERVER tcp:(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}') #GWSL
     set -x LIBGL_ALWAYS_INDIRECT 1
+
+    # Use wsl-open to open files from terminal
+    alias open "wsl-open"
+    alias xdg-open "wsl-open"
 end
 
 # starship initialization
@@ -33,25 +39,26 @@ function command_exists
     return 0
 end
 
-# aliases
+# ALiases
 alias ls "eza"
 alias la "ls -a"
 alias ll "ls -l"
 alias tree "ls -T"
 alias cls "clear"
-alias rm "rm -i"
+alias rm "rm -i" # Good idea to avoid accidentally annihilating files
 alias cd "z"
 alias icr "crystal i"
 alias vim "nvim"
 
-alias open "wsl-open"
-alias xdg-open "wsl-open"
-
+# On distros like Debian, Ubuntu, Pop etc which use apt, bat and fd have weird
+# differing names to avoid conflicts. I just want my normal command names so
+# I alias them here
 if command_exists apt >/dev/null
     alias bat "batcat"
     alias fd "fdfind"
 end
 
+# Funniest greeting ever
 function fish_greeting
     echo (set_color --bold efcf40)">"(set_color ef9540)"<"(set_color ea3838)">"(set_color normal) (random choice "well cum" "welcome") "to fish, the friendly interactive shell"
     echo ""
@@ -69,7 +76,9 @@ function grab_ext
     echo $argv[1] | sed 's/.*\.//'
 end
 
-# Don't have a better name for this right now lol
+# Open a fzf window and cd into selected directory or open a file in nvim
+# Don't have a better name for this right now lol, I mostly use zoxide instead
+# anyways
 function effzeeff
     if not command_exists fzf
         echo "you need fzf to run this command, it isn't installed!" 
@@ -90,8 +99,8 @@ function effzeeff
     end
 end
 
-# function to compile and run C, C++ and some other range of files
-# only works for relative links
+# Function to compile and run various types of source files
+# Only works for relative links
 function run
     if not test -e $argv[1]
         echo "$argv[1] does not exist."
@@ -149,6 +158,7 @@ function run
                 return 1
             end
 
+            # Allow assertions to work
             dart --enable-asserts $argv[1]
         case "*"
             echo "Please input a valid source file!" 1>&2
@@ -157,9 +167,9 @@ function run
     end
 end
 
-# same as run but reruns when the file changes.
-# requires the inotifywait command to be available.
-# param 1: filename
+# Same as run but reruns when the file changes.
+# Requires the inotifywait command to be available.
+# Param 1: filename
 function wrun
     if not command_exists inotifywait
         echo "you need inotify-tools to run this command, it isn't installed!" 
@@ -178,13 +188,14 @@ function wrun
     end
 end
 
-# function to make a directory and switch to it
+# Function to make a directory and switch to it
+# Simple but quite useful
 function mkcd
     mkdir $argv[1]
     cd $argv[1]
 end
 
-# function to run a sfml program
+# Function to run a sfml program
 function sfmlr
     if not command_exists g++
         return 1
@@ -209,13 +220,14 @@ function sfmlr
 	end
 end
 
+# Use pandoc and weasyprint to convert Markdown to PDF
 function topdf
-    if ! command_exists pandoc
+    if not command_exists pandoc
         echo "you need pandoc to run this command, it isn't installed!" 
         return 1
     end
 
-    if ! command_exists weasyprint
+    if not command_exists weasyprint
         echo "you need weasyprint to run this command, it isn't installed!" 
         return 1
     end
@@ -269,6 +281,6 @@ function texdf
     end
 end
 
-# bun
+# bun stuff
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
