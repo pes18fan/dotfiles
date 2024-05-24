@@ -1,3 +1,4 @@
+; Highlight certain JS-like features in mdx
 ; extends
 ((inline) @injection.content
     (#lua-match? @injection.content "^%s*import")

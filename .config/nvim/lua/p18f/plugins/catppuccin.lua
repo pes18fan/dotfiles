@@ -1,3 +1,4 @@
+-- Set colorscheme and turn on transparency
 ---@param color string?
 function Color(color)
     color = color or "catppuccin-mocha"
@@ -8,6 +9,7 @@ function Color(color)
     vim.api.nvim_set_hl(0, "FloatTitle", { bg = "none" })
 end
 
+-- The theme of all time
 return {
     "catppuccin/nvim",
     name = "catppuccin",

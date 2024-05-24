@@ -1,3 +1,5 @@
+-- Terminal plugin, similar to vscode integrated terminal
+-- Might be able to do this without a plugin
 return {
     "NvChad/nvterm",
     config = function()

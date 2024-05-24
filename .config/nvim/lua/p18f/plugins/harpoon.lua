@@ -1,3 +1,5 @@
+-- The plugin of all time
+-- Useful tool for quickly navigating between files
 return {
     "ThePrimeagen/harpoon",
     dependencies = { "nvim-lua/plenary.nvim" },

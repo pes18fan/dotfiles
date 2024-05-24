@@ -1,3 +1,4 @@
+-- Code completion service similar to GitHub Copilot
 return {
     'Exafunction/codeium.vim',
     event = "VimEnter",

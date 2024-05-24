@@ -1,3 +1,7 @@
+-- Cool UI to view a list of warnings, errors etc, similar to errors view in
+-- VSCode
+-- Can integrate with todo-comments.nvim to list out all todos and stuff in
+-- the project
 -- TODO: Update to trouble v3
 return {
     "folke/trouble.nvim",

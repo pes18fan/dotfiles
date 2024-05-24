@@ -1,3 +1,4 @@
+-- Plugin for Emmet, a tool for quick HTML writing
 return {
     "mattn/emmet-vim",
     ft = { "html", "ejs", "jsx", "tsx", "ecr" },
@@ -5,6 +6,7 @@ return {
         vim.g.user_emmet_settings = {
             html = {
                 snippets = {
+                    -- Snippet for HTML boilerplate
                     ["!"] = [[
 <!DOCTYPE html>
 <html lang="en">

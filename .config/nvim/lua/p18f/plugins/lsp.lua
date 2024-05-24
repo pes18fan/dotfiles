@@ -1,3 +1,4 @@
+-- Setup for LSP using lsp-zero
 -- Honestly I have no idea how lsp works, this is just some black magic voodoo
 -- that generally gets the job done
 return {

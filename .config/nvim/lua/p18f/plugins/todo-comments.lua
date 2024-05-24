@@ -1,3 +1,5 @@
+-- Highlight comments starting with the words listed below + a colon
+-- Can also access them from trouble.nvim
 --[[
     Keywords recognized as todo comments include:
         - FIX

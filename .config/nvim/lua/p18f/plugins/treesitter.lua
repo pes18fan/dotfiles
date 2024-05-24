@@ -1,3 +1,5 @@
+-- Configuration for treesitter, basically a parser that provides better
+-- syntax highlighting and code navigation
 return {
     {
         'nvim-treesitter/nvim-treesitter',

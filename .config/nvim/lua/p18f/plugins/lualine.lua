@@ -1,8 +1,9 @@
+-- Simple statusline
 return {
     "nvim-lualine/lualine.nvim",
     dependencies = {
         "nvim-tree/nvim-web-devicons",
-        "abeldekat/harpoonline",
+        "abeldekat/harpoonline", -- Show info for harpoon
     },
     config = function()
         local harpoonline = require("harpoonline")

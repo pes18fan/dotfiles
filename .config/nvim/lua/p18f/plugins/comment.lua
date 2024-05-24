@@ -1,3 +1,4 @@
+-- Make commenting stuff easier
 return {
     "numToStr/Comment.nvim",
     event = "BufReadPre",

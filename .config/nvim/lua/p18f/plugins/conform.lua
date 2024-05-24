@@ -1,9 +1,10 @@
--- formatter
+-- Formatter
 return {
     "stevearc/conform.nvim",
     event = { "BufWritePre" },
     cmd = { "ConformInfo" },
     keys = {
+        -- Keymap to format
         {
             "<leader>f",
             function()

@@ -1,3 +1,6 @@
+-- Plugin for filesystem navigation and manipulation, manipulate your
+-- filesystem as a normal buffer!
+-- Great replacement for netrw
 return {
     "stevearc/oil.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },

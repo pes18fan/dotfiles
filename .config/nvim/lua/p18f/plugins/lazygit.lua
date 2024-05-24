@@ -1,3 +1,5 @@
+-- Helper to launch lazygit within neovim
+-- Might be able to do this without a plugin
 return {
     "kdheepak/lazygit.nvim",
     cmd = {
