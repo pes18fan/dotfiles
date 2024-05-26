@@ -1,18 +1,15 @@
-[cursor.style]
-shape = "Beam" # "|" type cursor
+[font]
+size = 12
 
 [font.normal]
 family = "RecMonoCasual Nerd Font"
 
 [font.offset]
-y = 3 # Increase the gap a little
-
-[shell]
-program = 'E:\ArchWSL2\Arch.exe' # Use ArchWSL by default
+y = 4 # Increase the gap a little
 
 [window]
 decorations = "full"
-opacity = 0.85
+opacity = 0.9
 
 [window.dimensions]
 columns = 80
