@@ -9,15 +9,15 @@ import shutil
 class Color:
     @staticmethod
     def red(text: str) -> str:
-        return f"\x1b[31m{str}\x1b[0m"
+        return f"\x1b[31m{text}\x1b[0m"
 
     @staticmethod
     def green(text: str) -> str:
-        return f"\x1b[32m{str}\x1b[0m"
+        return f"\x1b[32m{text}\x1b[0m"
 
     @staticmethod
     def yellow(text: str) -> str:
-        return f"\x1b[33m{str}\x1b[0m"
+        return f"\x1b[33m{text}\x1b[0m"
 
 
 # List of all my packages that I want to bootstrap.
@@ -38,44 +38,10 @@ PACKAGES = [
 
 ProcError = subprocess.CalledProcessError
 
+input("Update your packages in another terminal first! Press any key once you're done.")
+
 PKG = input("Tell me your package manager. ")
-PKG_INSTALL = input(
-    f"""
-    What's {PKG}'s install command? E.g. pacman -S for pacman.
-    {Color.red("OMIT THE sudo")}
-    """
-)
-print(
-    f"""
-    What are {PKG}'s update commands? Seperate each by a newline, and type in
-    {Color.yellow("done")} when you're done. For example, it could be the single
-    command `pacman -Syu` for pacman or the two commands `apt update` and
-    `apt upgrade` for apt.
-    {Color.red("Again, omit the sudo.")}
-    """
-)
-
-PKG_UPDATE = []
-while True:
-    while True:
-        cmd = input()
-        match cmd:
-            case "done":
-                break
-            case _:
-                PKG_UPDATE.append(input())
-
-    if PKG_UPDATE.__len__() == 0:
-        print("Please provide at least one update command!")
-
-
-def update_pkgs():
-    for cmd in PKG_UPDATE:
-        try:
-            subprocess.run(f"sudo {cmd}".split(), check=True)
-        except ProcError as e:
-            print(f"Failed to update packages: {e}")
-            exit(1)
+PKG_INSTALL = input(f"What's {PKG}'s install command? E.g. pacman -S for pacman. ")
 
 
 def try_install(package_name: str, executable: str):
@@ -117,7 +83,7 @@ def change_shell():
     else:
         print("Changing default shell to fish...")
         try:
-            subprocess.run("chsh", "-s", "$(which fish)".split(), check=True)
+            subprocess.run("chsh -s $(which fish)".split(), check=True)
         except ProcError as e:
             print(Color.red(f"Failed to change shell.: {e}"))
 
