@@ -284,11 +284,3 @@ end
 # bun stuff
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
-
-# nvm
-if command_exists nvm > /dev/null
-    if not command_exists node > /dev/null
-        nvm install latest
-    end
-    nvm use latest
-end
