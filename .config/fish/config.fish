@@ -8,6 +8,11 @@ set -x PATH "$PATH:$HOME/.yarn/bin/"
 set -x PATH "$PATH:$HOME/go/bin/"
 set -x PATH "$PATH:$HOME/ncal/bin/"
 
+# Enable hardware acceleration if on nvidia
+if lspci -v 2>&1 | grep -i vga | grep -i nvidia > /dev/null
+    set -x LIBVA_DRIVER_NAME nvidia
+end
+
 # WSL specific stuff
 if string match "*WSL*" (uname -r) > /dev/null
     # Some black magic voodoo to make wslg sort of work
@@ -77,9 +82,7 @@ function grab_ext
 end
 
 # Open a fzf window and cd into selected directory or open a file in nvim
-# Don't have a better name for this right now lol, I mostly use zoxide instead
-# anyways
-function effzeeff
+function f
     if not command_exists fzf
         echo "you need fzf to run this command, it isn't installed!" 
         return 1
