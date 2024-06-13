@@ -91,9 +91,6 @@ def change_shell():
 def main():
     print("\x1b[33m------------------ BOOTSTRAPPER ------------------\x1b[0m\n\n")
 
-    print("Updating packages.")
-    update_pkgs()
-
     print()
     print("Installing packages...")
 

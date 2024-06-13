@@ -8,11 +8,6 @@ set -x PATH "$PATH:$HOME/.yarn/bin/"
 set -x PATH "$PATH:$HOME/go/bin/"
 set -x PATH "$PATH:$HOME/ncal/bin/"
 
-# Enable hardware acceleration if on nvidia
-if lspci -v 2>&1 | grep -i vga | grep -i nvidia > /dev/null
-    set -x LIBVA_DRIVER_NAME nvidia
-end
-
 # WSL specific stuff
 if string match "*WSL*" (uname -r) > /dev/null
     # Some black magic voodoo to make wslg sort of work
