@@ -2,21 +2,19 @@
 -- VSCode
 -- Can integrate with todo-comments.nvim to list out all todos and stuff in
 -- the project
--- TODO: Update to trouble v3
+-- TODO: Bruh
 return {
     "folke/trouble.nvim",
     event = "VeryLazy",
-    config = function()
-        require("trouble").setup({
-            auto_close = true,
-            icons = false,
-            cycle_results = true,
-            group = true,
-            indent_lines = true,
-        })
-
-        vim.keymap.set("n", "<leader>;;", ":TroubleToggle<CR>", { desc = "Toggle trouble.nvim" })
-        vim.keymap.set("n", "<leader>;w", ":TroubleToggle workspace_diagnostics<CR>",
-            { desc = "Toggle trouble.nvim workspace diagnostics" })
-    end,
+    opts = {
+        auto_close = true,
+    },
+    cmd = "Trouble",
+    keys = {
+        {
+            "<leader>;;",
+            "<cmd>Trouble diagnostics toggle focus=true<CR>",
+            desc = "Diagnostics (Trouble)",
+        },
+    }
 }
