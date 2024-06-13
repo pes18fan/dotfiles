@@ -44,8 +44,15 @@ PKG = input("Tell me your package manager. ")
 PKG_INSTALL = input(f"What's {PKG}'s install command? E.g. pacman -S for pacman. ")
 
 
-def try_install(package_name: str, executable: str):
+def is_installed(executable: str) -> bool:
     if shutil.which(executable) is not None:
+        return True
+    else:
+        return False
+
+
+def try_install(package_name: str, executable: str):
+    if is_installed(executable):
         print(f"{package_name} is installed. Skipping...")
     else:
         print(f"No {package_name}. Installing...")
@@ -105,7 +112,7 @@ def main():
     zoxide_script = "zoxide_install.sh"
 
     # starship.rs
-    if True:
+    if not is_installed("starship"):
         try:
             subprocess.run(
                 f"curl https://starship.rs/install.sh -o {starship_script}".split(),
@@ -116,9 +123,11 @@ def main():
         except ProcError as e:
             print(Color.red(f"Failed to install starship.: {e}"))
             exit(1)
+    else:
+        print("starship is already in the PATH.")
 
     # zoxide
-    if True:
+    if not is_installed("zoxide"):
         try:
             subprocess.run(
                 f"curl https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh -o {zoxide_script}".split(),
@@ -128,6 +137,8 @@ def main():
         except ProcError as e:
             print(Color.red(f"Failed to install zoxide.: {e}"))
             exit(1)
+    else:
+        print("zoxide is already in the PATH.")
 
     os.remove(starship_script)
     os.remove(zoxide_script)
