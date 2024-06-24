@@ -23,12 +23,6 @@ if string match "*WSL*" (uname -r) > /dev/null
     alias xdg-open "wsl-open"
 end
 
-# starship initialization
-starship init fish | source
-
-# zoxide initialization
-zoxide init fish | source
-
 # param 1: command name
 function command_exists
     if ! command -v $argv[1] >/dev/null
@@ -39,7 +33,18 @@ function command_exists
     return 0
 end
 
-# ALiases
+# starship initialization
+if command_exists starship > /dev/null
+    starship init fish | source
+end
+
+# zoxide initialization
+if command_exists zoxide > /dev/null
+    zoxide init fish | source
+end
+
+
+# Aliases
 alias ls "eza"
 alias la "ls -a"
 alias ll "ls -l"
@@ -49,6 +54,37 @@ alias rm "rm -i" # Good idea to avoid accidentally annihilating files
 alias cd "z"
 alias icr "crystal i"
 alias vim "nvim"
+
+if test "$DESKTOP_SESSION" = "gnome"
+    function trash
+        if test "$argv[1]" = ""
+            echo "What do you wanna trash?"
+            return 1
+        end
+
+        if not test -e $argv[1]
+            echo "$argv[1] does not exist."
+            return 1
+        end
+
+        if not test -e $HOME/.local/share/Trash
+            mkdir -p $HOME/.local/share/Trash/files
+            mkdir -p $HOME/.local/share/Trash/info
+            mkdir -p $HOME/.local/share/Trash/expunged
+        end
+
+        set -l TRASHINFO (echo $HOME/.local/share/Trash/info/"$argv[1]".trashinfo)
+
+        set -l TRASHPATH (realpath $argv[1])
+        set -l TRASHDATE (date +%Y-%m-%dT%H:%M:%S)
+
+        echo "[Trash Info]" | tee $TRASHINFO > /dev/null
+        echo "Path=$TRASHPATH" | tee -a $TRASHINFO > /dev/null
+        echo "DeletionDate=$TRASHDATE" | tee -a $TRASHINFO > /dev/null
+
+        mv $argv[1] $HOME/.local/share/Trash/files
+    end
+end
 
 # On distros like Debian, Ubuntu, Pop etc which use apt, bat and fd have weird
 # differing names to avoid conflicts. I just want my normal command names so
@@ -88,7 +124,7 @@ function f
         set FIND_CMD find
     end
 
-    set -l RES ($FIND_CMD | fzf)
+    set -l RES ($FIND_CMD | fzf --preview 'if test -d {}; set --local ed (eza {}); if test -z "$ed" > /dev/null; echo "Folder is empty."; else; eza {}; end; else; bat {}; end')
 
     if test -d "$RES"
         cd $RES
@@ -160,7 +196,7 @@ function run
             dart --enable-asserts $argv[1]
         case "*"
             echo "Please input a valid source file!" 1>&2
-            echo "Available options: c, cpp, odin, lua, py, cr, rs, dart"
+            echo "Available options: c, cpp, odin, lua, py, cr, rs, dart" 1>&2
             return 1
     end
 end
