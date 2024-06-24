@@ -2,7 +2,7 @@
 if vim.g.neovide then
     vim.cmd(":cd") -- Meant for WSL, go into the proper home dir
 
-    vim.o.guifont = "Rec Mono Semicasual,ComicShannsMono Nerd Font:h12"
+    vim.o.guifont = "RecMonoCasual Nerd Font:h14"
     vim.g.neovide_floating_blur_amount_x = 2.0
     vim.g.neovide_floating_blur_amount_y = 2.0
     vim.g.neovide_transparency = 0.85
