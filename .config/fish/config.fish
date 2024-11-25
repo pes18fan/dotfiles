@@ -12,7 +12,7 @@ set -x PATH "$PATH:$HOME/ncal/bin/"
 if string match "*WSL*" (uname -r) > /dev/null
     # Some black magic voodoo to make wslg sort of work
     # Only wayland works unfortunately
-    ln -s /mnt/wslg/runtime-dir/wayland-0* /run/user/1000/ &> /dev/null
+    ln -s "/mnt/wslg/runtime-dir/wayland-0*" /run/user/1000/ &> /dev/null
 
     set -x DISPLAY (cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0.0 #GWSL
     set -x PULSE_SERVER tcp:(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}') #GWSL
