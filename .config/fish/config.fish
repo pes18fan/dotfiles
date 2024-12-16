@@ -150,7 +150,7 @@ function run
                 return 1
             end
 
-            gcc $argv[1] -o $OUT && ./$OUT && rm -f $OUT
+            gcc $argv[1] -o $OUT $argv[2..] && ./$OUT && rm -f $OUT
         case cpp
             if ! command_exists g++
                 return 1
