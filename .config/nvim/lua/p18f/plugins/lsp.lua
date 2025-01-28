@@ -30,7 +30,7 @@ return {
         require("mason-lspconfig").setup {
             ensure_installed = {
                 "clangd",
-                "tsserver",
+                "ts_ls",
                 "ols",
                 "html",
             },
@@ -64,8 +64,18 @@ return {
                 }
             }
         }
+
         lspconfig.clangd.setup {}
         lspconfig.dartls.setup {}
+
+        lspconfig.denols.setup {
+            root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc")
+        }
+
+        lspconfig.ts_ls.setup {
+            root_dir = lspconfig.util.root_pattern("package.json"),
+            single_file_support = false
+        }
 
         cmp.setup {
             mapping = cmp.mapping.preset.insert({
