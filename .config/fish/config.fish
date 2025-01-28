@@ -14,10 +14,6 @@ if string match "*WSL*" (uname -r) > /dev/null
     # Only wayland works unfortunately
     ln -s "/mnt/wslg/runtime-dir/wayland-0*" /run/user/1000/ &> /dev/null
 
-    set -x DISPLAY (cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0.0 #GWSL
-    set -x PULSE_SERVER tcp:(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}') #GWSL
-    set -x LIBGL_ALWAYS_INDIRECT 1
-
     # Use wsl-open to open files from terminal
     alias open "wsl-open"
     alias xdg-open "wsl-open"
@@ -286,8 +282,8 @@ function texdf
         return 1
     end
 
-    if ! command_exists xreader
-        echo "you need xreader to run this command, it isn't installed!" 
+    if ! command_exists zathura
+        echo "you need zathura with a pdf backend to run this command, it isn't installed!" 
         return 1
     end
 
@@ -306,15 +302,24 @@ function texdf
 	set -l pdf_file (string replace -r "\\.tex\$" ".pdf" $tex_file)
 
 	pdflatex $tex_file
-	xreader $pdf_file &
+	zathura $pdf_file &
 
     while true
         inotifywait -e modify $tex_file
 
-        pdflatex $tex_file
+	    pdflatex $tex_file
     end
+
+    killall zathura
 end
 
 # bun stuff
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
+
+# pnpm
+set -gx PNPM_HOME "/home/pes18fan/.local/share/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
+# pnpm end
