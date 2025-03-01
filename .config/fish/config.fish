@@ -21,7 +21,7 @@ end
 
 # param 1: command name
 function command_exists
-    if ! command -v $argv[1] >/dev/null
+    if not command -v $argv[1] >/dev/null
         echo "you need $argv[1] to run this command, it isn't installed!"
         return 1
     end
@@ -51,6 +51,7 @@ alias cd "z"
 alias icr "crystal i"
 alias vim "nvim"
 
+# add a trash function if on GNOME
 if test "$DESKTOP_SESSION" = "gnome"
     function trash
         if test "$argv[1]" = ""
@@ -117,7 +118,7 @@ function f
 
     set -l FIND_CMD fd --hidden
     if not command_exists fd
-        set FIND_CMD find
+        set FIND_CMD "find ."
     end
 
     set -l RES ($FIND_CMD | fzf --preview 'if test -d {}; set --local ed (eza {}); if test -z "$ed" > /dev/null; echo "Folder is empty."; else; eza {}; end; else; bat {}; end')
@@ -131,6 +132,7 @@ end
 
 # Function to compile and run various types of source files
 # Only works for relative links
+# If extra arguments are passed, those will go to the compiler or interpreter
 function run
     if not test -e $argv[1]
         echo "$argv[1] does not exist."
@@ -152,47 +154,53 @@ function run
                 return 1
             end
 
-            g++ $argv[1] -o $OUT && ./$OUT && rm -f $OUT
+            g++ $argv[1] -o $OUT $argv[2..] && ./$OUT && rm -f $OUT
         case odin
             if ! command_exists odin
                 return 1
             end
 
-            odin run $argv[1] -file && rm -f $OUT
+            odin run $argv[1] -file $argv[2..] && rm -f $OUT
         case lua
             if ! command_exists lua
                 return 1
             end
 
-            lua $argv[1]
+            lua $argv[1] $argv[2..]
         case py
             if ! command_exists python
                 return 1
             end
 
-            python $argv[1]
+            python $argv[1] $argv[2..]
         case cr
             if ! command_exists crystal
                 return 1
             end
 
-            crystal run $argv[1]
+            crystal run $argv[1] $argv[2..]
         case rs
             if ! command_exists rustc
                 return 1
             end
 
-            rustc $argv[1] && ./$OUT && rm -f $OUT
+            rustc $argv[1] $argv[2..] && ./$OUT && rm -f $OUT
         case dart
             if ! command_exists dart
                 return 1
             end
 
             # Allow assertions to work
-            dart --enable-asserts $argv[1]
+            dart --enable-asserts $argv[1] $argv[2..]
+        case zn
+            if ! command_exists zen
+                return 1
+            end
+
+            zen $argv[1] $argv[2..]
         case "*"
             echo "Please input a valid source file!" 1>&2
-            echo "Available options: c, cpp, odin, lua, py, cr, rs, dart" 1>&2
+            echo "Available options: c, cpp, odin, lua, py, cr, rs, dart, zn" 1>&2
             return 1
     end
 end
@@ -251,7 +259,7 @@ function sfmlr
 end
 
 # Use pandoc and weasyprint to convert Markdown to PDF
-function topdf
+function mdtopdf
     if not command_exists pandoc
         echo "you need pandoc to run this command, it isn't installed!" 
         return 1
@@ -270,7 +278,7 @@ function topdf
         return 1
     end
 
-    pandoc $argv[1] --pdf-engine=weasyprint --css=$HOME/.pandoc/print.css -o $argv[2]
+    pandoc $argv[1] --pdf-engine=weasyprint -o $argv[2]
 end
 
 # Function to automatically recompile a LaTeX source file when
@@ -311,6 +319,10 @@ function texdf
     end
 
     killall zathura
+end
+
+function cht
+    curl -s "cht.sh/$argv[1]" | less -R
 end
 
 # bun stuff
