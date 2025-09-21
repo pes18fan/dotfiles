@@ -1,81 +1,40 @@
--- Setup for LSP using lsp-zero
--- Honestly I have no idea how lsp works, this is just some black magic voodoo
--- that generally gets the job done
+-- Simple LSP configuration
+-- Decided to redo it after lsp-zero felt overly bloated
 return {
-    "VonHeikemen/lsp-zero.nvim",
-    branch = "v3.x",
-    event = "VeryLazy",
+    'neovim/nvim-lspconfig',
     dependencies = {
-        { "williamboman/mason.nvim" },
-        { "williamboman/mason-lspconfig.nvim" },
-        { "neovim/nvim-lspconfig" },
+        { 'williamboman/mason.nvim' },
+        { 'williamboman/mason-lspconfig.nvim' },
         { "hrsh7th/nvim-cmp" },
         { "hrsh7th/cmp-nvim-lsp" },
         { "L3MON4D3/LuaSnip" },
         { "j-hui/fidget.nvim" },
         { "ray-x/lsp_signature.nvim" }
     },
+    lazy = false,
     config = function()
-        local lspconfig = require("lspconfig")
-        local lsp = require("lsp-zero")
-        local cmp = require("cmp")
-
-        lsp.on_attach(function(_, bufnr)
-            lsp.default_keymaps({ buffer = bufnr })
-        end)
-
         require("fidget").setup {}
         require("lsp_signature").setup {}
-        require("mason").setup {}
-        require("mason-lspconfig").setup {
+
+        local cmp = require("cmp")
+        cmp.setup {
+            mapping = cmp.mapping.preset.insert({
+                ["<C-c>"] = cmp.mapping.confirm({ select = true }),
+            }),
+            sources = {
+                { name = "nvim_lsp" },
+                { name = "luasnip" },
+            }
+        }
+
+        require('mason').setup()
+        require('mason-lspconfig').setup({
             ensure_installed = {
                 "clangd",
                 "ts_ls",
                 "ols",
-                "html",
             },
-            handlers = {
-                function(server_name)
-                    require("lspconfig")[server_name].setup({})
-                end,
-            },
-        }
-
-        lspconfig.lua_ls.setup {
-            settings = {
-                Lua = {
-                    diagnostics = {
-                        -- Suppress annoying "undefined global `vim`" warning
-                        globals = { "vim" }
-                    }
-                }
-            }
-        }
-
-        lspconfig.pylsp.setup {
-            settings = {
-                pylsp = {
-                    plugins = {
-                        pycodestyle = {
-                            ignore = { "E203", "E701" },
-                            maxLineLength = 88
-                        }
-                    }
-                }
-            }
-        }
-
-        lspconfig.clangd.setup {}
-        lspconfig.dartls.setup {}
-
-        lspconfig.ts_ls.setup {
-            root_dir = lspconfig.util.root_pattern("package.json"),
-        }
-
-        cmp.setup {
-            mapping = cmp.mapping.preset.insert({
-                ["<C-c>"] = cmp.mapping.confirm({ select = true }),
-            })
-        }
+            automatic_enable = true
+        })
     end,
 }
