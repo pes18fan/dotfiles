@@ -16,6 +16,10 @@ return {
         require("fidget").setup {}
         require("lsp_signature").setup {}
 
+        vim.lsp.config("*", {
+            capabilities = require("cmp_nvim_lsp").default_capabilities()
+        })
+
         local cmp = require("cmp")
         cmp.setup {
             mapping = cmp.mapping.preset.insert({
