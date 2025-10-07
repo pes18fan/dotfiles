@@ -19,6 +19,6 @@ return {
     config = function()
         require("todo-comments").setup()
 
-        vim.keymap.set("n", "<leader>;t", "<cmd>Trouble todo<CR>", { desc = "Open todos in trouble" })
+        vim.keymap.set("n", "<leader>;t", "<cmd>Trouble todo toggle focus=true<CR>", { desc = "Open todos in trouble" })
     end,
 }
