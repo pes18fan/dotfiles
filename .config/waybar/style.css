@@ -6,6 +6,7 @@
     box-shadow:    none;
     text-shadow:   none;
     transition-duration: 0s;
+    margin: 0 2px;
 }
 
 window {
@@ -18,12 +19,9 @@ window#waybar.solo {
     background: rgba(35, 31, 32, 0.9);
 }
 
-#workspaces {
-    margin: 0 5px;
-}
-
 #workspaces button {
-    padding:    0 5px;
+    padding:    0 2px;
+    margin:     0 2px;
     color:      rgba(217, 216, 216, 0.4);
 }
 
@@ -40,14 +38,9 @@ window#waybar.solo {
     color:      rgba(238, 46, 36, 1);
 }
 
-#mode, #battery, #cpu, #memory, #network, #pulseaudio, #idle_inhibitor, #backlight, #custom-storage, #custom-spotify, #custom-weather, #custom-mail {
-    margin:     0px 6px 0px 10px;
-    min-width:  25px;
-}
-
-#clock {
-    margin:     0px 16px 0px 10px;
-    min-width:  140px;
+#clock, #tray, #battery, #network, #bluetooth, #pulseaudio, #idle_inhibitor, #backlight, #power-profiles-daemon, #custom-power {
+    padding: 0 6px;
+    margin: 0 4px;
 }
 
 #battery.warning {
@@ -60,12 +53,4 @@ window#waybar.solo {
 
 #battery.charging {
     color:      rgba(217, 216, 216, 1);
-}
-
-#custom-storage.warning {
-    color:      rgba(255, 210, 4, 1);
-}
-
-#custom-storage.critical {
-    color:      rgba(238, 46, 36, 1);
 }
