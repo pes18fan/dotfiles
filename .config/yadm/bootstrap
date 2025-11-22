@@ -28,7 +28,6 @@ PACKAGES = [
     ("curl", "curl"),
     ("fish", "fish"),
     ("neovim", "nvim"),
-    ("tmux", "tmux"),
     ("ripgrep", "rg"),
     ("fd", "fd"),
     ("eza", "eza"),
@@ -142,24 +141,6 @@ def main():
 
     os.remove(starship_script)
     os.remove(zoxide_script)
-
-    print()
-    # Get the tmux plugin manager
-    print(Color.yellow("Getting tmux plugin manager..."))
-    try:
-        subprocess.run(
-            "git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm".split(),
-            check=True,
-        )
-        print(
-            """
-            Downloaded tmux plugin manager. Make sure to use the keybind C-s + I
-            in tmux to actually install the plugins.
-            """
-        )
-    except ProcError as e:
-        print(Color.red(f"Failed to get tmux plugin manager: {e}"))
-        exit(1)
 
     print()
     change_shell()
