@@ -1,3 +1,5 @@
+@import "mocha.css";
+
 * {
     border:        none;
     border-radius: 10px;
@@ -10,13 +12,8 @@
 }
 
 window {
-    color:      rgba(217, 216, 216, 1);
-    background: rgba(35, 31, 32, 0.9);
-}
-
-window#waybar.solo {
-    color:      rgba(217, 216, 216, 1);
-    background: rgba(35, 31, 32, 0.9);
+    color:      @text;
+    background: @base;
 }
 
 #workspaces button {
