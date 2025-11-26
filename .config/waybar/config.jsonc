@@ -2,62 +2,70 @@
     "layer": "bottom",
     "position": "top",
     "height": 30,
-    "spacing": 5,
-    "margin": 5,
     "modules-left": ["hyprland/workspaces", "clock"],
     "modules-center": ["hyprland/window"],
-    "modules-right": ["tray", "backlight", "pulseaudio", "network", "bluetooth", "idle_inhibitor", "battery", "power-profiles-daemon", "custom/power"],
+    "modules-right": ["tray", "hyprland/language", "backlight", "pulseaudio", "network", "bluetooth", "battery", "idle_inhibitor", "power-profiles-daemon", "custom/power"],
     "hyprland/workspaces": {
         "format": "{name}",
-        "disable-scroll": true
+        "disable-scroll": true,
     },
     "hyprland/window": {
         "max-length": 60,
         "tooltip": false
     },
+    "hyprland/language": {
+        "format": "{short}",
+    },
     "clock": {
         "format": "{:%a %d %b %H:%M}",
-        "tooltip": false
+    },
+    "tray": {
+        "icon-size": 18
     },
     "battery": {
-        "format": "{icon} {capacity}%",
-        "format-alt": "{time} {icon}",
-        "format-icons": ["", "", "", "", ""],
-        "format-charging": "  {capacity}%",
+        "format": "{icon}",
+        "format-icons": ["󰁻", "󰁽", "󰁿", "󰂁", "󰁹"],
+        "format-charging": "󰂄",
         "interval": 30,
         "states": {
             "warning": 25,
             "critical": 10
         },
-        "tooltip": true
+        "tooltip": true,
+        "tooltip-format": "{capacity}%, {timeTo}"
     },
     "bluetooth": {
-        "format": " {status}",
-        "format-connected": " {num_connections}",
-        "tooltip-format": "{controller_alias}\t{controller_address}",
+        "format": "",
+        "tooltip-format": "{status}",
+        "tooltip-format-connected": "{num_connections} connected\n{device_enumerate}",
         "on-click": "blueman-manager",   // or blueman-manager
     },
     "network": {
-        "format-wifi": "󰤨 {essid}",
+        "format-wifi": "󰤨",
         "format-ethernet": "󰈀",
-        "format-disconnected": " Disconnected",
+        "format-disconnected": "",
         "on-click": "nm-connection-editor", 
-        "tooltip-format-wifi": "{essid} ({signalStrength}%)"
+        "tooltip-format-wifi": "connection: wifi\nssid: {essid} ({signalStrength}%)",
+        "tooltip-format-ethernet": "connection: ethernet\ninterface: {ifname}",
+        "tooltip-format-disconnected": "disconnected"
     },
     "pulseaudio": {
-        "format": "{icon}  {volume}",
+        "format": "{volume} {icon} ",
         "format-alt-click": "click-right",
         "format-muted": "󰝟",
         "format-icons": ["", "", ""],
         "scroll-step": 1,
         "on-click": "pavucontrol",
-        "tooltip": false
+        "tooltip": true,
+        "tooltip-format": "{desc}",
+        "reverse-scrolling": true
     },
     "backlight": {
-        "format": "{icon}  {percent}%",
+        "format": "{percent}% {icon}",
         "format-icons": ["󰃞", "󰃟", "󰃠"],
         "scroll-step": 1,
-        "tooltip": false
+        "tooltip": false,
+        "reverse-scrolling": true
     },
     "idle_inhibitor": {
         "format": "{icon}",
@@ -65,14 +73,15 @@
             "activated": "",
             "deactivated": ""
         },
-        "tooltip": false
+        "tooltip": true,
+        "tooltip-format-activated": "idle inhibitor {status}",
+        "tooltip-format-deactivated": "idle inhibitor {status}"
     },
     "power-profiles-daemon": {
       "format": "{icon}",
-      "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+      "tooltip-format": "power profile: {profile}\ndriver: {driver}",
       "tooltip": true,
       "format-icons": {
-        "default": "",
         "performance": "",
         "balanced": "",
         "power-saver": ""
@@ -81,12 +90,10 @@
     "clock": {
         "format": "{:%a %b %d, %I:%M %p}",
     },
-    "tray": {
-        "icon-size": 18
-    },
     "custom/power": {
         "format" : "⏻",
         "on-click": "wlogout",
         "tooltip": false
     },
 }
+

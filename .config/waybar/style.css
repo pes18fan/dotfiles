@@ -1,53 +1,93 @@
-@import "mocha.css";
+@import "colors.css";
 
 * {
-    border:        none;
-    border-radius: 10px;
-    font-family:   Iosevka Nerd Font;
-    font-size:     16px;
-    box-shadow:    none;
-    text-shadow:   none;
-    transition-duration: 0s;
-    margin: 0 2px;
+    font-family: Iosevka Nerd Font, monospace;
+    font-size: 12pt;
 }
 
-window {
-    color:      @text;
-    background: @base;
+window#waybar {
+    color: @on_surface;
+    background: alpha(@background, 0.8);
+}
+
+tooltip {
+    background: @background;
+    color: @on_surface;
 }
 
 #workspaces button {
-    padding:    0 2px;
-    margin:     0 2px;
-    color:      rgba(217, 216, 216, 0.4);
+    padding: 0 4px;
+    color: shade(@on_surface_variant, 0.5);
+    transition: all 0.2s ease;
+    border-top: 2px solid transparent;
 }
 
-#workspaces button.visible {
-    color:      rgba(217, 216, 216, 1);
+#workspaces button:hover {
+    color: @on_surface_variant;
+    border-top: 2px solid @primary;
 }
 
-#workspaces button.focused {
-    border-top: 3px solid rgba(217, 216, 216, 1);
-    border-bottom: 3px solid rgba(217, 216, 216, 0);
+#workspaces button.active {
+    color: @on_surface;
 }
 
 #workspaces button.urgent {
-    color:      rgba(238, 46, 36, 1);
+    color: @background;
+    background: @error;
+    animation: blink 1.5s infinite;
 }
 
-#clock, #tray, #battery, #network, #bluetooth, #pulseaudio, #idle_inhibitor, #backlight, #power-profiles-daemon, #custom-power {
-    padding: 0 6px;
-    margin: 0 4px;
+@keyframes blink {
+    50% { background: @on_surface; }
+}
+
+#tray {
+    background: @tertiary;
+    color: @inverse_on_surface;
+}
+
+#tray,
+#language,
+#backlight, 
+#pulseaudio,
+#clock, 
+#network, 
+#bluetooth, 
+#battery, 
+#idle_inhibitor, 
+#power-profiles-daemon,
+#custom-power
+{
+    padding: 0 10px;
+}
+
+#language,
+#backlight, 
+#pulseaudio {
+    background: @secondary;
+    color: @inverse_on_surface;
+}
+
+#clock, 
+#network, 
+#bluetooth, 
+#battery, 
+#idle_inhibitor, 
+#power-profiles-daemon,
+#custom-power
+{
+    background: @primary;
+    color: @inverse_on_surface;
 }
 
 #battery.warning {
-   color:       rgba(255, 210, 4, 1);
+   color: @inverse_primary;
 }
 
 #battery.critical {
-    color:      rgba(238, 46, 36, 1);
+    color: @error;
 }
 
 #battery.charging {
-    color:      rgba(217, 216, 216, 1);
+    color: @on_surface;
 }
