@@ -17,14 +17,15 @@ tooltip {
 
 #workspaces button {
     padding: 0 4px;
+    border-radius: 0;
     color: shade(@on_surface_variant, 0.5);
     transition: all 0.2s ease;
-    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent;
 }
 
 #workspaces button:hover {
     color: @on_surface_variant;
-    border-top: 2px solid @primary;
+    border-bottom: 2px solid @primary;
 }
 
 #workspaces button.active {
@@ -46,6 +47,7 @@ tooltip {
     color: @inverse_on_surface;
 }
 
+#workspaces,
 #tray,
 #language,
 #backlight, 
@@ -81,7 +83,7 @@ tooltip {
 }
 
 #battery.warning {
-   color: @inverse_primary;
+   color: @on_error;
 }
 
 #battery.critical {
@@ -89,5 +91,5 @@ tooltip {
 }
 
 #battery.charging {
-    color: @on_surface;
+    color: @inverse_on_surface;
 }

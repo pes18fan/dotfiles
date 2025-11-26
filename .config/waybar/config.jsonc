@@ -4,7 +4,11 @@
     "height": 30,
     "modules-left": ["hyprland/workspaces", "clock"],
     "modules-center": ["hyprland/window"],
-    "modules-right": ["tray", "hyprland/language", "backlight", "pulseaudio", "network", "bluetooth", "battery", "idle_inhibitor", "power-profiles-daemon", "custom/power"],
+    "modules-right": 
+        ["tray",
+            "hyprland/language", "backlight", "pulseaudio",
+            "network", "bluetooth", "battery", "idle_inhibitor", "power-profiles-daemon", "custom/power",
+        ],
     "hyprland/workspaces": {
         "format": "{name}",
         "disable-scroll": true,

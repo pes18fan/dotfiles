@@ -1,0 +1,13 @@
+background-color=#101418
+text-color=#e1e2e8
+border-color=#a0cafd
+
+[mode=do-not-disturb]
+invisible=1
+on-notify=none
+
+[mode=silent]
+on-notify=none
+
+[urgency=high]
+border-color=#ffb4ab
