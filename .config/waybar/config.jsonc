@@ -32,7 +32,7 @@
         "format-charging": "󰂄",
         "interval": 30,
         "states": {
-            "warning": 25,
+            "warning": 20,
             "critical": 10
         },
         "tooltip": true,

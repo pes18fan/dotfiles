@@ -1,7 +1,7 @@
 @import "colors.css";
 
 * {
-    font-family: Iosevka Nerd Font, monospace;
+    font-family: Iosevka Nerd Font Propo, monospace;
     font-size: 12pt;
 }
 
@@ -60,7 +60,7 @@ tooltip {
 #power-profiles-daemon,
 #custom-power
 {
-    padding: 0 10px;
+    padding: 0 12px;
 }
 
 #language,
