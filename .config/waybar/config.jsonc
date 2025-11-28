@@ -48,7 +48,7 @@
         "format-wifi": "󰤨",
         "format-ethernet": "󰈀",
         "format-disconnected": "",
-        "on-click": "nm-connection-editor", 
+        "on-click": "ghostty -e nmtui", 
         "tooltip-format-wifi": "connection: wifi\nssid: {essid} ({signalStrength}%)",
         "tooltip-format-ethernet": "connection: ethernet\ninterface: {ifname}",
         "tooltip-format-disconnected": "disconnected"
