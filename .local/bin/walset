@@ -1,0 +1,10 @@
+#!/bin/bash
+
+img=$1
+
+if [ -z "$1" ]; then
+  echo "bad usage, please provide a path to the wallpaper"
+  exit 1
+fi
+
+matugen image "$1"
