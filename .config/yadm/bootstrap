@@ -33,14 +33,21 @@ PACKAGES = [
     ("eza", "eza"),
     ("bat", "bat"),
     ("fzf", "fzf"),
+    ("ghostty", "ghostty")
 ]
 
 ProcError = subprocess.CalledProcessError
 
-input("Update your packages in another terminal first! Press any key once you're done.")
+input(
+    "Update your packages in another terminal first! Press any key once done.")
 
 PKG = input("Tell me your package manager. ")
-PKG_INSTALL = input(f"What's {PKG}'s install command? E.g. pacman -S for pacman. ")
+PKG_INSTALL = input(
+    f"What's {PKG}'s install command? E.g. pacman -S for pacman. ")
+SUDO_FOR_PKG_INSTALL = input("Use sudo to install packages? [y/n] ")
+
+if SUDO_FOR_PKG_INSTALL == "y" or SUDO_FOR_PKG_INSTALL == "Y":
+    PKG_INSTALL = f"sudo {PKG_INSTALL}"
 
 
 def is_installed(executable: str) -> bool:
@@ -50,52 +57,126 @@ def is_installed(executable: str) -> bool:
         return False
 
 
-def try_install(package_name: str, executable: str):
-    if is_installed(executable):
+def __try_install__(package_name: str):
+    try:
+        subprocess.run(f"{PKG_INSTALL} {package_name}".split(), check=True)
+    except ProcError as e:
+        raise e
+
+
+def try_install(
+    package_name: str,
+    executable: str,
+    return_on_fail: bool = True,
+    no_executable: bool = False
+) -> bool:
+    if not no_executable and is_installed(executable):
         print(f"{package_name} is installed. Skipping...")
     else:
         print(f"No {package_name}. Installing...")
         try:
-            subprocess.run(f"sudo {PKG_INSTALL} {package_name}".split(), check=True)
+            __try_install__(package_name)
         except ProcError as e:
-            print(Color.red(f"Failed to install {package_name}.: {e}."))
+            print(Color.red(f"failed to install {package_name}: {e}"))
             print(
                 f"""
-                This may be due to the name of {package_name} being different in
-                {PKG}'s repository."""
-            )
-            print(
-                f"""
-                If that is the case, please enter the name of the package in
-                {PKG}, else enter 1 to skip this package or enter 0 to exit and
-                try to install it manually.
+                This may be due to the name of {package_name} being different
+                in {PKG}'s repository. If that is the case, please enter the
+                name of the package in {PKG}, else enter 0 to skip this
+                package, or 1 to exit and try to install manually.
                 """
             )
             new_name = input()
 
             match new_name:
-                case "1":
-                    print(f"Skipping {package_name}...")
                 case "0":
-                    print("Exiting...")
+                    print(f"skipping {package_name}...")
+                    return False
+                case "1":
+                    print("exiting...")
                     exit(1)
                 case _:
-                    try_install(new_name, executable)
+                    return try_install(new_name, executable)
+
+    return True
+
+
+def try_install_multi(package_names: str) -> bool:
+    print(f"installing packages {package_names}...")
+
+    try:
+        subprocess.run(f"{PKG_INSTALL} {package_names}".split(), check=True)
+    except ProcError as e:
+        print(Color.red(f"failed to install packages: {e}"))
+        return False
+
+    return True
 
 
 def change_shell():
     if "fish" in os.environ["SHELL"]:
         print("fish is already the default shell.")
     else:
-        print("Changing default shell to fish...")
+        print("changing default shell to fish...")
         try:
-            subprocess.run("chsh -s $(which fish)".split(), check=True)
+            subprocess.run(["chsh", "-s", "$(which fish)"].split(), check=True)
         except ProcError as e:
-            print(Color.red(f"Failed to change shell.: {e}"))
+            print(Color.red(f"failed to change shell: {e}"))
+
+
+def setup_hyprland():
+    # same format as PACKAGES array above: (package_name, executable)
+    HYPRPACKAGES = "hyprland hypridle hyprlock hyprsunset hyprpolkitagent xdg-desktop-portal-hyprland"
+    if not try_install_multi(HYPRPACKAGES):
+        print(Color.red(
+            "couldn't install essential hyprpackages, aborting hyprland setup"
+        ))
+        return
+
+    # format: (package_name, executable, whether this package has no executable)
+    EXTRAS = [
+        ("hyprshot", "hyprshot", False),
+        ("rofi", "rofi", False),
+        ("dolphin", "dolphin", False),
+        ("waybar", "waybar", False),
+        ("awww", "awww", False),
+        ("wlogout", "wlogout", False)
+        ("batsignal", "batsignal", False)
+        ("ttf-iosevka-nerd", "", True)
+        ("blueman", "blueman", False)
+        ("qt5ct", "qt5ct", False)
+        ("qt6ct", "qt6ct", False)
+        ("kvantum", "kvantummanager", False)
+        ("nwg-look", "nwg-look", False)
+        ("matugen", "matugen", False)
+    ]
+
+    for package_name, executable, no_executable in EXTRAS:
+        try_install(package_name, executable, no_executable=no_executable)
+
+    print(
+        "tip: set a theme in kvantum manager and nwg-look for properly themed Qt and GTK apps")
+    print("another tip: to theme dolphin, set the theme in .config/dolphinrc")
+
+    if is_installed("matugen"):
+        matugen_setup = input("set up matugen theme? [y/n]")
+        if matugen_setup == "y" or matugen_setup == "Y":
+            image = input(
+                "tell me the absolute path to your desired wallpaper. ")
+
+            try:
+                subprocess.run(f"matugen image {image}".split(), check=True)
+            except ProcError as e:
+                print(f"failed to setup matugen theme: {e}")
+
+    print("basic Hyprland setup has been done!")
+    print("there may still be a lot of little things to fix up though.")
 
 
 def main():
-    print("\x1b[33m------------------ BOOTSTRAPPER ------------------\x1b[0m\n\n")
+    print(
+        "\x1b[33m------------------ BOOTSTRAPPER ------------------\x1b[0m\n\n"
+    )
 
     print()
     print("Installing packages...")
@@ -112,30 +193,42 @@ def main():
 
     # starship.rs
     if not is_installed("starship"):
-        try:
-            subprocess.run(
-                f"curl https://starship.rs/install.sh -o {starship_script}".split(),
-                check=True,
-            )
-            # starship prefers sh to bash
-            subprocess.run(f"sh {starship_script}".split(), check=True)
-        except ProcError as e:
-            print(Color.red(f"Failed to install starship.: {e}"))
-            exit(1)
+        # try_install first
+        installed_from_pkgmgr = try_install(
+            "starship", "starship", return_on_fail=True)
+
+        if not installed_from_pkgmgr:
+            try:
+                subprocess.run(
+                    f"curl https://starship.rs/install.sh -o {
+                        starship_script}".split(),
+                    check=True,
+                )
+                # starship prefers sh to bash
+                subprocess.run(f"sh {starship_script}".split(), check=True)
+            except ProcError as e:
+                print(Color.red(f"Failed to install starship.: {e}"))
+                exit(1)
     else:
         print("starship is already in the PATH.")
 
     # zoxide
     if not is_installed("zoxide"):
-        try:
-            subprocess.run(
-                f"curl https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh -o {zoxide_script}".split(),
-                check=True,
-            )
-            subprocess.run(f"bash {zoxide_script}".split(), check=True)
-        except ProcError as e:
-            print(Color.red(f"Failed to install zoxide.: {e}"))
-            exit(1)
+        # try_install first
+        installed_from_pkgmgr = try_install(
+            "zoxide", "zoxide", return_on_fail=True)
+
+        if not installed_from_pkgmgr:
+            try:
+                subprocess.run(
+                    f"curl https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh -o {
+                        zoxide_script}".split(),
+                    check=True,
+                )
+                subprocess.run(f"bash {zoxide_script}".split(), check=True)
+            except ProcError as e:
+                print(Color.red(f"Failed to install zoxide.: {e}"))
+                exit(1)
     else:
         print("zoxide is already in the PATH.")
 
@@ -146,8 +239,16 @@ def main():
     change_shell()
     print()
 
-    print("Bootstrapping complete.")
-    print("Make sure to install a NerdFont for the best experience.")
+    DO_HYPRLAND = input("Would you like to set up Hyprland as well? [y/n] ")
+    if DO_HYPRLAND == "y" or DO_HYPRLAND == "Y":
+        # note that the assumption here is that another desktop env like KDE or
+        # GNOME is already installed, so some basic stuff like wayland,
+        # pipewire and nvidia drivers are assumed to already be set up. Those
+        # will not be set up by this function
+        setup_hyprland()
+
+    print("bootstrapping complete!")
+    print("make sure to install and use a NerdFont for the best experience.")
 
 
 if __name__ == "__main__":
