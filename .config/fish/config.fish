@@ -29,11 +29,6 @@ function command_exists
     return 0
 end
 
-# starship initialization
-if command_exists starship > /dev/null
-    starship init fish | source
-end
-
 # zoxide initialization
 if command_exists zoxide > /dev/null
     zoxide init fish | source
