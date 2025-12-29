@@ -1,7 +1,7 @@
 [config.wallpaper]
 set = true
 command = "awww"
-arguments = ["img", "--transition-type", "center"]
+arguments = ["img", "--transition-type", "random"]
 
 [templates.hyprland]
 input_path = '~/.config/matugen/templates/hyprland-colors.conf'
@@ -17,11 +17,6 @@ input_path = '~/.config/matugen/templates/mako'
 output_path = '~/.config/mako/mako-colors'
 post_hook = 'makoctl reload'
 
-[templates.cava]
-input_path = '~/.config/matugen/templates/cava-colors.ini'
-output_path = '~/.config/cava/themes/matugen'
-post_hook = "pkill -USR1 cava"
-
 [templates.foot]
 input_path = '~/.config/matugen/templates/foot-colors.ini'
 output_path = '~/.config/foot/colors.ini'
@@ -30,3 +25,16 @@ post_hook = 'pkill -USR1 foot'
 [templates.fuzzel]
 input_path = '~/.config/matugen/templates/fuzzel-colors.ini'
 output_path = '~/.config/fuzzel/colors.ini'
+
+[templates.gtk3]
+input_path = '~/.config/matugen/templates/gtk-colors.css'
+output_path = '~/.config/gtk-3.0/colors.css'
+post_hook = 'gsettings set org.gnome.desktop.interface gtk-theme ""; gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-{{mode}}'
+
+[templates.gtk4]
+input_path = '~/.config/matugen/templates/gtk-colors.css'
+output_path = '~/.config/gtk-4.0/colors.css'
+
+[templates.color-scheme]
+input_path = '~/.config/matugen/templates/Matugen.colors'
+output_path = '~/.local/share/color-schemes/Matugen.colors'
