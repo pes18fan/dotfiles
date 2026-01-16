@@ -136,7 +136,7 @@ def setup_hyprland():
     # format: (package_name, executable, whether this package has no executable)
     EXTRAS = [
         ("hyprshot", "hyprshot", False),
-        ("rofi", "rofi", False),
+        ("fuzzel", "fuzzel", False),
         ("dolphin", "dolphin", False),
         ("waybar", "waybar", False),
         ("awww", "awww", False),
@@ -144,9 +144,8 @@ def setup_hyprland():
         ("batsignal", "batsignal", False)
         ("ttf-iosevka-nerd", "", True)
         ("blueman", "blueman", False)
-        ("qt5ct", "qt5ct", False)
-        ("qt6ct", "qt6ct", False)
-        ("kvantum", "kvantummanager", False)
+        ("qt5ct-kde", "qt5ct", False)
+        ("qt6ct-kde", "qt6ct", False)
         ("nwg-look", "nwg-look", False)
         ("matugen", "matugen", False)
     ]
@@ -155,8 +154,7 @@ def setup_hyprland():
         try_install(package_name, executable, no_executable=no_executable)
 
     print(
-        "tip: set a theme in kvantum manager and nwg-look for properly themed Qt and GTK apps")
-    print("another tip: to theme dolphin, set the theme in .config/dolphinrc")
+        "tip: set a theme in qt5ct+qt6ct and nwg-look for properly themed Qt and GTK apps respectively")
 
     if is_installed("matugen"):
         matugen_setup = input("set up matugen theme? [y/n]")
@@ -165,7 +163,8 @@ def setup_hyprland():
                 "tell me the absolute path to your desired wallpaper. ")
 
             try:
-                subprocess.run(f"matugen image {image}".split(), check=True)
+                # run the walset script in /.local/bin
+                subprocess.run(f"walset {image}".split(), check=True)
             except ProcError as e:
                 print(f"failed to setup matugen theme: {e}")
 
@@ -186,31 +185,9 @@ def main():
         try_install(package_name, executable)
 
     print()
-    print(Color.yellow("Installing starship and zoxide..."))
+    print(Color.yellow("Installing zoxide..."))
 
-    starship_script = "starship_install.sh"
     zoxide_script = "zoxide_install.sh"
-
-    # starship.rs
-    if not is_installed("starship"):
-        # try_install first
-        installed_from_pkgmgr = try_install(
-            "starship", "starship", return_on_fail=True)
-
-        if not installed_from_pkgmgr:
-            try:
-                subprocess.run(
-                    f"curl https://starship.rs/install.sh -o {
-                        starship_script}".split(),
-                    check=True,
-                )
-                # starship prefers sh to bash
-                subprocess.run(f"sh {starship_script}".split(), check=True)
-            except ProcError as e:
-                print(Color.red(f"Failed to install starship.: {e}"))
-                exit(1)
-    else:
-        print("starship is already in the PATH.")
 
     # zoxide
     if not is_installed("zoxide"):
@@ -232,7 +209,6 @@ def main():
     else:
         print("zoxide is already in the PATH.")
 
-    os.remove(starship_script)
     os.remove(zoxide_script)
 
     print()
