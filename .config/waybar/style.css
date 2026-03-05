@@ -42,7 +42,8 @@ tooltip {
     50% { background: @on_surface; }
 }
 
-#tray {
+#tray
+{
     background: @tertiary;
     color: @inverse_on_surface;
 }
