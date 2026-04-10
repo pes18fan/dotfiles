@@ -280,8 +280,8 @@ end
 # it is modified. Note that it requires inotify-tools to be
 # installed.
 function texdf
-    if ! command_exists pdflatex
-        echo "you need pdflatex to run this command, it isn't installed!" 
+    if ! command_exists xelatex
+        echo "you need xelatex to run this command, it isn't installed!" 
         return 1
     end
 
@@ -304,13 +304,13 @@ function texdf
 
 	set -l pdf_file (string replace -r "\\.tex\$" ".pdf" $tex_file)
 
-	pdflatex $tex_file
+	xelatex $tex_file
 	zathura $pdf_file &
 
     while true
         inotifywait -e modify $tex_file
 
-	    pdflatex $tex_file
+	    xelatex $tex_file
     end
 
     killall zathura
