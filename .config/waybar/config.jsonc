@@ -1,5 +1,5 @@
 {
-    "layer": "bottom",
+    "layer": "top",
     "position": "top",
     "height": 30,
     "modules-left": ["hyprland/workspaces", "clock"],
@@ -90,9 +90,6 @@
         "balanced": "",
         "power-saver": ""
       }
-    },
-    "clock": {
-        "format": "{:%a %b %d, %I:%M %p}",
     },
     "custom/power": {
         "format" : "⏻",
