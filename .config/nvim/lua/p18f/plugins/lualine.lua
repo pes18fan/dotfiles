@@ -16,9 +16,6 @@ return {
             sections = {
                 lualine_c = lualine_c
             },
-            options = {
-                theme = "catppuccin"
-            }
         }
     end,
 }

@@ -24,8 +24,6 @@ vim.opt.incsearch = true
 -- Use proper terminal colors
 vim.opt.termguicolors = true
 
-vim.opt.updatetime = 250
-
 -- Never have less than 12 characters at the bottom or top
 vim.opt.scrolloff = 12
 

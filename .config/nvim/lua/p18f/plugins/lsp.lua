@@ -7,7 +7,6 @@ return {
         { 'williamboman/mason-lspconfig.nvim' },
         { "hrsh7th/nvim-cmp" },
         { "hrsh7th/cmp-nvim-lsp" },
-        { "L3MON4D3/LuaSnip" },
         { "j-hui/fidget.nvim" },
         { "ray-x/lsp_signature.nvim" }
     },
@@ -17,9 +16,10 @@ return {
         require("lsp_signature").setup {}
 
         local function on_attach(client, bufnr)
-            local opts = { noremap = true, silent = true }
-            vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-            vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+            local opts = { noremap = true, silent = true, buffer = bufnr }
+
+            vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+            vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
         end
 
         vim.lsp.config("*", {
