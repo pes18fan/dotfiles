@@ -5,15 +5,17 @@ return {
     dependencies = {
         { 'williamboman/mason.nvim' },
         { 'williamboman/mason-lspconfig.nvim' },
-        { "hrsh7th/nvim-cmp" },
-        { "hrsh7th/cmp-nvim-lsp" },
         { "j-hui/fidget.nvim" },
-        { "ray-x/lsp_signature.nvim" }
+        {
+            "saghen/blink.cmp",
+
+            -- TODO: This is kept for stability, remove when new version is out
+            version = "1.*" 
+        }
     },
     lazy = false,
     config = function()
         require("fidget").setup {}
-        require("lsp_signature").setup {}
 
         local function on_attach(client, bufnr)
             local opts = { noremap = true, silent = true }
@@ -22,21 +24,28 @@ return {
             vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
         end
 
+        local cmp = require("blink.cmp")
+        cmp.setup {
+            keymap = {
+                preset = "default",
+                ["<C-c>"] = { "select_and_accept" }
+            },
+
+            sources = {
+                default = { "lsp", "path", "buffer" },
+            },
+
+            signature = { enabled = true },
+            completion = {
+                documentation = { auto_show = true },
+            },
+            fuzzy = { implementation = "prefer_rust_with_warning" },
+        }
+
         vim.lsp.config("*", {
-            capabilities = require("cmp_nvim_lsp").default_capabilities(),
+            capabilities = cmp.get_lsp_capabilities(),
             on_attach = on_attach
         })
-
-        local cmp = require("cmp")
-        cmp.setup {
-            mapping = cmp.mapping.preset.insert({
-                ["<C-c>"] = cmp.mapping.confirm({ select = true }),
-            }),
-            sources = {
-                { name = "nvim_lsp" },
-                { name = "luasnip" },
-            }
-        }
 
         require('mason').setup()
         require('mason-lspconfig').setup({
