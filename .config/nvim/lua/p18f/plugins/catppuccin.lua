@@ -18,12 +18,15 @@ return {
         require("catppuccin").setup({
             transparent_background = true,
             integrations = {
-                telescope = {
-                    enabled = true,
+                blink_cmp = {
+                    style = "bordered"
                 },
-                which_key = true,
-                mason = true,
+                fidget = true,
+                fzf = true,
+                gitsigns = true,
                 harpoon = true,
+                lsp_trouble = true,
+                mason = true,
             }
         })
 
