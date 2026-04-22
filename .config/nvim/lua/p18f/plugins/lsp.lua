@@ -16,10 +16,10 @@ return {
         require("lsp_signature").setup {}
 
         local function on_attach(client, bufnr)
-            local opts = { noremap = true, silent = true, buffer = bufnr }
+            local opts = { noremap = true, silent = true }
 
-            vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-            vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+            vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+            vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
         end
 
         vim.lsp.config("*", {

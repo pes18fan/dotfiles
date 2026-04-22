@@ -1,31 +1,29 @@
 -- Configuration for treesitter, basically a parser that provides better
 -- syntax highlighting and code navigation
 return {
-    {
-        'nvim-treesitter/nvim-treesitter',
-        build = ':TSUpdate',
-        config = function()
-            require('nvim-treesitter.configs').setup {
-                -- A list of parser names, or "all" (the five listed parsers should always be installed)
-                ensure_installed = { "c", "cpp", "lua", "javascript", "typescript", "astro" },
-
-                -- Install parsers synchronously (only applied to `ensure_installed`)
-                sync_install = false,
-
-                -- Automatically install missing parsers when entering buffer
-                -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-                auto_install = true,
-
-                highlight = {
-                    enable = true,
-                    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-                    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-                    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-
-                    -- Instead of true it can also be a list of languages
-                    additional_vim_regex_highlighting = false,
-                },
-            }
+    'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate',
+    branch = 'main',
+    init = function()
+        -- set up ensure_installed parsers
+        local want = { "c", "cpp", "lua", "javascript", "typescript", "astro" }
+        local have = require("nvim-treesitter.config").get_installed()
+        local missing = vim.iter(want)
+            :filter(function(p) return not vim.tbl_contains(have, p) end)
+            :totable()
+        if #missing > 0 then
+            require("nvim-treesitter").install(missing)
         end
-    },
+
+        -- enable highlighting and indentation
+        vim.api.nvim_create_autocmd("FileType", {
+            callback = function()
+                -- enable treesitter highlighting and disable regex syntax
+                pcall(vim.treesitter.start)
+
+                -- enable treesitter-based indentation
+                vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+            end
+        })
+    end
 }

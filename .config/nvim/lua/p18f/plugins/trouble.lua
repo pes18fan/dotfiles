@@ -2,7 +2,6 @@
 -- VSCode
 -- Can integrate with todo-comments.nvim to list out all todos and stuff in
 -- the project
--- TODO: Bruh
 return {
     "folke/trouble.nvim",
     event = "VeryLazy",
