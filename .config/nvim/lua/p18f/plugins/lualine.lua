@@ -2,9 +2,10 @@
 return {
     "nvim-lualine/lualine.nvim",
     dependencies = {
-        "nvim-tree/nvim-web-devicons",
+        "nvim-mini/mini.icons",
         "abeldekat/harpoonline", -- Show info for harpoon
     },
+    event = "VeryLazy",
     config = function()
         local harpoonline = require("harpoonline")
         harpoonline.setup({

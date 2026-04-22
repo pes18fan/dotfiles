@@ -3,7 +3,7 @@
 -- Great replacement for netrw
 return {
     "stevearc/oil.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    dependencies = { { "nvim-mini/mini.icons", opts = {} } },
     config = function()
         require("oil").setup({
             default_file_explorer = true,
