@@ -4,8 +4,8 @@ command = "awww"
 arguments = ["img", "--transition-type", "random"]
 
 [templates.hyprland]
-input_path = '~/.config/matugen/templates/hyprland-colors.conf'
-output_path = '~/.config/hypr/colors.conf'
+input_path = '~/.config/matugen/templates/hyprland-colors.lua'
+output_path = '~/.config/hypr/colors.lua'
 
 [templates.waybar]
 input_path = '~/.config/matugen/templates/colors.css'
