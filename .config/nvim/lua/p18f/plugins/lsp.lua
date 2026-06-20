@@ -10,7 +10,7 @@ return {
             "saghen/blink.cmp",
 
             -- TODO: This is kept for stability, remove when new version is out
-            version = "1.*" 
+            version = "1.*"
         }
     },
     lazy = false,
@@ -46,6 +46,8 @@ return {
             capabilities = cmp.get_lsp_capabilities(),
             on_attach = on_attach
         })
+
+        vim.lsp.enable("gleam")
 
         require('mason').setup()
         require('mason-lspconfig').setup({
