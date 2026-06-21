@@ -8,7 +8,6 @@ local terminal    = "foot"
 local fileManager = "dolphin"
 local menu        = "fuzzel"
 local mainMod     = "SUPER"
-local wallpaper   = "/home/pes18fan/Pictures/walls/window.png"
 
 -- Environment variables
 hl.env("AQ_DRM_DEVICES", "/dev/dri/amd-igpu")
@@ -42,7 +41,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("hypridle")
     hl.exec_cmd("hyprsunset")
     hl.exec_cmd("mako")
-    hl.exec_cmd("awww img " .. wallpaper)
+    hl.exec_cmd("awww img " .. colors.image)
 end)
 
 hl.exec_cmd('gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"')
