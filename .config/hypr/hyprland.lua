@@ -166,7 +166,9 @@ for i = 1, 10 do
 end
 
 -- Screenshot, fullscreen
-hl.bind("Print", hl.dsp.exec_cmd("hyprshot -m region -o ~/Pictures/Screenshots"))
+hl.bind("Print",
+    hl.dsp.exec_cmd(
+        "grim -g \"$(slurp)\" -t ppm - | satty -f - --copy-command wl-copy -o '~/Pictures/Screenshots/%Y%m%d_%H%M%S.png'"))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 
 -- Switch keyboard layout
