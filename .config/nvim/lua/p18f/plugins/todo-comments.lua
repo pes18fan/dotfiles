@@ -16,6 +16,7 @@ return {
         "nvim-lua/plenary.nvim",
         "folke/trouble.nvim",
     },
+    event = "VeryLazy",
     config = function()
         require("todo-comments").setup()
 

@@ -23,16 +23,5 @@ vim.keymap.set("n", "<leader>n", ":tabnew<CR>", { desc = "Create a new tab" })
 vim.keymap.set("n", "<leader>]", "gt", { desc = "Go to next tab" })
 vim.keymap.set("n", "<leader>[", "gT", { desc = "Go to previous tab" })
 
--- Remove arrow keys
-vim.keymap.set("n", "<Up>", "<nop>", { noremap = true })
-vim.keymap.set("n", "<Down>", "<nop>", { noremap = true })
-vim.keymap.set("n", "<Left>", "<nop>", { noremap = true })
-vim.keymap.set("n", "<Right>", "<nop>", { noremap = true })
-
-vim.keymap.set("i", "<Up>", "<nop>", { noremap = true })
-vim.keymap.set("i", "<Down>", "<nop>", { noremap = true })
-vim.keymap.set("i", "<Left>", "<nop>", { noremap = true })
-vim.keymap.set("i", "<Right>", "<nop>", { noremap = true })
-
 -- Double esc to go to normal mode from terminal
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")

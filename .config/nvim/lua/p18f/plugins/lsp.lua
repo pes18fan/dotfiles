@@ -13,11 +13,11 @@ return {
             version = "1.*"
         }
     },
-    lazy = false,
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
         require("fidget").setup {}
 
-        local function on_attach(client, bufnr)
+        local function on_attach(_, bufnr)
             local opts = { noremap = true, silent = true }
 
             vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)

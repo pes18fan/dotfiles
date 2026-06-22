@@ -44,3 +44,14 @@ vim.api.nvim_create_autocmd("TextYankPost", {
         vim.highlight.on_yank()
     end,
 })
+
+-- Remove arrow keys
+vim.keymap.set("n", "<Up>", "<nop>", { noremap = true })
+vim.keymap.set("n", "<Down>", "<nop>", { noremap = true })
+vim.keymap.set("n", "<Left>", "<nop>", { noremap = true })
+vim.keymap.set("n", "<Right>", "<nop>", { noremap = true })
+
+vim.keymap.set("i", "<Up>", "<nop>", { noremap = true })
+vim.keymap.set("i", "<Down>", "<nop>", { noremap = true })
+vim.keymap.set("i", "<Left>", "<nop>", { noremap = true })
+vim.keymap.set("i", "<Right>", "<nop>", { noremap = true })

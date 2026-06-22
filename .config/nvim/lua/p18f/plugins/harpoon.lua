@@ -18,9 +18,6 @@ return {
         for i = 1, 5, 1 do
             vim.keymap.set("n", "<leader>" .. i, function() harpoon:list():select(i) end,
                 { desc = "Select file " .. i .. " from Harpoon" })
-        end
-
-        for i = 1, 5, 1 do
             vim.keymap.set("n", "<leader>r" .. i, function()
                 harpoon:list():replace_at(i)
             end, { desc = "Replace file " .. i .. " from harpoon" })
