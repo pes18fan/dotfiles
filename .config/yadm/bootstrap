@@ -206,10 +206,9 @@ def main():
             except ProcError as e:
                 print(Color.red(f"Failed to install zoxide.: {e}"))
                 exit(1)
+            os.remove(zoxide_script)
     else:
         print("zoxide is already in the PATH.")
-
-    os.remove(zoxide_script)
 
     print()
     change_shell()
