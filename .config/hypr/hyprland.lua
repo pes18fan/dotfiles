@@ -1,6 +1,7 @@
 -- Hyprland Lua config
 -- https://wiki.hypr.land/Configuring/Start/
--- Colors
+-- Loaded stuff
+require("monitors")
 local colors      = require("colors")
 
 -- Programs
@@ -23,14 +24,6 @@ hl.env("GDK_BACKEND", "wayland,x11,*")
 hl.env("QT_QPA_PLATFORM", "wayland;xcb")
 hl.env("QT_QPA_PLATFORMTHEME", "qt5ct")
 hl.env("QS_ICON_THEME", "breeze-dark")
-
--- Monitors
-hl.monitor({
-    output   = "eDP-1",
-    mode     = "1920x1080@144.0",
-    position = "0x0",
-    scale    = 1.0,
-})
 
 -- Autostart
 hl.on("hyprland.start", function()
