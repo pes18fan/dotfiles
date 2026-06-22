@@ -140,14 +140,17 @@ def setup_hyprland():
         ("dolphin", "dolphin", False),
         ("waybar", "waybar", False),
         ("awww", "awww", False),
-        ("wlogout", "wlogout", False)
-        ("batsignal", "batsignal", False)
-        ("ttf-iosevka-nerd", "", True)
-        ("blueman", "blueman", False)
-        ("qt5ct-kde", "qt5ct", False)
-        ("qt6ct-kde", "qt6ct", False)
-        ("nwg-look", "nwg-look", False)
-        ("matugen", "matugen", False)
+        ("wlogout", "wlogout", False),
+        ("batsignal", "batsignal", False),
+        ("ttf-iosevka-nerd", "", True),
+        ("blueman", "blueman", False),
+        ("qt5ct-kde", "qt5ct", False),
+        ("qt6ct-kde", "qt6ct", False),
+        ("nwg-look", "nwg-look", False),
+        ("matugen", "matugen", False),
+        ("grim", "grim", False),
+        ("slurp", "slurp", False),
+        ("satty", "satty", False)
     ]
 
     for package_name, executable, no_executable in EXTRAS:
