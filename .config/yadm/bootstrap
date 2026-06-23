@@ -148,9 +148,7 @@ def setup_hyprland():
         ("qt6ct-kde", "qt6ct", False),
         ("nwg-look", "nwg-look", False),
         ("matugen", "matugen", False),
-        ("grim", "grim", False),
-        ("slurp", "slurp", False),
-        ("satty", "satty", False)
+        ("hyprshot", "hyprshot", False)
     ]
 
     for package_name, executable, no_executable in EXTRAS:
