@@ -8,12 +8,11 @@ if exists("b:current_syntax")
 endif
 
 " Keywords
-syn keyword zenKeyword use var val print func return pub exit discard in
+syn keyword zenKeyword use var val echo func return pub exit discard in try catch
 syn keyword zenConditional if else switch
 syn keyword zenRepeat while for break continue
 syn keyword zenRepeat for
 syn keyword zenLogicalOperator and or not
-syn keyword zenKeyword class
 
 " Built-in Constants and Values
 syn keyword zenBoolean true false
@@ -22,9 +21,10 @@ syn keyword zenConstant it nil this super
 " Built-in Functions
 syn keyword zenBuiltin puts gets assert panic len typeof str parse copy dirname filename
 
-" Strings, defined with priority and contains to be robust
+" Strings, both multiline and single-line
 syn region zenString start=/"/ skip=/\\./ end=/"/ contains=zenEscape
 syn region zenString start=/'/ skip=/\\./ end=/'/ contains=zenEscape
+syn region zenString start=/\\\\/ end=/\n/
 syn match  zenEscape /\\./ contained
 
 " Operators
@@ -52,7 +52,6 @@ syn keyword zenTodo TODO FIXME NOTE HACK contained
 syn match zenComment "\/\/.*$" contains=zenTodo,@Spell
 
 " Map our custom groups to Vim's standard highlight groups
-hi def link zenStorageClass    StorageClass
 hi def link zenKeyword         Keyword
 hi def link zenConditional     Conditional
 hi def link zenRepeat          Repeat
