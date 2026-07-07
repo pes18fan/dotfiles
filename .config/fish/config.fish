@@ -34,7 +34,6 @@ if command_exists zoxide > /dev/null
     zoxide init fish | source
 end
 
-
 # Aliases
 alias ls "eza"
 alias la "ls -a"
@@ -88,7 +87,7 @@ end
 
 # Funniest greeting ever
 function fish_greeting
-    echo (set_color --bold efcf40)">"(set_color ef9540)"<"(set_color ea3838)">"(set_color normal) (random choice "well cum" "welcome") "to fish, the friendly interactive shell"
+    echo (set_color --bold efcf40)">"(set_color ef9540)"<"(set_color ea3838)">"(set_color normal) "welcome to fish, the friendly interactive shell"
     echo ""
 end
 
