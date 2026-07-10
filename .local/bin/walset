@@ -8,3 +8,4 @@ if [ -z "$1" ]; then
 fi
 
 matugen image "$1"
+reset

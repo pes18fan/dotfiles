@@ -1,0 +1,24 @@
+#!/bin/sh
+STATE_FILE=/tmp/battery_state
+LEVEL=$(cat /sys/class/power_supply/BAT1/capacity)
+STATUS=$(cat /sys/class/power_supply/BAT1/status)
+
+# If the battery is charging or full, reset the state file and exit
+if [ "$STATUS" = "Charging" ] || [ "$STATUS" = "Full" ]; then
+    rm -f "$STATE_FILE"
+    exit 0
+fi
+
+if [ "$LEVEL" -le 10 ]; then
+    STATE=critical
+elif [ "$LEVEL" -le 20 ]; then
+    STATE=low
+else
+    rm -f "$STATE_FILE"
+    exit 0
+fi
+
+[ "$STATE" = "$(cat "$STATE_FILE" 2>/dev/null)" ] && exit
+echo "$STATE" > "$STATE_FILE"
+
+notify-send -u critical "Battery $STATE!" "Battery at ${LEVEL}%"
