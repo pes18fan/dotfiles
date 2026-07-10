@@ -5,7 +5,7 @@ require("monitors")
 local colors      = require("colors")
 
 -- Programs
-local terminal    = "foot"
+local terminal    = "ghostty +new-window"
 local fileManager = "dolphin"
 local menu        = "fuzzel"
 local mainMod     = "SUPER"

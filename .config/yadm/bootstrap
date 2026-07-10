@@ -33,7 +33,7 @@ PACKAGES = [
     ("eza", "eza"),
     ("bat", "bat"),
     ("fzf", "fzf"),
-    ("foot", "foot"),
+    ("ghostty", "ghostty"),
 ]
 
 ProcError = subprocess.CalledProcessError
