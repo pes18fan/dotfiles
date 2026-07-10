@@ -33,7 +33,7 @@ PACKAGES = [
     ("eza", "eza"),
     ("bat", "bat"),
     ("fzf", "fzf"),
-    ("ghostty", "ghostty")
+    ("foot", "foot"),
 ]
 
 ProcError = subprocess.CalledProcessError
@@ -67,7 +67,6 @@ def __try_install__(package_name: str):
 def try_install(
     package_name: str,
     executable: str,
-    return_on_fail: bool = True,
     no_executable: bool = False
 ) -> bool:
     if not no_executable and is_installed(executable):
@@ -119,7 +118,7 @@ def change_shell():
     else:
         print("changing default shell to fish...")
         try:
-            subprocess.run(["chsh", "-s", "$(which fish)"].split(), check=True)
+            subprocess.run(["chsh", "-s", "$(which fish)"], check=True)
         except ProcError as e:
             print(Color.red(f"failed to change shell: {e}"))
 
@@ -138,7 +137,7 @@ def setup_hyprland():
         ("hyprshot", "hyprshot", False),
         ("fuzzel", "fuzzel", False),
         ("dolphin", "dolphin", False),
-        ("waybar", "waybar", False),
+        ("wayle", "wayle", False),
         ("awww", "awww", False),
         ("wlogout", "wlogout", False),
         ("batsignal", "batsignal", False),
@@ -148,7 +147,8 @@ def setup_hyprland():
         ("qt6ct-kde", "qt6ct", False),
         ("nwg-look", "nwg-look", False),
         ("matugen", "matugen", False),
-        ("hyprshot", "hyprshot", False)
+        ("hyprshot", "hyprshot", False),
+        ("hyprshutdown", "hyprshutdown", False)
     ]
 
     for package_name, executable, no_executable in EXTRAS:
@@ -193,8 +193,7 @@ def main():
     # zoxide
     if not is_installed("zoxide"):
         # try_install first
-        installed_from_pkgmgr = try_install(
-            "zoxide", "zoxide", return_on_fail=True)
+        installed_from_pkgmgr = try_install("zoxide", "zoxide")
 
         if not installed_from_pkgmgr:
             try:
