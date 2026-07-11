@@ -33,7 +33,7 @@ PACKAGES = [
     ("eza", "eza"),
     ("bat", "bat"),
     ("fzf", "fzf"),
-    ("ghostty", "ghostty"),
+    ("foot", "foot"),
 ]
 
 ProcError = subprocess.CalledProcessError
@@ -136,11 +136,10 @@ def setup_hyprland():
     EXTRAS = [
         ("hyprshot", "hyprshot", False),
         ("fuzzel", "fuzzel", False),
-        ("dolphin", "dolphin", False),
+        ("pcmanfm", "pcmanfm", False),
         ("wayle", "wayle", False),
         ("awww", "awww", False),
         ("wlogout", "wlogout", False),
-        ("batsignal", "batsignal", False),
         ("ttf-iosevka-nerd", "", True),
         ("blueman", "blueman", False),
         ("qt5ct-kde", "qt5ct", False),

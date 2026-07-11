@@ -21,10 +21,10 @@ input_path = '~/.config/matugen/templates/mako'
 output_path = '~/.config/mako/mako-colors'
 post_hook = 'makoctl reload'
 
-[templates.ghostty]
-input_path = '~/.config/matugen/templates/ghostty-colors.ghostty'
-output_path = '~/.config/ghostty/themes/Matugen'
-post_hook = 'pkill -SIGUSR2 ghostty'
+[templates.foot]
+input_path = '~/.config/matugen/templates/foot-colors.ini'
+output_path = '~/.config/foot/colors.ini'
+post_hook = 'pkill -SIGUSR2 foot'
 
 [templates.fuzzel]
 input_path = '~/.config/matugen/templates/fuzzel-colors.ini'
