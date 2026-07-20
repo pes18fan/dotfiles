@@ -24,7 +24,7 @@ post_hook = 'makoctl reload'
 [templates.foot]
 input_path = '~/.config/matugen/templates/foot-colors.ini'
 output_path = '~/.config/foot/colors.ini'
-post_hook = 'pkill -SIGUSR2 foot'
+post_hook = 'pkill -SIGUSR1 foot'
 
 [templates.fuzzel]
 input_path = '~/.config/matugen/templates/fuzzel-colors.ini'
