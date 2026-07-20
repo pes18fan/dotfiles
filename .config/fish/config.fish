@@ -227,31 +227,6 @@ function mkcd
     cd $argv[1]
 end
 
-# Function to run a sfml program
-function sfmlr
-    if not command_exists g++
-        return 1
-    end
-
-	if string match -qr ".cpp\$" $argv[1]
-		set OUT (echo $argv[1] | awk '{ print substr( $0, 1, length($0)-4 ) }')
-
-		if string match -qr "^/" $argv[1] # if given argument is absolute path to file
-			g++ -c $argv[1]
-			g++ $OUT.o -o $OUT -lsfml-graphics -lsfml-window -lsfml-system
-			/.$OUT
-		else # if given argument is relative path to file
-			g++ -c $argv[1] -o $OUT.o
-			g++ $OUT.o -o $OUT -lsfml-graphics -lsfml-window -lsfml-system
-			./$OUT
-		end
-
-		rm -f $OUT $OUT.o
-	else
-		echo "Please input a valid C++ source file!"
-	end
-end
-
 # Use pandoc and weasyprint to convert Markdown to PDF
 function mdtopdf
     if not command_exists pandoc
@@ -318,14 +293,3 @@ end
 function cht
     curl -s "cht.sh/$argv[1]" | less -R
 end
-
-# bun stuff
-set --export BUN_INSTALL "$HOME/.bun"
-set --export PATH $BUN_INSTALL/bin $PATH
-
-# pnpm
-set -gx PNPM_HOME "/home/pes18fan/.local/share/pnpm"
-if not string match -q -- $PNPM_HOME $PATH
-  set -gx PATH "$PNPM_HOME" $PATH
-end
-# pnpm end
