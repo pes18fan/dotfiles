@@ -5,7 +5,7 @@ require("monitors")
 local colors      = require("colors")
 
 -- Programs
-local terminal    = "foot"
+local terminal    = "footclient"
 local fileManager = "pcmanfm"
 local menu        = "fuzzel"
 local mainMod     = "SUPER"
@@ -36,6 +36,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("hyprsunset")
     hl.exec_cmd("mako")
     hl.exec_cmd("awww img " .. colors.image)
+    hl.exec_cmd("foot --server")
 end)
 
 hl.exec_cmd('gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"')
