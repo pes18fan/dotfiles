@@ -29,8 +29,14 @@ function command_exists
     return 0
 end
 
+# param 1: command name
+function require
+    command_exists $argv[1]
+    or return 1
+end
+
 # zoxide initialization
-if command_exists zoxide > /dev/null
+if command -q zoxide
     zoxide init fish | source
 end
 
@@ -45,38 +51,6 @@ alias cd "z"
 alias icr "crystal i"
 alias vim "nvim"
 
-# add a trash function if on GNOME
-if test "$DESKTOP_SESSION" = "gnome"
-    function trash
-        if test "$argv[1]" = ""
-            echo "What do you wanna trash?"
-            return 1
-        end
-
-        if not test -e $argv[1]
-            echo "$argv[1] does not exist."
-            return 1
-        end
-
-        if not test -e $HOME/.local/share/Trash
-            mkdir -p $HOME/.local/share/Trash/files
-            mkdir -p $HOME/.local/share/Trash/info
-            mkdir -p $HOME/.local/share/Trash/expunged
-        end
-
-        set -l TRASHINFO (echo $HOME/.local/share/Trash/info/"$argv[1]".trashinfo)
-
-        set -l TRASHPATH (realpath $argv[1])
-        set -l TRASHDATE (date +%Y-%m-%dT%H:%M:%S)
-
-        echo "[Trash Info]" | tee $TRASHINFO > /dev/null
-        echo "Path=$TRASHPATH" | tee -a $TRASHINFO > /dev/null
-        echo "DeletionDate=$TRASHDATE" | tee -a $TRASHINFO > /dev/null
-
-        mv $argv[1] $HOME/.local/share/Trash/files
-    end
-end
-
 # On distros like Debian, Ubuntu, Pop etc which use apt, bat and fd have weird
 # differing names to avoid conflicts. I just want my normal command names so
 # I alias them here
@@ -85,33 +59,17 @@ if command_exists apt >/dev/null
     alias fd "fdfind"
 end
 
-# Funniest greeting ever
 function fish_greeting
     echo (set_color --bold efcf40)">"(set_color ef9540)"<"(set_color ea3838)">"(set_color normal) "welcome to fish, the friendly interactive shell"
     echo ""
 end
 
-# Strip the (last) extension off a file and print the filename to stdout.
-# param 1: filename
-function strip_ext
-    echo $argv[1] | sed 's/\.[^.]*$//'
-end
-
-# Strip the (last) extension off a file and print the extension to stdout.
-# param 1: filename
-function grab_ext
-    echo $argv[1] | sed 's/.*\.//'
-end
-
 # Open a fzf window and cd into selected directory or open a file in nvim
 function f
-    if not command_exists fzf
-        echo "you need fzf to run this command, it isn't installed!" 
-        return 1
-    end
+    require fzf; or return 1
 
     set -l FIND_CMD fd --hidden
-    if not command_exists fd
+    if not command -q fd
         set FIND_CMD "find ."
     end
 
@@ -133,63 +91,45 @@ function run
         return 1
     end
 
-    set -l ext (grab_ext $argv[1])
-    set -l OUT (strip_ext $argv[1])
+    set -l ext (path extension $argv[1])
+    set -l OUT (path basename -E $argv[1])
 
     switch $ext
-        case c
-            if ! command_exists gcc
-                return 1
-            end
+        case .c
+            require gcc; or return 1
 
             gcc $argv[1] -o $OUT $argv[2..] && ./$OUT && rm -f $OUT
-        case cpp
-            if ! command_exists g++
-                return 1
-            end
+        case .cpp
+            require g++; or return 1
 
             g++ $argv[1] -o $OUT $argv[2..] && ./$OUT && rm -f $OUT
-        case odin
-            if ! command_exists odin
-                return 1
-            end
+        case .odin
+            require odin; or return 1
 
             odin run $argv[1] -file $argv[2..] && rm -f $OUT
-        case lua
-            if ! command_exists lua
-                return 1
-            end
+        case .lua
+            require lua; or return 1
 
             lua $argv[1] $argv[2..]
-        case py
-            if ! command_exists python
-                return 1
-            end
+        case .py
+            require python; or return 1
 
             python $argv[1] $argv[2..]
-        case cr
-            if ! command_exists crystal
-                return 1
-            end
+        case .cr
+            require crystal; or return 1
 
             crystal run $argv[1] $argv[2..]
-        case rs
-            if ! command_exists rustc
-                return 1
-            end
+        case .rs
+            require rustc; or return 1
 
             rustc $argv[1] $argv[2..] && ./$OUT && rm -f $OUT
-        case dart
-            if ! command_exists dart
-                return 1
-            end
+        case .dart
+            require dart; or return 1
 
             # Allow assertions to work
             dart --enable-asserts $argv[1] $argv[2..]
-        case zn
-            if ! command_exists zen
-                return 1
-            end
+        case .zn
+            require zen; or return 1
 
             zen $argv[1] $argv[2..]
         case "*"
@@ -223,73 +163,11 @@ end
 # Function to make a directory and switch to it
 # Simple but quite useful
 function mkcd
-    mkdir $argv[1]
-    cd $argv[1]
+    mkdir -p $argv[1]
+    and cd $argv[1]
 end
 
-# Use pandoc and weasyprint to convert Markdown to PDF
-function mdtopdf
-    if not command_exists pandoc
-        echo "you need pandoc to run this command, it isn't installed!" 
-        return 1
-    end
-
-    if not command_exists weasyprint
-        echo "you need weasyprint to run this command, it isn't installed!" 
-        return 1
-    end
-
-    set -l source $argv[1]
-    set -l output $argv[2]
-
-    if not test -e $source
-        echo "$source does not exist."
-        return 1
-    end
-
-    pandoc $argv[1] --pdf-engine=weasyprint -o $argv[2]
-end
-
-# Function to automatically recompile a LaTeX source file when
-# it is modified. Note that it requires inotify-tools to be
-# installed.
-function texdf
-    if ! command_exists xelatex
-        echo "you need xelatex to run this command, it isn't installed!" 
-        return 1
-    end
-
-    if ! command_exists zathura
-        echo "you need zathura with a pdf backend to run this command, it isn't installed!" 
-        return 1
-    end
-
-    if ! command_exists inotifywait
-        echo "you need inotify-tools to run this command, it isn't installed!" 
-        return 1
-    end
-
-    set -l tex_file $argv[1]
-
-    if not test -e $tex_file
-        echo "$tex_file does not exist."
-        return 1
-    end
-
-	set -l pdf_file (string replace -r "\\.tex\$" ".pdf" $tex_file)
-
-	xelatex $tex_file
-	zathura $pdf_file &
-
-    while true
-        inotifywait -e modify $tex_file
-
-	    xelatex $tex_file
-    end
-
-    killall zathura
-end
-
+# Grab a cheatsheet of the provided topic
 function cht
     curl -s "cht.sh/$argv[1]" | less -R
 end
