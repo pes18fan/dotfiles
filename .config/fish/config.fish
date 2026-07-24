@@ -54,6 +54,21 @@ function fish_greeting
     echo ""
 end
 
+# Run lazygit on the yadm repo
+function lyd
+    if not command_exists yadm
+        return 1
+    end
+
+    if not command_exists lazygit
+        return 1
+    end
+
+    GIT_DIR=(yadm introspect repo) \
+    GIT_WORK_TREE="$HOME" \
+    lazygit
+end
+
 # Open a fzf window and cd into selected directory or open a file in nvim
 function f
     require fzf; or return 1
