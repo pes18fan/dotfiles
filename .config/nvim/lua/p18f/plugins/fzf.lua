@@ -15,7 +15,7 @@ return {
             },
         })
 
-        vim.keymap.set("n", "<leader>pf", fzf.files,      { desc = "Find files"})
-        vim.keymap.set("n", "<leader>ps", fzf.live_grep,  { desc = "Find a string"})
+        vim.keymap.set("n", "<leader>pf", fzf.files, { desc = "Find files" })
+        vim.keymap.set("n", "<leader>ps", fzf.live_grep, { desc = "Find a string" })
     end
 }
