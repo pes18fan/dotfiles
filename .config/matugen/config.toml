@@ -16,11 +16,6 @@ input_path = '~/.config/matugen/templates/colors.css'
 output_path = '~/.config/waybar/colors.css'
 post_hook = 'pkill waybar; waybar &'
 
-[templates.mako]
-input_path = '~/.config/matugen/templates/mako'
-output_path = '~/.config/mako/mako-colors'
-post_hook = 'makoctl reload'
-
 [templates.foot]
 input_path = '~/.config/matugen/templates/foot-colors.ini'
 output_path = '~/.config/foot/colors.ini'
@@ -29,6 +24,11 @@ post_hook = 'pkill -SIGUSR1 foot'
 [templates.fuzzel]
 input_path = '~/.config/matugen/templates/fuzzel-colors.ini'
 output_path = '~/.config/fuzzel/colors.ini'
+
+[templates.fnott]
+input_path = '~/.config/matugen/templates/fnott.ini'
+output_path = '~/.config/fnott/fnott.ini'
+post_hook = 'pkill -SIGUSR1 fnott'
 
 [templates.gtk3]
 input_path = '~/.config/matugen/templates/gtk-colors.css'
