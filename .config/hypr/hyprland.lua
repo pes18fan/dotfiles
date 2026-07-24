@@ -163,6 +163,58 @@ hl.bind(mainMod .. " + P", hl.dsp.window.pseudo()) -- pseudotiling
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
+-- Resizing
+-- Enter resize mode
+hl.bind("SUPER + R", hl.dsp.submap("resize"))
+
+hl.on("keybinds.submap", function(submap)
+    if submap == "" then
+        hl.notification.create({
+            text = "Back to default mode",
+            timeout = 1500,
+            icon = "ok",
+        })
+        return
+    end
+
+    hl.notification.create({
+        text = "Entered " .. submap .. " mode",
+        timeout = 1500,
+        icon = "ok",
+    })
+end)
+
+hl.define_submap("resize", function()
+    -- Hold to continuously resize
+    hl.bind(
+        "h",
+        hl.dsp.window.resize({ x = -20, y = 0, relative = true }),
+        { repeating = true }
+    )
+
+    hl.bind(
+        "l",
+        hl.dsp.window.resize({ x = 20, y = 0, relative = true }),
+        { repeating = true }
+    )
+
+    hl.bind(
+        "k",
+        hl.dsp.window.resize({ x = 0, y = -20, relative = true }),
+        { repeating = true }
+    )
+
+    hl.bind(
+        "j",
+        hl.dsp.window.resize({ x = 0, y = 20, relative = true }),
+        { repeating = true }
+    )
+
+    -- Exit resize mode
+    hl.bind("Escape", hl.dsp.submap("reset"))
+    hl.bind("Return", hl.dsp.submap("reset"))
+end)
+
 -- Floating
 hl.bind(mainMod .. " + SHIFT + Space", hl.dsp.window.float({ action = "toggle" }))
 
