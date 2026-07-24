@@ -12,6 +12,7 @@ local function toggle_qflist()
 end
 
 -- Open the location list if it is closed, else close it.
+-- If the location list is empty, print a message saying so and return.
 local function toggle_loclist()
     for _, win in ipairs(vim.fn.getwininfo()) do
         if win.loclist == 1 then
@@ -19,6 +20,15 @@ local function toggle_loclist()
             return
         end
     end
+
+    local ll = vim.fn.getloclist(0)
+    if vim.tbl_isempty(ll) then
+        vim.api.nvim_echo({
+            { "Location list empty.", "MoreMsg" },
+        }, false, {})
+        return
+    end
+
     vim.cmd.lopen()
 end
 
