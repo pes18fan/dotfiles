@@ -1,3 +1,5 @@
+-- General-purpose keymaps
+
 -- map <space> as the leader
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
@@ -20,8 +22,6 @@ vim.keymap.set("n", "<leader>\\", ":vsplit<CR>", { desc = "Split vertically" })
 
 -- Tabs, I generally don't use these for much other than terminal instances
 vim.keymap.set("n", "<leader>n", ":tabnew<CR>", { desc = "Create a new tab" })
-vim.keymap.set("n", "<leader>]", "gt", { desc = "Go to next tab" })
-vim.keymap.set("n", "<leader>[", "gT", { desc = "Go to previous tab" })
 
 -- Double esc to go to normal mode from terminal
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")

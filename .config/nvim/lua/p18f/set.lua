@@ -1,3 +1,5 @@
+-- General opinionated settings
+
 vim.opt.nu = true             -- Line numbers
 vim.opt.relativenumber = true -- Relative line numbers
 
@@ -35,6 +37,10 @@ vim.opt.colorcolumn = "80"
 vim.opt.cursorline = true
 
 vim.opt.signcolumn = "yes"
+
+vim.opt.winborder = "single" -- set border for floating windows
+vim.o.pumblend = 10          -- slightly transparent completion menu
+vim.o.winblend = 10          -- slightly transparent floating windows
 
 -- Highlight when yanking text, very cool
 vim.api.nvim_create_autocmd("TextYankPost", {

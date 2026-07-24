@@ -1,3 +1,5 @@
+-- Setup for a custom terminal
+
 -- Bottom terminal
 local state = {
     buf = -1,
@@ -18,7 +20,7 @@ local function toggle_terminal()
 
         -- Start terminal if not already running in buffer
         if vim.bo[state.buf].buftype ~= "terminal" then
-            vim.fn.termopen(vim.o.shell)
+            vim.fn.jobstart(vim.o.shell, { term = true })
         end
     else
         vim.api.nvim_win_hide(state.win)
@@ -61,7 +63,6 @@ local function toggle_float_terminal()
         col = col,
         row = row,
         style = "minimal",
-        border = "rounded", -- can use "single", "double", or "shadow"
     }
 
     -- Open the window
@@ -69,7 +70,7 @@ local function toggle_float_terminal()
 
     -- Start terminal if not already running
     if vim.bo[float_state.buf].buftype ~= "terminal" then
-        vim.fn.termopen(vim.o.shell)
+        vim.fn.jobstart(vim.o.shell, { term = true })
     end
 end
 
