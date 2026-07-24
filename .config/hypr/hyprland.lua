@@ -1,6 +1,3 @@
--- Hyprland Lua config
--- https://wiki.hypr.land/Configuring/Start/
--- Loaded stuff
 require("monitors")
 local colors      = require("colors")
 
@@ -44,8 +41,8 @@ hl.exec_cmd('gsettings set org.gnome.desktop.interface color-scheme "prefer-dark
 -- Look and feel
 hl.config({
     general = {
-        gaps_in          = 6,
-        gaps_out         = 12,
+        gaps_in          = 4,
+        gaps_out         = 8,
         border_size      = 2,
         resize_on_border = false,
         allow_tearing    = false,
@@ -124,7 +121,7 @@ hl.curve("quick", { type = "bezier", points = { { 0.15, 0 }, { 0.1, 1 } } })
 hl.animation({ leaf = "global", enabled = true, speed = 10, bezier = "default" })
 hl.animation({ leaf = "border", enabled = true, speed = 5.39, bezier = "easeOutQuint" })
 hl.animation({ leaf = "windows", enabled = true, speed = 4.79, bezier = "easeInOutCubic" })
-hl.animation({ leaf = "windowsIn", enabled = true, speed = 2, bezier = "almostLinear", style = "popin 87%" })
+hl.animation({ leaf = "windowsIn", enabled = true, speed = 2, bezier = "easeInOutCubic", style = "popin 87%" })
 hl.animation({ leaf = "windowsOut", enabled = true, speed = 2, bezier = "easeOutQuint", style = "popin 87%" })
 hl.animation({ leaf = "windowsMove", enabled = true, speed = 2, bezier = "easeOutQuint" })
 hl.animation({ leaf = "fadeIn", enabled = true, speed = 2, bezier = "almostLinear" })
@@ -139,7 +136,6 @@ hl.animation({ leaf = "workspaces", enabled = true, speed = 1.94, bezier = "almo
 hl.animation({ leaf = "workspacesIn", enabled = true, speed = 1.21, bezier = "almostLinear", style = "fade" })
 hl.animation({ leaf = "workspacesOut", enabled = true, speed = 1.94, bezier = "almostLinear", style = "fade" })
 hl.animation({ leaf = "zoomFactor", enabled = true, speed = 7, bezier = "quick" })
-
 
 -- Keybindings
 -- Heavily i3-like with a few changes
@@ -165,7 +161,7 @@ hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 -- Resizing
 -- Enter resize mode
-hl.bind("SUPER + R", hl.dsp.submap("resize"))
+hl.bind(mainMod .. " + R", hl.dsp.submap("resize"))
 
 hl.on("keybinds.submap", function(submap)
     if submap == "" then
@@ -178,7 +174,7 @@ hl.on("keybinds.submap", function(submap)
     end
 
     hl.notification.create({
-        text = "Entered " .. submap .. " mode",
+        text = "Entered " .. submap .. " mode. Press Esc to quit.",
         timeout = 1500,
         icon = "ok",
     })
