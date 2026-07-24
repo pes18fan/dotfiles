@@ -1,13 +1,3 @@
-# Environment variables
-set -x PATH "$PATH:$HOME/.local/bin"
-set -x PATH "$PATH:$HOME/.cargo/bin"
-set -x PATH "$PATH:$HOME/Odin/"
-set -x PATH "$PATH:$HOME/ols/"
-set -x PATH "$PATH:$HOME/zen/bin/rel/"
-set -x PATH "$PATH:$HOME/.yarn/bin/"
-set -x PATH "$PATH:$HOME/go/bin/"
-set -x PATH "$PATH:$HOME/ncal/bin/"
-
 # WSL specific stuff
 if string match "*WSL*" (uname -r) > /dev/null
     # Some black magic voodoo to make wslg sort of work
