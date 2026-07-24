@@ -64,9 +64,7 @@ function lyd
         return 1
     end
 
-    GIT_DIR=(yadm introspect repo) \
-    GIT_WORK_TREE="$HOME" \
-    lazygit
+    yadm enter lazygit
 end
 
 # Open a fzf window and cd into selected directory or open a file in nvim
