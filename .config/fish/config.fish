@@ -11,7 +11,7 @@ end
 
 # param 1: command name
 function command_exists
-    if not command -v $argv[1] >/dev/null
+    if not command -q $argv[1]
         echo "you need $argv[1] to run this command, it isn't installed!"
         return 1
     end
@@ -37,8 +37,6 @@ alias ll "ls -l"
 alias tree "ls -T"
 alias cls "clear"
 alias rm "rm -i" # Good idea to avoid accidentally annihilating files
-alias cd "z"
-alias icr "crystal i"
 alias vim "nvim"
 
 # On distros like Debian, Ubuntu, Pop etc which use apt, bat and fd have weird
@@ -76,10 +74,15 @@ function f
         set FIND_CMD "find ."
     end
 
+    set -l CD_CMD z
+    if not command -q zoxide
+        set CD_CMD cd
+    end
+
     set -l RES ($FIND_CMD | fzf --preview 'if test -d {}; set --local ed (eza {}); if test -z "$ed" > /dev/null; echo "Folder is empty."; else; eza {}; end; else; bat {}; end')
 
     if test -d "$RES"
-        cd $RES
+        $CD_CMD $RES
     else if test "$RES" != ""
         nvim $RES
     end
