@@ -4,7 +4,6 @@
   "conform.nvim": { "branch": "master", "commit": "619363c30309d29ffa631e67c8183f2a72caa373" },
   "fff.nvim": { "branch": "main", "commit": "fde8c52a298a2fa4375edf626e0c37b0400f5a8b" },
   "fidget.nvim": { "branch": "main", "commit": "6f793b2bcd2d35e201c09520f698bb763220908a" },
-  "fzf-lua": { "branch": "main", "commit": "bb8f7ef06fcbf6f4b31fde344bc16f4d33c8ec7f" },
   "gitsigns.nvim": { "branch": "main", "commit": "31d6fb2d618bca1482b9f274751ead5f03461408" },
   "harpoon": { "branch": "harpoon2", "commit": "87b1a3506211538f460786c23f98ec63ad9af4e5" },
   "harpoonline": { "branch": "main", "commit": "50b33fbeaf6bd0349f6609013c0c33bed7effcbb" },

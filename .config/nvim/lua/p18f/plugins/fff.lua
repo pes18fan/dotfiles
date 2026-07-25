@@ -14,7 +14,7 @@ return {
     },
     lazy = false, -- the plugin lazy-initialises itself
     keys = {
-        { "pf", function() require('fff').find_files() end, desc = 'Find files' },
-        { "ps", function() require('fff').live_grep() end,  desc = 'Live grep' },
+        { "<leader>pf", function() require('fff').find_files() end, desc = 'Find files' },
+        { "<leader>ps", function() require('fff').live_grep() end,  desc = 'Live grep' },
     },
 }
