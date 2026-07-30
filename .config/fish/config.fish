@@ -37,12 +37,12 @@ alias ll "ls -l"
 alias tree "ls -T"
 alias cls "clear"
 alias rm "rm -i" # Good idea to avoid accidentally annihilating files
-alias vim "nvim"
+alias neofetch "fastfetch --config neofetch"
 
 # On distros like Debian, Ubuntu, Pop etc which use apt, bat and fd have weird
 # differing names to avoid conflicts. I just want my normal command names so
 # I alias them here
-if command_exists apt >/dev/null
+if command -q apt
     alias bat "batcat"
     alias fd "fdfind"
 end

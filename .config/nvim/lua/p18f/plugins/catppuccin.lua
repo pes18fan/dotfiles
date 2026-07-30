@@ -35,7 +35,7 @@ return lazyTheme("catppuccin/nvim", "catppuccin", function()
                 style = "bordered"
             },
             fidget = true,
-            fzf = true,
+            fff = true,
             gitsigns = true,
             harpoon = true,
             lsp_trouble = true,
