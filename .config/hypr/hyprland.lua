@@ -9,9 +9,22 @@ local mainMod     = "SUPER"
 
 -- Environment variables
 hl.env("AQ_DRM_DEVICES", "/dev/dri/amd-igpu")
--- hl.env("LIBVA_DRIVER_NAME", "nvidia")
--- hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
--- hl.env("NVD_BACKEND", "direct")
+
+-- Nvidia-specific things
+local handle = io.popen("envycontrol --query 2>/dev/null")
+if handle then
+    local gpu_mode = handle:read("*a"):gsub("%s+", "")
+    handle:close()
+
+    local on_nvidia = gpu_mode == "hybrid" or gpu_mode == "nvidia"
+
+    if on_nvidia then
+        hl.env("LIBVA_DRIVER_NAME", "nvidia")
+        hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
+        hl.env("NVD_BACKEND", "direct")
+    end
+end
+
 hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_THEME", "phinger-cursors-dark")
@@ -237,7 +250,7 @@ hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 
 -- Exit hyprland. Uses `hyprshutdown` if it is installed
-if not os.execute("which hyprshutdown") then
+if not os.execute("which hyprshutdown > /dev/null") then
     hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exit())
 else
     hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd("hyprshutdown"))
