@@ -1,0 +1,32 @@
+#!/bin/sh
+
+case "$(file -Lb --mime-type -- "$1")" in
+    application/x-tar)
+        tar tf "$1"
+        ;;
+
+    application/*zip)
+        unzip -l "$1"
+        ;;
+
+    application/x-7z-compressed)
+        7z l "$1"
+        ;;
+
+    application/pdf)
+        pdftotext "$1" -
+        ;;
+
+    image/*)
+        chafa -f sixel -s "$2x$3" --polite on --animate off "$1"
+        exit 1
+        ;;
+
+    text/*)
+        bat --color=always --style=plain --paging=never -- "$1" 2>/dev/null || cat "$1"
+        ;;
+
+    *)
+        file "$1"
+        ;;
+esac
