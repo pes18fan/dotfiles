@@ -11,7 +11,7 @@ end
 
 # param 1: command name
 function command_exists
-    if not command -q $argv[1]
+    if not command --query $argv[1]
         echo "you need $argv[1] to run this command, it isn't installed!"
         return 1
     end
@@ -26,25 +26,64 @@ function require
 end
 
 # zoxide initialization
-if command -q zoxide
+if command --query zoxide
     zoxide init fish | source
 end
 
 # Aliases
-alias ls "eza"
+if command --query eza
+    alias ls "eza"
+    alias tree "ls -T"
+end
+
 alias la "ls -a"
 alias ll "ls -l"
-alias tree "ls -T"
 alias cls "clear"
+
 alias rm "rm -i" # Good idea to avoid accidentally annihilating files
-alias neofetch "fastfetch --config neofetch"
+
+if command --query fastfetch
+    alias neofetch "fastfetch --config neofetch"
+end
+
+# env vars
+if command --query helium-browser
+    set --export BROWSER "helium-browser"
+end
+
+if command --query nvim
+    set --export EDITOR "nvim"
+else
+    set --export EDITOR "vim"
+end
+
+set --export OPENER "xdg-open"
 
 # On distros like Debian, Ubuntu, Pop etc which use apt, bat and fd have weird
 # differing names to avoid conflicts. I just want my normal command names so
 # I alias them here
-if command -q apt
+if command --query apt
     alias bat "batcat"
     alias fd "fdfind"
+end
+
+# change directory to the one received from lf via the named pipe
+function lf_cd_handler --on-signal USR1
+    # read a line from the dedicated named pipe
+    set --local dir (cat /tmp/lf_cwd_"$fish_pid".fifo 2>/dev/null)
+    echo "dir: $dir"
+    if test -n "$dir" -a -d "$dir"
+        cd "$dir"
+        commandline --function repaint
+    end
+end
+
+# startup lf, but not before setting up a named pipe for parent shell cd commands
+function lf --wraps="lf"
+    rm -f /tmp/lf_cwd_"$fish_pid".fifo
+    mkfifo /tmp/lf_cwd_"$fish_pid".fifo
+    env LF_PARENT_PID="$fish_pid" lf
+    rm -f /tmp/lf_cwd_"$fish_pid".fifo
 end
 
 function fish_greeting
@@ -54,13 +93,8 @@ end
 
 # Run lazygit on the yadm repo
 function lyd
-    if not command_exists yadm
-        return 1
-    end
-
-    if not command_exists lazygit
-        return 1
-    end
+    require yadm; or return 1
+    require lazygit; or return 1
 
     yadm enter lazygit
 end
@@ -70,12 +104,12 @@ function f
     require fzf; or return 1
 
     set -l FIND_CMD fd --hidden
-    if not command -q fd
+    if not command --query fd
         set FIND_CMD "find ."
     end
 
     set -l CD_CMD z
-    if not command -q zoxide
+    if not command --query zoxide
         set CD_CMD cd
     end
 
