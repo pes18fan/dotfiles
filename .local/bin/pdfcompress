@@ -1,0 +1,49 @@
+#!/usr/bin/env python3
+import argparse
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+settings = {
+    "low": "/printer",
+    "medium": "/ebook",
+    "high": "/screen",
+}
+
+def main():
+    parser = argparse.ArgumentParser(description="Compress a PDF using Ghostscript")
+    parser.add_argument("input", help="input PDF")
+    parser.add_argument("-o", "--output", help="output PDF")
+    parser.add_argument(
+        "-l", "--level",
+        choices=["low", "medium", "high"],
+        default="medium",
+        help="compression level (default: medium)",
+    )
+
+    args = parser.parse_args()
+
+    if shutil.which("gs") is None:
+        print("error: ghostscript (gs) is not installed", file=sys.stderr)
+        sys.exit(1)
+
+    if args.output is None:
+        input_path = Path(args.input)
+        args.output = input_path.with_stem(input_path.stem + "_compressed")
+
+    subprocess.run([
+        "gs",
+        "-sDEVICE=pdfwrite",
+        f"-dPDFSETTINGS={settings[args.level]}",
+        "-dNOPAUSE",
+        "-dQUIET",
+        "-dBATCH",
+        f"-sOutputFile={args.output}",
+        args.input,
+    ], check=True)
+    print(f"compressed {args.input} -> {args.output}")
+
+
+if __name__ == "__main__":
+    main()
