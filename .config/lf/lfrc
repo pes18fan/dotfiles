@@ -113,13 +113,15 @@ cmd fzf ${{
     [ -n "$file" ] && lf -remote "send $id cd '$PWD/$(dirname "$file")'; select '$PWD/$(basename "$file")'"
 }}
 
-# change directory of the parent shell
-# writes the current directory to a named pipe
-# requires a proper signal handler for USR1 in the parent shell which does the
+# Change directory of the parent shell.
+# Writes the current directory to a named pipe, and signals to the parent via
+# USR1 about it. The parent is expected to read the data within a second (hence
+# the timeout).
+# Requires a proper signal handler for USR1 in the parent shell which does the
 # directory changing, and the variable LF_PARENT_PID in envp which contains
-# the pid of the parent shell
+# the pid of the parent shell.
 cmd chdir ${{
-    echo "$PWD" > /tmp/lf_cwd_"$LF_PARENT_PID".fifo & kill -USR1 "$LF_PARENT_PID"
+    timeout 1 sh -c 'echo "$PWD" > /tmp/lf_cwd_"$LF_PARENT_PID".fifo & kill -USR1 "$LF_PARENT_PID"'
 }}
 
 # set previewer
