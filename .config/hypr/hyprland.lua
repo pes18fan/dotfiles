@@ -263,7 +263,7 @@ hl.bind(mainMod .. " + SHIFT + M", hl.dsp.exec_cmd("hyprlock"))
 hl.bind("Print", hl.dsp.exec_cmd("hyprshot -m region -o ~/Pictures/Screenshots/"))
 
 -- Switch keyboard layout
-hl.bind(mainMod .. " + SHIFT + K", hl.dsp.exec_cmd("hyprctl switchxkblayout current next"))
+hl.bind(mainMod .. " + grave", hl.dsp.exec_cmd("hyprctl switchxkblayout current next"))
 
 -- Volume keys
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"),
