@@ -31,6 +31,6 @@ case "$(file -Lb --mime-type -- "$1")" in
         ;;
 
     *)
-        file "$1" | cut -d: -f2
+        file "$1" | cut -d: -f2- | cut -d, -O "$(printf "\n\t")" -f1- | sed "s/^ //g"
         ;;
 esac
