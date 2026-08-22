@@ -32,8 +32,13 @@ end
 
 # Aliases
 if command --query eza
-    alias ls "eza"
-    alias tree "ls -T"
+    function ls --wraps="eza"
+        eza $argv
+    end
+
+    function tree --wraps="eza"
+        eza -T $argv
+    end
 end
 
 alias la "ls -a"
@@ -67,11 +72,16 @@ if command --query apt
     alias fd "fdfind"
 end
 
-# change directory to the one received from lf via the named pipe
+# Change directory to the one received from lf via the named pipe
 function lf_cd_handler --on-signal USR1
-    # read a line from the dedicated named pipe
-    set --local dir (cat /tmp/lf_cwd_"$fish_pid".fifo 2>/dev/null)
-    echo "dir: $dir"
+    set --local fifo /tmp/lf_cwd_"$fish_pid".fifo
+    set --local dir (timeout 1s cat "$fifo" 2>/dev/null)
+
+    if test $status -ne 0
+        echo "lf: timed out waiting for directory on fifo"
+        return
+    end
+
     if test -n "$dir" -a -d "$dir"
         cd "$dir"
         commandline --function repaint
@@ -113,7 +123,7 @@ function f
         set CD_CMD cd
     end
 
-    set -l RES ($FIND_CMD | fzf --preview 'if test -d {}; set --local ed (eza {}); if test -z "$ed" > /dev/null; echo "Folder is empty."; else; eza {}; end; else; bat {}; end')
+    set -l RES ($FIND_CMD | fzf --ignore-case --preview 'if test -d {}; set --local ed (eza {}); if test -z "$ed" > /dev/null; echo "Folder is empty."; else; eza {}; end; else; bat {}; end')
 
     if test -d "$RES"
         $CD_CMD $RES
