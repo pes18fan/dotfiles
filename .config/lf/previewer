@@ -22,11 +22,15 @@ case "$(file -Lb --mime-type -- "$1")" in
         exit 1
         ;;
 
+    application/json)
+        bat --color=always --style=plain --paging=never -- "$1" 2>/dev/null || cat "$1"
+        ;;
+
     text/*)
         bat --color=always --style=plain --paging=never -- "$1" 2>/dev/null || cat "$1"
         ;;
 
     *)
-        file "$1"
+        file "$1" | cut -d: -f2
         ;;
 esac
