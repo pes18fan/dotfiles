@@ -25,53 +25,6 @@ function require
     or return 1
 end
 
-# zoxide initialization
-if command --query zoxide
-    zoxide init fish | source
-end
-
-# Aliases
-if command --query eza
-    function ls --wraps="eza"
-        eza $argv
-    end
-
-    function tree --wraps="eza"
-        eza -T $argv
-    end
-end
-
-alias la "ls -a"
-alias ll "ls -l"
-alias cls "clear"
-
-alias rm "rm -i" # Good idea to avoid accidentally annihilating files
-
-if command --query fastfetch
-    alias neofetch "fastfetch --config neofetch"
-end
-
-# env vars
-if command --query helium-browser
-    set --export BROWSER "helium-browser"
-end
-
-if command --query nvim
-    set --export EDITOR "nvim"
-else
-    set --export EDITOR "vim"
-end
-
-set --export OPENER "xdg-open"
-
-# On distros like Debian, Ubuntu, Pop etc which use apt, bat and fd have weird
-# differing names to avoid conflicts. I just want my normal command names so
-# I alias them here
-if command --query apt
-    alias bat "batcat"
-    alias fd "fdfind"
-end
-
 # Change directory to the one received from lf via the named pipe
 function lf_cd_handler --on-signal USR1
     set --local fifo /tmp/lf_cwd_"$fish_pid".fifo
@@ -220,4 +173,54 @@ end
 # Grab a cheatsheet of the provided topic
 function cht
     curl -s "cht.sh/$argv[1]" | less -R
+end
+
+# get the ssh-agent variable
+set --export SSH_AUTH_SOCK $XDG_RUNTIME_DIR/ssh-agent.socket
+
+# zoxide initialization
+if command --query zoxide
+    zoxide init fish | source
+end
+
+# Aliases
+if command --query eza
+    function ls --wraps="eza"
+        eza $argv
+    end
+
+    function tree --wraps="eza"
+        eza -T $argv
+    end
+end
+
+alias la "ls -a"
+alias ll "ls -l"
+alias cls "clear"
+
+alias rm "rm -i" # Good idea to avoid accidentally annihilating files
+
+if command --query fastfetch
+    alias neofetch "fastfetch --config neofetch"
+end
+
+# env vars
+if command --query helium-browser
+    set --export BROWSER "helium-browser"
+end
+
+if command --query nvim
+    set --export EDITOR "nvim"
+else
+    set --export EDITOR "vim"
+end
+
+set --export OPENER "xdg-open"
+
+# On distros like Debian, Ubuntu, Pop etc which use apt, bat and fd have weird
+# differing names to avoid conflicts. I just want my normal command names so
+# I alias them here
+if command --query apt
+    alias bat "batcat"
+    alias fd "fdfind"
 end
