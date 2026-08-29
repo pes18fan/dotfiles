@@ -107,6 +107,13 @@ cmd zip ${{
     rm -rf "$1"
 }}
 
+# playing audio
+cmd play ${{
+    mpv --no-video "$f" || lf -remote "send $id echomsg play: mpv not installed"
+}}
+
+map P play "$f"
+
 # fuzzy finding files
 cmd fzf ${{
     file=$(fd --type f . | fzf --reverse)
@@ -121,6 +128,11 @@ cmd fzf ${{
 # directory changing, and the variable LF_PARENT_PID in envp which contains
 # the pid of the parent shell.
 cmd chdir ${{
+    if test -z "${LF_PARENT_PID:-}"; then
+        lf -remote "send $id echomsg cannot change parent directory, LF_PARENT_PID not set"
+        exit 1
+    fi
+
     timeout 1 sh -c 'echo "$PWD" > /tmp/lf_cwd_"$LF_PARENT_PID".fifo & kill -USR1 "$LF_PARENT_PID"'
 }}
 
