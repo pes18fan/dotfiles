@@ -1,12 +1,12 @@
 {
   "blink.cmp": { "branch": "main", "commit": "78336bc89ee5365633bcf754d93df01678b5c08f" },
+  "catppuccin": { "branch": "main", "commit": "edefef779ab08ce1a4a404713e3012b0d202bd35" },
   "conform.nvim": { "branch": "master", "commit": "619363c30309d29ffa631e67c8183f2a72caa373" },
   "fff.nvim": { "branch": "main", "commit": "fde8c52a298a2fa4375edf626e0c37b0400f5a8b" },
   "fidget.nvim": { "branch": "main", "commit": "6f793b2bcd2d35e201c09520f698bb763220908a" },
   "gitsigns.nvim": { "branch": "main", "commit": "31d6fb2d618bca1482b9f274751ead5f03461408" },
   "harpoon": { "branch": "harpoon2", "commit": "87b1a3506211538f460786c23f98ec63ad9af4e5" },
   "harpoonline": { "branch": "main", "commit": "50b33fbeaf6bd0349f6609013c0c33bed7effcbb" },
-  "kanagawa": { "branch": "master", "commit": "bb85e4bfc8d89b0e62c8fa53ccdd13d12e2f77b3" },
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
   "lazygit.nvim": { "branch": "main", "commit": "a04ad0dbc725134edbee3a5eea29290976695357" },
   "lualine.nvim": { "branch": "master", "commit": "221ce6b2d999187044529f49da6554a92f740a96" },
