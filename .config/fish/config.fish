@@ -85,6 +85,23 @@ function f
     end
 end
 
+# Kill a hyprland session and shut down (via hyprshutdown if it is available)
+function die
+    if test "$argv[1]" != "now"
+        read -p "set_color red; echo -n 'Shutdown? '; set_color --reset; echo -n '[y/N] '" -l QUERY
+        if test "$QUERY" != 'y'
+            return
+        end
+    end
+
+    if command --query hyprshutdown
+        hyprshutdown --post-cmd 'poweroff'
+    else
+        hyprctl dispatch "hl.dsp.exit()"
+        poweroff
+    end
+end
+
 # Function to compile and run various types of source files
 # Only works for relative links
 # If extra arguments are passed, those will go to the compiler or interpreter
@@ -201,7 +218,9 @@ alias cls "clear"
 alias rm "rm -i" # Good idea to avoid accidentally annihilating files
 
 if command --query fastfetch
-    alias neofetch "fastfetch --config neofetch"
+    function neofetch --wraps="fastfetch"
+        fastfetch --config neofetch
+    end
 end
 
 # env vars
