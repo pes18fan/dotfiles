@@ -99,9 +99,6 @@ hl.config({
     dwindle = {
         preserve_split = true,
     },
-    master = {
-        new_status = "master",
-    },
     misc = {
         disable_hyprland_logo    = true,
         disable_splash_rendering = true,
@@ -238,6 +235,12 @@ end
 hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"))
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
 
+-- Open up a terminal when scratchpad workspace is opened
+hl.workspace_rule({
+    workspace = "special:magic",
+    on_created_empty = "exec " .. terminal,
+})
+
 -- Scroll through workspaces
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
@@ -257,10 +260,11 @@ else
 end
 
 -- Hyprlock
-hl.bind(mainMod .. " + SHIFT + M", hl.dsp.exec_cmd("hyprlock"))
+hl.bind(mainMod .. " + CTRL + L", hl.dsp.exec_cmd("pidof hyprlock || hyprlock"))
 
 -- Screenshot. Requires `hyprshot` to be installed
 hl.bind("Print", hl.dsp.exec_cmd("hyprshot -m region -o ~/Pictures/Screenshots/"))
+hl.bind(mainMod .. " + Print", hl.dsp.exec_cmd("hyprshot -m window -m active -o ~/Pictures/Screenshots/"))
 
 -- Switch keyboard layout
 hl.bind(mainMod .. " + grave", hl.dsp.exec_cmd("hyprctl switchxkblayout current next"))
@@ -284,6 +288,19 @@ hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
+
+-- Touchpad gestures
+hl.gesture({
+    fingers = 3,
+    direction = "horizontal",
+    action = "workspace",
+})
+
+hl.gesture({
+    fingers = 3,
+    direction = "up",
+    action = "fullscreen",
+})
 
 -- Window rules
 hl.window_rule({
