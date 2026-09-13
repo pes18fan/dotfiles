@@ -10,7 +10,7 @@ case "$(file -Lb --mime-type -- "$1")" in
         ;;
 
     application/x-7z-compressed)
-        7z l "$1"
+        7z l "$1" | tail -n +10
         ;;
 
     application/pdf)
