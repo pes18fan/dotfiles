@@ -1,7 +1,6 @@
 [config.wallpaper]
 set = true
-command = "awww"
-arguments = ["img", "--transition-type", "random"]
+command = "awww img --transition-type random {{ image }}"
 
 [templates.hyprland]
 input_path = '~/.config/matugen/templates/hyprland-colors.lua'
