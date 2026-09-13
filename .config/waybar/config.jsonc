@@ -5,23 +5,24 @@
     "modules-left": ["hyprland/workspaces", "clock"],
     "modules-center": ["hyprland/window"],
     "modules-right": 
-        ["tray",
+        [
+            "tray",
             "hyprland/language", "backlight", "pulseaudio",
-            "network", "bluetooth", "battery", "idle_inhibitor", "power-profiles-daemon", "custom/power",
+            "network", "bluetooth", "battery", "idle_inhibitor", "power-profiles-daemon", "custom/power"
         ],
     "hyprland/workspaces": {
         "format": "{name}",
-        "disable-scroll": true,
+        "disable-scroll": true
     },
     "hyprland/window": {
         "max-length": 60,
         "tooltip": false
     },
     "hyprland/language": {
-        "format": "{short}",
+        "format": "{short}"
     },
     "clock": {
-        "format": "{:%a %d %b %H:%M}",
+        "format": "{:%a %d %b %I:%M %p}"
     },
     "tray": {
         "icon-size": 18
@@ -42,7 +43,7 @@
         "format": "",
         "tooltip-format": "{status}",
         "tooltip-format-connected": "{num_connections} connected\n{device_enumerate}",
-        "on-click": "blueman-manager",
+        "on-click": "foot -e bluetuith"
     },
     "network": {
         "format-wifi": "󰤨",
@@ -95,6 +96,6 @@
         "format" : "⏻",
         "on-click": "wlogout",
         "tooltip": false
-    },
+    }
 }
 
