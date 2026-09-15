@@ -1,0 +1,15 @@
+#!/bin/sh
+
+emoji=$(
+    cat ~/.local/share/emoji-list |
+    fuzzel --dmenu --match-mode fzf |
+    cut -wf1
+)
+
+[ -n "$emoji" ] || exit 0
+
+if command -v wtype >/dev/null; then
+    wtype "$emoji" || printf '%s' "$emoji" | wl-copy
+else
+    printf '%s' "$emoji" | wl-copy
+fi

@@ -296,6 +296,9 @@ local notification_dismisser = "fnottctl dismiss"
 hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(notification_dismisser),
     { desc = "Dismiss notifications (" .. notification_dismisser .. ")" })
 
+-- Emoji picker
+hl.bind(mainMod .. " + period", hl.dsp.exec_cmd("exec ~/.local/bin/emoji-picker"))
+
 -- Touchpad gestures
 hl.gesture({
     fingers = 3,
