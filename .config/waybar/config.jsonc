@@ -2,7 +2,7 @@
     "layer": "top",
     "position": "top",
     "height": 30,
-    "modules-left": ["hyprland/workspaces", "clock"],
+    "modules-left": ["custom/launcher", "hyprland/workspaces", "clock"],
     "modules-center": ["hyprland/window"],
     "modules-right": 
         [
@@ -10,6 +10,11 @@
             "hyprland/language", "backlight", "pulseaudio",
             "network", "bluetooth", "battery", "idle_inhibitor", "power-profiles-daemon", "custom/power"
         ],
+    "custom/launcher": {
+        "format": "󰀻",
+        "on-click": "fuzzel",
+        "tooltip-format": "application menu"
+    },
     "hyprland/workspaces": {
         "format": "{name}",
         "disable-scroll": true

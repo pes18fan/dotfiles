@@ -54,8 +54,8 @@ hl.exec_cmd('gsettings set org.gnome.desktop.interface color-scheme "prefer-dark
 -- Look and feel
 hl.config({
     general = {
-        gaps_in          = 3,
-        gaps_out         = 6,
+        gaps_in          = 4,
+        gaps_out         = 8,
         border_size      = 1,
         resize_on_border = false,
         allow_tearing    = false,

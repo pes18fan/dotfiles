@@ -42,12 +42,7 @@ tooltip {
     50% { background: @on_surface; }
 }
 
-#tray
-{
-    background: @tertiary;
-    color: @inverse_on_surface;
-}
-
+#custom-launcher,
 #workspaces,
 #clock, 
 #tray,
@@ -64,13 +59,7 @@ tooltip {
     padding: 0 12px;
 }
 
-#language,
-#backlight, 
-#pulseaudio {
-    background: @secondary;
-    color: @inverse_on_surface;
-}
-
+#custom-launcher,
 #clock, 
 #network, 
 #bluetooth, 
@@ -80,6 +69,20 @@ tooltip {
 #custom-power
 {
     background: @primary;
+    color: @inverse_on_surface;
+}
+
+#language,
+#backlight, 
+#pulseaudio
+{
+    background: @secondary;
+    color: @inverse_on_surface;
+}
+
+#tray
+{
+    background: @tertiary;
     color: @inverse_on_surface;
 }
 
