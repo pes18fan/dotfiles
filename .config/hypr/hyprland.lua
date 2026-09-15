@@ -260,11 +260,13 @@ else
 end
 
 -- Hyprlock
-hl.bind(mainMod .. " + CTRL + L", hl.dsp.exec_cmd("pidof hyprlock || hyprlock"))
+hl.bind(mainMod .. " + CTRL + L", hl.dsp.exec_cmd("pidof hyprlock || hyprlock"), { desc = "Lock screen using hyprlock" })
 
 -- Screenshot. Requires `hyprshot` to be installed
-hl.bind("Print", hl.dsp.exec_cmd("hyprshot -m region -o ~/Pictures/Screenshots/"))
-hl.bind(mainMod .. " + Print", hl.dsp.exec_cmd("hyprshot -m window -m active -o ~/Pictures/Screenshots/"))
+hl.bind("Print", hl.dsp.exec_cmd("hyprshot -m region -o ~/Pictures/Screenshots/"),
+    { desc = "Take screenshot of a region of the screen (requires hyprshot)" })
+hl.bind(mainMod .. " + Print", hl.dsp.exec_cmd("hyprshot -m window -m active -o ~/Pictures/Screenshots/"),
+    { desc = "Take screenshot of active window (requires hyprshot)" })
 
 -- Switch keyboard layout
 hl.bind(mainMod .. " + grave", hl.dsp.exec_cmd("hyprctl switchxkblayout current next"))
@@ -288,6 +290,11 @@ hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
+
+-- Dismiss notification
+local notification_dismisser = "fnottctl dismiss"
+hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(notification_dismisser),
+    { desc = "Dismiss notifications (" .. notification_dismisser .. ")" })
 
 -- Touchpad gestures
 hl.gesture({
