@@ -47,7 +47,7 @@ return {
             capabilities = require("blink.cmp").get_lsp_capabilities(),
         })
 
-        vim.lsp.enable("gleam")
+        vim.lsp.enable("racket-langserver")
 
         require('mason').setup()
         require('mason-lspconfig').setup({
