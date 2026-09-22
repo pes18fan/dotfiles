@@ -45,7 +45,7 @@ end
 function lf --wraps="lf"
     rm -f /tmp/lf_cwd_"$fish_pid".fifo
     mkfifo /tmp/lf_cwd_"$fish_pid".fifo
-    env LF_PARENT_PID="$fish_pid" lf
+    env LF_PARENT_PID="$fish_pid" lf $argv
     rm -f /tmp/lf_cwd_"$fish_pid".fifo
 end
 

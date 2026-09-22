@@ -1,14 +1,19 @@
--- Simple LSP configuration
--- Decided to redo it after lsp-zero felt overly bloated
+-- Simple LSP and autocomplete configuration
 return {
     'neovim/nvim-lspconfig',
     dependencies = {
-        { "mason-org/mason.nvim" },
-        { "mason-org/mason-lspconfig.nvim" },
+        { "mason-org/mason.nvim", opts = {} },
         {
-            "j-hui/fidget.nvim",
-            opts = {}
+            "mason-org/mason-lspconfig.nvim",
+            opts = {
+                ensure_installed = {
+                    "clangd",
+                    "ts_ls",
+                    "ols",
+                }
+            }
         },
+        { "j-hui/fidget.nvim",    opts = {} },
         {
             "saghen/blink.cmp",
 
@@ -29,11 +34,15 @@ return {
                     documentation = { auto_show = true },
                 },
                 fuzzy = { implementation = "prefer_rust_with_warning" },
-            }
+            },
         },
     },
     event = { "BufReadPre", "BufNewFile" },
     config = function()
+        vim.lsp.config("*", {
+            capabilities = require("blink.cmp").get_lsp_capabilities(),
+        })
+
         vim.api.nvim_create_autocmd("LspAttach", {
             callback = function(args)
                 local opts = { buf = args.buf, silent = true }
@@ -43,20 +52,6 @@ return {
             end
         })
 
-        vim.lsp.config("*", {
-            capabilities = require("blink.cmp").get_lsp_capabilities(),
-        })
-
         vim.lsp.enable("racket-langserver")
-
-        require('mason').setup()
-        require('mason-lspconfig').setup({
-            ensure_installed = {
-                "clangd",
-                "ts_ls",
-                "ols",
-            },
-            automatic_enable = true
-        })
     end,
 }

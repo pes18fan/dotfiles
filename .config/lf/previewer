@@ -32,6 +32,6 @@ case "$(file -Lb --mime-type -- "$1")" in
 
     *)
         echo "--- File type information ---"
-        file "$1" | cut -d: -f2- | cut -d, -O "$(printf "\n\t")" -f1- | sed "s/^ //g"
+        file -Lb "$1" | cut -d, -O "$(printf "\n\t")" -f1-
         ;;
 esac
