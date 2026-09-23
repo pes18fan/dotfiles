@@ -56,3 +56,20 @@ vim.api.nvim_create_autocmd("BufWritePre", {
         vim.lsp.buf.format({ bufnr = args.buf })
     end,
 })
+
+-- Make stuff transparent (mostly)
+local function make_transparent()
+    local groups = { 'Normal', 'NormalNC', 'NormalFloat', 'SignColumn',
+        'StatusLine', 'StatusLineNC' }
+    for _, group in ipairs(groups) do
+        vim.api.nvim_set_hl(0, group, { bg = 'NONE', ctermbg = 'NONE' })
+    end
+end
+
+make_transparent()
+vim.api.nvim_create_autocmd('ColorScheme', {
+    callback = make_transparent,
+})
+
+-- custom filetype
+vim.filetype.add({ zn = "zen" })
