@@ -40,6 +40,7 @@ hl.env("QS_ICON_THEME", "breeze-dark")
 hl.on("hyprland.start", function()
     hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
     hl.exec_cmd("systemctl --user start hyprpolkitagent")
+    hl.exec_cmd('gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"')
     hl.exec_cmd("fnott")
     hl.exec_cmd("hypridle")
     hl.exec_cmd("hyprsunset")
@@ -48,8 +49,6 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("waybar")
     hl.exec_cmd("foot --server")
 end)
-
-hl.exec_cmd('gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"')
 
 -- Look and feel
 hl.config({
@@ -73,6 +72,9 @@ hl.config({
             border_locked_inactive = colors.surface,
         },
         groupbar = {
+            font_size = 13,
+            text_color = colors.inverse_surface,
+            indicator_gap = 8,
             col = {
                 active          = colors.secondary,
                 inactive        = colors.surface,
@@ -100,8 +102,8 @@ hl.config({
         preserve_split = true,
     },
     misc = {
-        disable_hyprland_logo    = true,
-        disable_splash_rendering = true,
+        font_family = "Iosevka Nerd Font",
+        disable_hyprland_logo = true,
     },
     debug = {
         vfr = true,
@@ -169,10 +171,7 @@ hl.bind(mainMod .. " + P", hl.dsp.window.pseudo()) -- pseudotiling
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
--- Resizing
--- Enter resize mode
-hl.bind(mainMod .. " + R", hl.dsp.submap("resize"))
-
+-- Set up submap notifications
 hl.on("keybinds.submap", function(submap)
     if submap == "" then
         hl.notification.create({
@@ -189,6 +188,10 @@ hl.on("keybinds.submap", function(submap)
         icon = "ok",
     })
 end)
+
+-- Resizing
+-- Enter resize mode
+hl.bind(mainMod .. " + R", hl.dsp.submap("resize"))
 
 hl.define_submap("resize", function()
     -- Hold to continuously resize
@@ -223,6 +226,7 @@ end)
 
 -- Floating
 hl.bind(mainMod .. " + SHIFT + Space", hl.dsp.window.float({ action = "toggle" }))
+hl.bind(mainMod .. " + SHIFT + T", hl.dsp.group.toggle())
 
 -- Workspaces
 for i = 1, 10 do
