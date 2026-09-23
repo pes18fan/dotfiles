@@ -48,3 +48,11 @@ vim.api.nvim_create_autocmd("TextYankPost", {
         vim.highlight.on_yank()
     end,
 })
+
+-- Format on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+    desc = "Format on save",
+    callback = function(args)
+        vim.lsp.buf.format({ bufnr = args.buf })
+    end,
+})

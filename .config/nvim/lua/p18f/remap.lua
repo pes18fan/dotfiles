@@ -4,6 +4,10 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+-- Format
+vim.keymap.set("n", "<leader>f", vim.lsp.buf.format,
+    { desc = "Format current buffer" })
+
 -- move highlighted stuff around effortlessly pressing J and K
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move highlighted text down" })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move highlighted text up" })
