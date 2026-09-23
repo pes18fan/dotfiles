@@ -2,18 +2,7 @@
 return {
     'neovim/nvim-lspconfig',
     dependencies = {
-        { "mason-org/mason.nvim", opts = {} },
-        {
-            "mason-org/mason-lspconfig.nvim",
-            opts = {
-                ensure_installed = {
-                    "clangd",
-                    "ts_ls",
-                    "ols",
-                }
-            }
-        },
-        { "j-hui/fidget.nvim",    opts = {} },
+        { "j-hui/fidget.nvim", opts = {} },
         {
             "saghen/blink.cmp",
 
@@ -52,6 +41,12 @@ return {
             end
         })
 
-        vim.lsp.enable("racket-langserver")
+        vim.lsp.enable({
+            "clangd",
+            "ols",
+            "ts_ls",
+            "lua_ls",
+            "gopls",
+        })
     end,
 }
