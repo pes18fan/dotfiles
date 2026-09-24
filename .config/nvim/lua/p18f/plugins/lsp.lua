@@ -47,6 +47,7 @@ return {
             "ts_ls",
             "lua_ls",
             "gopls",
+            "ty",
         })
     end,
 }

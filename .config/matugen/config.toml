@@ -2,6 +2,33 @@
 set = true
 command = "awww img --transition-type random {{ image }}"
 
+[templates.color-scheme]
+input_path = '~/.config/matugen/templates/Matugen.colors'
+output_path = '~/.local/share/color-schemes/Matugen.colors'
+
+[templates.fnott]
+input_path = '~/.config/matugen/templates/fnott.ini'
+output_path = '~/.config/fnott/fnott.ini'
+post_hook = 'pkill -SIGUSR1 fnott'
+
+[templates.foot]
+input_path = '~/.config/matugen/templates/foot-colors.ini'
+output_path = '~/.config/foot/colors.ini'
+post_hook = 'pkill -SIGUSR1 foot'
+
+[templates.fuzzel]
+input_path = '~/.config/matugen/templates/fuzzel-colors.ini'
+output_path = '~/.config/fuzzel/colors.ini'
+
+[templates.gtk3]
+input_path = '~/.config/matugen/templates/gtk-colors.css'
+output_path = '~/.config/gtk-3.0/colors.css'
+post_hook = 'gsettings set org.gnome.desktop.interface gtk-theme ""; gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-{{mode}}'
+
+[templates.gtk4]
+input_path = '~/.config/matugen/templates/gtk-colors.css'
+output_path = '~/.config/gtk-4.0/colors.css'
+
 [templates.hyprland]
 input_path = '~/.config/matugen/templates/hyprland-colors.lua'
 output_path = '~/.config/hypr/colors.lua'
@@ -14,30 +41,3 @@ output_path = '~/.config/hypr/colors.conf'
 input_path = '~/.config/matugen/templates/colors.css'
 output_path = '~/.config/waybar/colors.css'
 post_hook = 'pkill waybar; waybar &'
-
-[templates.foot]
-input_path = '~/.config/matugen/templates/foot-colors.ini'
-output_path = '~/.config/foot/colors.ini'
-post_hook = 'pkill -SIGUSR1 foot'
-
-[templates.fuzzel]
-input_path = '~/.config/matugen/templates/fuzzel-colors.ini'
-output_path = '~/.config/fuzzel/colors.ini'
-
-[templates.fnott]
-input_path = '~/.config/matugen/templates/fnott.ini'
-output_path = '~/.config/fnott/fnott.ini'
-post_hook = 'pkill -SIGUSR1 fnott'
-
-[templates.gtk3]
-input_path = '~/.config/matugen/templates/gtk-colors.css'
-output_path = '~/.config/gtk-3.0/colors.css'
-post_hook = 'gsettings set org.gnome.desktop.interface gtk-theme ""; gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-{{mode}}'
-
-[templates.gtk4]
-input_path = '~/.config/matugen/templates/gtk-colors.css'
-output_path = '~/.config/gtk-4.0/colors.css'
-
-[templates.color-scheme]
-input_path = '~/.config/matugen/templates/Matugen.colors'
-output_path = '~/.local/share/color-schemes/Matugen.colors'

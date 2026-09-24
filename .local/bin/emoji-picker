@@ -1,4 +1,5 @@
 #!/bin/sh
+set -euo pipefail
 
 emoji=$(
     cat ~/.local/share/emoji-list |
