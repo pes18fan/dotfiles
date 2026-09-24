@@ -31,6 +31,7 @@ vim.keymap.set("n", "<leader>n", ":tabnew<CR>", { desc = "Create a new tab" })
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
 
 -- Remove arrow keys
+-- Not really 'remaps' but more like 'unremaps'
 vim.keymap.set("n", "<Up>", "<nop>", { noremap = true })
 vim.keymap.set("n", "<Down>", "<nop>", { noremap = true })
 vim.keymap.set("n", "<Left>", "<nop>", { noremap = true })

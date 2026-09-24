@@ -87,10 +87,10 @@ vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter" }, {
 -- Automatically close terminal when shell process exits
 vim.api.nvim_create_autocmd("TermClose", {
     pattern = "term://*",
-    callback = function()
+    callback = function(args)
         -- Only close if it exited successfully (0)
         if vim.v.event.status == 0 then
-            vim.api.nvim_buf_delete(0, { force = true })
+            vim.api.nvim_buf_delete(args.buf, { force = true })
         end
     end,
 })
@@ -122,4 +122,4 @@ local function lazygit()
     vim.cmd("startinsert")
 end
 
-vim.keymap.set("n", "<leader>g", lazygit)
+vim.keymap.set("n", "<leader>g", lazygit, { desc = "Open lazygit in floating terminal" })
