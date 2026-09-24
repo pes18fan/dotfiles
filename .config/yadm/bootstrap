@@ -118,7 +118,7 @@ def change_shell():
     else:
         print("changing default shell to fish...")
         try:
-            subprocess.run(["chsh", "-s", "$(which fish)"], check=True)
+            subprocess.run(["sh", "-c", "chsh -s \"$(which fish)\""], check=True)
         except ProcError as e:
             print(Color.red(f"failed to change shell: {e}"))
 

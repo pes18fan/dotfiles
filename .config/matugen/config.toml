@@ -9,7 +9,7 @@ output_path = '~/.local/share/color-schemes/Matugen.colors'
 [templates.fnott]
 input_path = '~/.config/matugen/templates/fnott.ini'
 output_path = '~/.config/fnott/fnott.ini'
-post_hook = 'pkill -SIGUSR1 fnott'
+post_hook = 'pkill fnott; fnott &'
 
 [templates.foot]
 input_path = '~/.config/matugen/templates/foot-colors.ini'
