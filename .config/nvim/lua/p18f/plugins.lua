@@ -27,6 +27,7 @@ vim.pack.add({
     gh "nvim-mini/mini.icons",
     gh "abeldekat/harpoonline",
     gh "nvim-lualine/lualine.nvim",
+    gh "nvim-mini/mini.pick",
     gh "stevearc/oil.nvim",
     gh "nvim-treesitter/nvim-treesitter"
 })
@@ -47,6 +48,12 @@ require("oil").setup({
 })
 
 vim.keymap.set("n", "-", "<cmd>Oil<CR>", { desc = "Open oil.nvim" })
+
+-- Picker
+require("mini.pick").setup()
+
+vim.keymap.set("n", "<leader>pf", function() vim.cmd("Pick files") end)
+vim.keymap.set("n", "<leader>ps", function() vim.cmd("Pick grep_live") end)
 
 -- Setup harpoon
 local harpoon = require("harpoon")
