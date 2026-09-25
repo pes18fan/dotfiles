@@ -1,5 +1,7 @@
 -- General opinionated settings
 
+vim.loader.enable()           -- faster startup
+
 vim.opt.nu = true             -- Line numbers
 vim.opt.relativenumber = true -- Relative line numbers
 
@@ -9,9 +11,10 @@ vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 
--- Make search not be case-sensitive
-vim.opt.smartcase = true
+-- Make search not be case-sensitive, unless one or more capital letters are
+-- in the search term
 vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
 vim.opt.smartindent = true
 vim.opt.autoindent = true
@@ -23,13 +26,16 @@ vim.opt.wrap = false
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
 
+vim.o.breakindent = true
+
 -- Use proper terminal colors
 vim.opt.termguicolors = true
 
 -- Never have less than 12 characters at the bottom or top
 vim.opt.scrolloff = 12
 
-vim.opt.updatetime = 50
+vim.opt.updatetime = 250
+vim.o.timeoutlen = 300
 
 vim.opt.colorcolumn = "80"
 
@@ -37,8 +43,11 @@ vim.opt.colorcolumn = "80"
 vim.opt.cursorline = true
 
 vim.opt.signcolumn = "yes"
-
 vim.opt.winborder = "single" -- set border for floating windows
+
+-- If performing an operation that would fail (like :q on an unsaved file),
+-- instead of just failing ask if you wanna save the file first
+vim.o.confirm = true
 
 -- Highlight when yanking text, very cool
 vim.api.nvim_create_autocmd("TextYankPost", {
