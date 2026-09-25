@@ -80,5 +80,5 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     callback = make_transparent,
 })
 
--- custom filetype
+-- custom filetype for my little language
 vim.filetype.add({ zn = "zen" })
