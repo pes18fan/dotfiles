@@ -87,10 +87,11 @@ require("lualine").setup {
 }
 
 -- Treesitter
+-- note: treesitter doesn't need explicit .setup()
 vim.api.nvim_create_autocmd("FileType", {
-    callback = function()
+    callback = function(args)
         -- enable treesitter highlighting and disable regex syntax
-        pcall(vim.treesitter.start)
+        pcall(vim.treesitter.start, args.buf)
 
         -- enable treesitter-based indentation
         vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
