@@ -1,2 +1,2 @@
 -- Disable indentation for assembly
-vim.o.indentexpr = ""
+vim.bo.indentexpr = ""
