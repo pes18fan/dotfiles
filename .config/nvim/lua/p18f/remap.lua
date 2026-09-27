@@ -2,7 +2,7 @@
 
 -- map <space> as the leader
 vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
+vim.g.maplocalleader = " "
 
 -- Format
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format,

@@ -94,7 +94,7 @@ vim.api.nvim_create_autocmd("FileType", {
         pcall(vim.treesitter.start, args.buf)
 
         -- enable treesitter-based indentation
-        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
     end
 })
 
@@ -117,6 +117,11 @@ blink.setup({
     fuzzy = { implementation = "prefer_rust_with_warning" },
 })
 
+
+vim.lsp.config("*", {
+    capabilities = blink.get_lsp_capabilities(),
+})
+
 -- LSP setup
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
@@ -125,10 +130,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
     end
-})
-
-vim.lsp.config("*", {
-    capabilities = blink.get_lsp_capabilities(),
 })
 
 vim.lsp.enable({

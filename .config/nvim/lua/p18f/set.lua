@@ -11,10 +11,9 @@ vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 
--- Make search not be case-sensitive, unless one or more capital letters are
--- in the search term
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
+vim.opt.ignorecase = true -- Make search not be case-sensitive
+vim.opt.smartcase = true  -- ..unless a capital letter is in search
+vim.o.infercase = true
 
 vim.opt.smartindent = true
 vim.opt.autoindent = true
@@ -39,15 +38,25 @@ vim.o.timeoutlen = 300
 
 vim.opt.colorcolumn = "80"
 
+vim.o.switchbuf = "useopen"
+vim.o.undofile = true -- Allow persistent undo
+
 -- Highlight the line the cursor is on
 vim.opt.cursorline = true
 
+vim.o.splitbelow = true
+vim.o.splitright = true
+vim.o.splitkeep = "screen"
+
 vim.opt.signcolumn = "yes"
 vim.opt.winborder = "single" -- set border for floating windows
+vim.o.pumborder = "single"   -- border for popup menu
 
 -- If performing an operation that would fail (like :q on an unsaved file),
 -- instead of just failing ask if you wanna save the file first
 vim.o.confirm = true
+
+vim.o.list = true
 
 -- Highlight when yanking text, very cool
 vim.api.nvim_create_autocmd("TextYankPost", {

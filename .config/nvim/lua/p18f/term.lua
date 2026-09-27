@@ -115,7 +115,9 @@ local function lazygit()
     vim.fn.jobstart("lazygit", {
         term = true,
         on_exit = function()
-            vim.api.nvim_win_close(win, true)
+            if vim.api.nvim_win_is_valid(win) then
+                vim.api.nvim_win_close(win, true)
+            end
         end
     })
 
