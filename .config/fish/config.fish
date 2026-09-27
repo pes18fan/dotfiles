@@ -85,7 +85,7 @@ function f
     end
 end
 
-# Kill a hyprland session and shut down (via hyprshutdown if it is available)
+# Kill a hyprland/graphical session and shut down (via hyprshutdown if it is available)
 function die
     if test "$argv[1]" != "now"
         read -p "set_color red; echo -n 'Shutdown? '; set_color --reset; echo -n '[y/N] '" -l QUERY
@@ -96,8 +96,13 @@ function die
 
     if command --query hyprshutdown
         hyprshutdown --post-cmd 'poweroff'
-    else
+    else if command --query hyprctl
         hyprctl dispatch "hl.dsp.exit()"
+        poweroff
+    else if test -n "$XDG_CURRENT_DESKTOP" && command --query $XDG_CURRENT_DESKTOP
+        kill -TERM $XDG_CURRENT_DESKTOP
+        poweroff
+    else
         poweroff
     end
 end
