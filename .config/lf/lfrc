@@ -114,10 +114,11 @@ cmd play ${{
 
 map P play "$f"
 
-# fuzzy finding files
+# fuzzy finding folders
 cmd fzf ${{
-    file=$(fd --type f . | fzf --reverse)
-    [ -n "$file" ] && lf -remote "send $id cd '$PWD/$(dirname "$file")'; select '$PWD/$(basename "$file")'"
+    dir=$(fd --type d . | fzf --reverse)
+    res="$PWD/$dir"
+    [ -n "$dir" ] && lf -remote "send $id cd '$res'"
 }}
 
 # Change directory of the parent shell.
