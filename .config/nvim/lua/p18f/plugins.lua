@@ -25,17 +25,16 @@ vim.pack.add({
     { src = gh "saghen/blink.cmp", version = vim.version.range("1.*") },
     gh "j-hui/fidget.nvim",
     gh "nvim-mini/mini.icons",
-    gh "abeldekat/harpoonline",
     gh "nvim-lualine/lualine.nvim",
     gh "nvim-mini/mini.pick",
     gh "stevearc/oil.nvim",
     gh "nvim-treesitter/nvim-treesitter"
 })
 
--- Catppuccin
+-- Catppuccin, the goated theme
 vim.cmd("colorscheme catppuccin")
 
--- Oil
+-- Oil, the better netrw
 -- Setup mini.icons first
 require("mini.icons").setup()
 
@@ -49,13 +48,13 @@ require("oil").setup({
 
 vim.keymap.set("n", "-", "<cmd>Oil<CR>", { desc = "Open oil.nvim" })
 
--- Picker
+-- Fuzzy file/text/whatever picker
 require("mini.pick").setup()
 
 vim.keymap.set("n", "<leader>pf", function() vim.cmd("Pick files") end)
 vim.keymap.set("n", "<leader>ps", function() vim.cmd("Pick grep_live") end)
 
--- Setup harpoon
+-- Harpoon, the plugin of all time
 local harpoon = require("harpoon")
 harpoon:setup()
 
@@ -73,21 +72,10 @@ for i = 1, 5, 1 do
     end, { desc = "Replace file " .. i .. " from harpoon" })
 end
 
--- Lualine
-local harpoonline = require("harpoonline")
-harpoonline.setup({
-    on_update = function() require("lualine").refresh() end,
-})
-
-local lualine_c = { harpoonline.format, "filename" }
-require("lualine").setup {
-    sections = {
-        lualine_c = lualine_c
-    },
-}
+-- Lualine, simple statusline
+require("lualine").setup()
 
 -- Treesitter
--- note: treesitter doesn't need explicit .setup()
 vim.api.nvim_create_autocmd("FileType", {
     callback = function(args)
         -- enable treesitter highlighting and disable regex syntax
@@ -98,7 +86,7 @@ vim.api.nvim_create_autocmd("FileType", {
     end
 })
 
--- Completion setup
+-- Text completion
 local blink = require("blink.cmp")
 blink.setup({
     keymap = {
@@ -117,7 +105,6 @@ blink.setup({
     fuzzy = { implementation = "prefer_rust_with_warning" },
 })
 
-
 vim.lsp.config("*", {
     capabilities = blink.get_lsp_capabilities(),
 })
@@ -132,11 +119,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 })
 
+-- Default lsp setup
 vim.lsp.enable({
-    "clangd",
-    "ols",
-    "ts_ls",
-    "lua_ls",
-    "gopls",
-    "ty",
+    "clangd",  -- C, C++
+    "ols",     -- Odin
+    "ts_ls",   -- Typescript, Javascript
+    "lua_ls",  -- Lua
+    "gopls",   -- Go
+    "ty",      -- Python
+    "ocamllsp" -- OCaml
 })

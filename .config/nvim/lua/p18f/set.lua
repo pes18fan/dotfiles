@@ -44,6 +44,9 @@ vim.o.undofile = true -- Allow persistent undo
 -- Highlight the line the cursor is on
 vim.opt.cursorline = true
 
+-- Don't show mode in cmdline, statusline already shows it
+vim.o.showmode = false
+
 vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.splitkeep = "screen"
