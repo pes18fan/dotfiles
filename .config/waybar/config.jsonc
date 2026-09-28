@@ -48,7 +48,7 @@
         "format": "",
         "tooltip-format": "{status}",
         "tooltip-format-connected": "{num_connections} connected\n{device_enumerate}",
-        "on-click": "foot -e bluetuith"
+        "on-click": "blueman-manager"
     },
     "network": {
         "format-wifi": "󰤨",
