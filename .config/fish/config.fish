@@ -76,7 +76,7 @@ function f
         set CD_CMD cd
     end
 
-    set -l RES ($FIND_CMD | fzf --ignore-case --preview 'if test -d {}; set --local ed (eza {}); if test -z "$ed" > /dev/null; echo "Folder is empty."; else; eza {}; end; else; bat {}; end')
+    set -l RES ($FIND_CMD | fzf --ignore-case --preview 'if test -d {}; set --local ed (eza {}); if test -z "$ed" > /dev/null; echo "Folder is empty."; else; eza {}; end; else; bat --pager=never --color=always --plain {}; end')
 
     if test -d "$RES"
         $CD_CMD $RES
