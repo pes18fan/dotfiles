@@ -36,40 +36,46 @@ vim.cmd("colorscheme catppuccin")
 
 -- Oil, the better netrw
 -- Setup mini.icons first
-require("mini.icons").setup()
+do
+    require("mini.icons").setup()
 
-require("oil").setup({
-    default_file_explorer = true,
-    view_options = {
-        show_hidden = true,
-    },
-    columns = { "icon" },
-})
+    require("oil").setup({
+        default_file_explorer = true,
+        view_options = {
+            show_hidden = true,
+        },
+        columns = { "icon" },
+    })
 
-vim.keymap.set("n", "-", "<cmd>Oil<CR>", { desc = "Open oil.nvim" })
+    vim.keymap.set("n", "-", "<cmd>Oil<CR>", { desc = "Open oil.nvim" })
+end
 
 -- Fuzzy file/text/whatever picker
-require("mini.pick").setup()
+do
+    require("mini.pick").setup()
 
-vim.keymap.set("n", "<leader>pf", function() vim.cmd("Pick files") end)
-vim.keymap.set("n", "<leader>ps", function() vim.cmd("Pick grep_live") end)
+    vim.keymap.set("n", "<leader>pf", function() vim.cmd("Pick files") end)
+    vim.keymap.set("n", "<leader>ps", function() vim.cmd("Pick grep_live") end)
+end
 
 -- Harpoon, the plugin of all time
-local harpoon = require("harpoon")
-harpoon:setup()
+do
+    local harpoon = require("harpoon")
+    harpoon:setup()
 
-vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end,
-    { desc = "Add current file to harpoon" })
-vim.keymap.set("n", "<leader>m", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
-    { desc = "Open harpoon menu" })
-vim.keymap.set("n", "<leader>c", function() harpoon:list():clear() end, { desc = "Clear harpoon list" })
+    vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end,
+        { desc = "Add current file to harpoon" })
+    vim.keymap.set("n", "<leader>m", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
+        { desc = "Open harpoon menu" })
+    vim.keymap.set("n", "<leader>c", function() harpoon:list():clear() end, { desc = "Clear harpoon list" })
 
-for i = 1, 5, 1 do
-    vim.keymap.set("n", "<leader>" .. i, function() harpoon:list():select(i) end,
-        { desc = "Select file " .. i .. " from Harpoon" })
-    vim.keymap.set("n", "<leader>r" .. i, function()
-        harpoon:list():replace_at(i)
-    end, { desc = "Replace file " .. i .. " from harpoon" })
+    for i = 1, 5, 1 do
+        vim.keymap.set("n", "<leader>" .. i, function() harpoon:list():select(i) end,
+            { desc = "Select file " .. i .. " from Harpoon" })
+        vim.keymap.set("n", "<leader>r" .. i, function()
+            harpoon:list():replace_at(i)
+        end, { desc = "Replace file " .. i .. " from harpoon" })
+    end
 end
 
 -- Lualine, simple statusline
@@ -86,46 +92,47 @@ vim.api.nvim_create_autocmd("FileType", {
     end
 })
 
--- Text completion
-local blink = require("blink.cmp")
-blink.setup({
-    keymap = {
-        preset = "default",
-        ["<C-c>"] = { "select_and_accept" }
-    },
+-- Text completion and LSP
+do
+    local blink = require("blink.cmp")
+    blink.setup({
+        keymap = {
+            preset = "default",
+            ["<C-c>"] = { "select_and_accept" }
+        },
 
-    sources = {
-        default = { "lsp", "path", "buffer" },
-    },
+        sources = {
+            default = { "lsp", "path", "buffer" },
+        },
 
-    signature = { enabled = true },
-    completion = {
-        documentation = { auto_show = true },
-    },
-    fuzzy = { implementation = "prefer_rust_with_warning" },
-})
+        signature = { enabled = true },
+        completion = {
+            documentation = { auto_show = true },
+        },
+        fuzzy = { implementation = "prefer_rust_with_warning" },
+    })
 
-vim.lsp.config("*", {
-    capabilities = blink.get_lsp_capabilities(),
-})
+    vim.lsp.config("*", {
+        capabilities = blink.get_lsp_capabilities(),
+    })
 
--- LSP setup
-vim.api.nvim_create_autocmd("LspAttach", {
-    callback = function(args)
-        local opts = { buf = args.buf, silent = true }
+    vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+            local opts = { buf = args.buf, silent = true }
 
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-    end
-})
+            vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+            vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+        end
+    })
 
--- Default lsp setup
-vim.lsp.enable({
-    "clangd",  -- C, C++
-    "ols",     -- Odin
-    "ts_ls",   -- Typescript, Javascript
-    "lua_ls",  -- Lua
-    "gopls",   -- Go
-    "ty",      -- Python
-    "ocamllsp" -- OCaml
-})
+    -- Default lsp setup
+    vim.lsp.enable({
+        "clangd",  -- C, C++
+        "ols",     -- Odin
+        "ts_ls",   -- Typescript, Javascript
+        "lua_ls",  -- Lua
+        "gopls",   -- Go
+        "ty",      -- Python
+        "ocamllsp" -- OCaml
+    })
+end

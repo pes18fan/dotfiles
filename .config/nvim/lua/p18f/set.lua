@@ -87,7 +87,7 @@ local function make_transparent()
     end
 end
 
-make_transparent()
+-- Do the transparency thing every time a colorscheme is set
 vim.api.nvim_create_autocmd('ColorScheme', {
     callback = make_transparent,
 })

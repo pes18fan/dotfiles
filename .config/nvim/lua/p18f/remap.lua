@@ -32,12 +32,12 @@ vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
 
 -- Remove arrow keys
 -- Not really 'remaps' but more like 'unremaps'
-vim.keymap.set("n", "<Up>", "<nop>", { noremap = true })
-vim.keymap.set("n", "<Down>", "<nop>", { noremap = true })
-vim.keymap.set("n", "<Left>", "<nop>", { noremap = true })
-vim.keymap.set("n", "<Right>", "<nop>", { noremap = true })
+vim.keymap.set("n", "<Up>", "<nop>")
+vim.keymap.set("n", "<Down>", "<nop>")
+vim.keymap.set("n", "<Left>", "<nop>")
+vim.keymap.set("n", "<Right>", "<nop>")
 
-vim.keymap.set("i", "<Up>", "<nop>", { noremap = true })
-vim.keymap.set("i", "<Down>", "<nop>", { noremap = true })
-vim.keymap.set("i", "<Left>", "<nop>", { noremap = true })
-vim.keymap.set("i", "<Right>", "<nop>", { noremap = true })
+vim.keymap.set("i", "<Up>", "<nop>")
+vim.keymap.set("i", "<Down>", "<nop>")
+vim.keymap.set("i", "<Left>", "<nop>")
+vim.keymap.set("i", "<Right>", "<nop>")
