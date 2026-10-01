@@ -61,6 +61,9 @@ vim.o.confirm = true
 
 vim.o.list = true
 
+-- Better UI
+require("vim._core.ui2").enable()
+
 -- Highlight when yanking text, very cool
 vim.api.nvim_create_autocmd("TextYankPost", {
     desc = "Highlight when yanking text",

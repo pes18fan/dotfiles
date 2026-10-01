@@ -124,7 +124,6 @@ do
             vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
         end
     })
-
     -- Default lsp setup
     vim.lsp.enable({
         "clangd",  -- C, C++
