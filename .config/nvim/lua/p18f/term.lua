@@ -1,127 +1,61 @@
--- Setup for a custom terminal
+-- Run a command in a toggleable floating/bottom terminal
+---@param cmd string
+---@param opts? { floating?: boolean }
+local function new_runner(cmd, opts)
+    local state = { buf = -1, win = -1 }
+    opts = opts or {}
 
--- Bottom terminal
-local state = {
-    buf = -1,
-    win = -1
-}
-
-local function toggle_terminal()
-    if not vim.api.nvim_win_is_valid(state.win) then
-        -- Create buffer if it doesn't exist
-        if not vim.api.nvim_buf_is_valid(state.buf) then
-            state.buf = vim.api.nvim_create_buf(false, true)
-        end
-
-        -- Open the split at the bottom (height 15)
-        vim.cmd("botright sbuf " .. state.buf)
-        state.win = vim.api.nvim_get_current_win()
-        vim.api.nvim_win_set_height(state.win, 15)
-
-        -- Start terminal if not already running in buffer
-        if vim.bo[state.buf].buftype ~= "terminal" then
-            vim.fn.jobstart(vim.o.shell, { term = true })
-        end
-    else
-        vim.api.nvim_win_hide(state.win)
-    end
-end
-
-vim.keymap.set({ "n", "t" }, "<C-j>", toggle_terminal, { desc = "Toggle Bottom Terminal" })
-
--- Floating terminal
-local float_state = {
-    buf = -1,
-    win = -1
-}
-
-local function toggle_float_terminal()
-    -- If window is valid, hide it
-    if vim.api.nvim_win_is_valid(float_state.win) then
-        vim.api.nvim_win_hide(float_state.win)
-        return
-    end
-
-    -- Create buffer if it doesn't exist
-    if not vim.api.nvim_buf_is_valid(float_state.buf) then
-        float_state.buf = vim.api.nvim_create_buf(false, true)
-    end
-
-    -- Define the size of the floating window
-    local width = math.floor(vim.o.columns * 0.8)
-    local height = math.floor(vim.o.lines * 0.8)
-
-    -- Calculate the starting position (centered)
-    local col = math.floor((vim.o.columns - width) / 2)
-    local row = math.floor((vim.o.lines - height) / 2)
-
-    -- Window options
-    local opts = {
-        relative = "editor",
-        width = width,
-        height = height,
-        col = col,
-        row = row,
-        style = "minimal",
-    }
-
-    -- Open the window
-    float_state.win = vim.api.nvim_open_win(float_state.buf, true, opts)
-
-    -- Start terminal if not already running
-    if vim.bo[float_state.buf].buftype ~= "terminal" then
-        vim.fn.jobstart(vim.o.shell, { term = true })
-    end
-end
-
-vim.keymap.set({ "n", "t" }, "<C-k>", toggle_float_terminal, { desc = "Toggle Floating Terminal" })
-
--- Automatically enter insert mode when terminal is opened
-vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter" }, {
-    pattern = "term://*",
-    callback = function()
-        vim.cmd("startinsert")
-    end,
-})
-
--- Automatically close terminal when shell process exits
-vim.api.nvim_create_autocmd("TermClose", {
-    pattern = "term://*",
-    callback = function(args)
-        -- Only close if it exited successfully (0)
-        if vim.v.event.status == 0 then
-            vim.api.nvim_buf_delete(args.buf, { force = true })
-        end
-    end,
-})
-
--- Open lazygit in a floating terminal
-local function lazygit()
-    local width = math.floor(vim.o.columns * 0.9)
-    local height = math.floor(vim.o.lines * 0.9)
-
-    local buf = vim.api.nvim_create_buf(false, true)
-
-    local win = vim.api.nvim_open_win(buf, true, {
-        relative = "editor",
-        width = width,
-        height = height,
-        row = math.floor((vim.o.lines - height) / 2),
-        col = math.floor((vim.o.columns - width) / 2),
-        style = "minimal",
-        border = "rounded",
-    })
-
-    vim.fn.jobstart("lazygit", {
-        term = true,
-        on_exit = function()
-            if vim.api.nvim_win_is_valid(win) then
-                vim.api.nvim_win_close(win, true)
+    return function()
+        if not vim.api.nvim_win_is_valid(state.win) then
+            if not vim.api.nvim_buf_is_valid(state.buf) then
+                state.buf = vim.api.nvim_create_buf(false, true)
             end
-        end
-    })
 
-    vim.cmd("startinsert")
+            if opts.floating then
+                local width = math.floor(vim.o.columns * 0.8)
+                local height = math.floor(vim.o.lines * 0.8)
+
+                state.win = vim.api.nvim_open_win(state.buf, true, {
+                    relative = "editor",
+                    width = width,
+                    height = height,
+                    row = math.floor((vim.o.lines - height) / 2),
+                    col = math.floor((vim.o.columns - width) / 2),
+                    style = "minimal",
+                    border = "rounded",
+                })
+            else
+                vim.cmd("botright sbuf " .. state.buf)
+                state.win = vim.api.nvim_get_current_win()
+                vim.api.nvim_win_set_height(state.win, 15)
+            end
+
+            -- Start terminal if not already running in buffer
+            if vim.bo[state.buf].buftype ~= "terminal" then
+                vim.fn.jobstart(cmd, {
+                    term = true,
+                    on_exit = function()
+                        if vim.api.nvim_win_is_valid(state.win) then
+                            vim.api.nvim_win_close(state.win, true)
+                        end
+                        if vim.api.nvim_buf_is_valid(state.buf) then
+                            vim.api.nvim_buf_delete(state.buf, { force = true })
+                        end
+                    end
+                })
+            end
+
+            vim.cmd("startinsert")
+        else
+            vim.api.nvim_win_hide(state.win)
+        end
+    end
 end
 
+local boterminal = new_runner(vim.o.shell, { floating = false })
+local floaterminal = new_runner(vim.o.shell, { floating = true })
+local lazygit = new_runner("lazygit", { floating = true })
+
+vim.keymap.set({ "n", "t" }, "<C-j>", boterminal, { desc = "Toggle bottom terminal" })
+vim.keymap.set({ "n", "t" }, "<C-k>", floaterminal, { desc = "Toggle floating terminal" })
 vim.keymap.set("n", "<leader>g", lazygit, { desc = "Open lazygit in floating terminal" })
