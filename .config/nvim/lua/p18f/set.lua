@@ -1,4 +1,4 @@
--- General opinionated settings
+-- General settings
 
 vim.loader.enable()           -- faster startup
 
@@ -64,36 +64,43 @@ vim.o.list = true
 -- Better UI
 require("vim._core.ui2").enable()
 
--- Highlight when yanking text, very cool
-vim.api.nvim_create_autocmd("TextYankPost", {
-    desc = "Highlight when yanking text",
-    group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
-    callback = function()
-        vim.highlight.on_yank()
-    end,
-})
-
--- Format on save
-vim.api.nvim_create_autocmd("BufWritePre", {
-    desc = "Format on save",
-    callback = function(args)
-        vim.lsp.buf.format({ bufnr = args.buf })
-    end,
-})
-
--- Make stuff transparent (mostly)
-local function make_transparent()
-    local groups = { 'Normal', 'NormalNC', 'NormalFloat', 'SignColumn',
-        'StatusLine', 'StatusLineNC' }
-    for _, group in ipairs(groups) do
-        vim.api.nvim_set_hl(0, group, { bg = 'NONE', ctermbg = 'NONE' })
-    end
-end
-
--- Do the transparency thing every time a colorscheme is set
-vim.api.nvim_create_autocmd('ColorScheme', {
-    callback = make_transparent,
-})
-
 -- custom filetype for my little language
 vim.filetype.add({ zn = "zen" })
+
+local autocmd = vim.api.nvim_create_autocmd
+do
+    -- Highlight when yanking text, very cool
+    autocmd("TextYankPost", {
+        desc = "Highlight when yanking text",
+        group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
+        callback = function()
+            vim.highlight.on_yank()
+        end,
+    })
+
+    -- Format on save
+    autocmd("BufWritePre", {
+        desc = "Format on save",
+        callback = function(args)
+            vim.lsp.buf.format({ bufnr = args.buf })
+        end,
+    })
+
+    -- Make everything transparent every time a colorscheme is set
+    autocmd('ColorScheme', {
+        callback = function()
+            local groups = { 'Normal', 'NormalNC', 'NormalFloat', 'SignColumn',
+                'StatusLine', 'StatusLineNC' }
+            for _, group in ipairs(groups) do
+                vim.api.nvim_set_hl(0, group, { bg = 'NONE', ctermbg = 'NONE' })
+            end
+        end,
+    })
+
+    -- Put diagnostics automatically in the location list
+    autocmd("DiagnosticChanged", {
+        callback = function()
+            vim.diagnostic.setloclist({ open = false })
+        end,
+    })
+end

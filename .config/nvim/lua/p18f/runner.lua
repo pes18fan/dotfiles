@@ -22,7 +22,7 @@ local function new_runner(cmd, opts)
                     row = math.floor((vim.o.lines - height) / 2),
                     col = math.floor((vim.o.columns - width) / 2),
                     style = "minimal",
-                    border = "rounded",
+                    border = "single",
                 })
             else
                 vim.cmd("botright sbuf " .. state.buf)

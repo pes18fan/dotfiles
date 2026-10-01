@@ -4,8 +4,11 @@ local function gh(name)
     return "https://github.com/" .. name
 end
 
+local map = vim.keymap.set
+local autocmd = vim.api.nvim_create_autocmd
+
 -- Treesitter update hook
-vim.api.nvim_create_autocmd("PackChanged", {
+autocmd("PackChanged", {
     callback = function(ev)
         local name, kind = ev.data.spec.name, ev.data.kind
         if name == "nvim-treesitter" and kind == "update" then
@@ -47,15 +50,15 @@ do
         columns = { "icon" },
     })
 
-    vim.keymap.set("n", "-", "<cmd>Oil<CR>", { desc = "Open oil.nvim" })
+    map("n", "-", "<cmd>Oil<CR>", { desc = "Open oil.nvim" })
 end
 
 -- Fuzzy file/text/whatever picker
 do
     require("mini.pick").setup()
 
-    vim.keymap.set("n", "<leader>pf", function() vim.cmd("Pick files") end)
-    vim.keymap.set("n", "<leader>ps", function() vim.cmd("Pick grep_live") end)
+    map("n", "<leader>pf", function() vim.cmd("Pick files") end)
+    map("n", "<leader>ps", function() vim.cmd("Pick grep_live") end)
 end
 
 -- Harpoon, the plugin of all time
@@ -63,16 +66,16 @@ do
     local harpoon = require("harpoon")
     harpoon:setup()
 
-    vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end,
+    map("n", "<leader>a", function() harpoon:list():add() end,
         { desc = "Add current file to harpoon" })
-    vim.keymap.set("n", "<leader>m", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
+    map("n", "<leader>m", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
         { desc = "Open harpoon menu" })
-    vim.keymap.set("n", "<leader>c", function() harpoon:list():clear() end, { desc = "Clear harpoon list" })
+    map("n", "<leader>c", function() harpoon:list():clear() end, { desc = "Clear harpoon list" })
 
     for i = 1, 5, 1 do
-        vim.keymap.set("n", "<leader>" .. i, function() harpoon:list():select(i) end,
+        map("n", "<leader>" .. i, function() harpoon:list():select(i) end,
             { desc = "Select file " .. i .. " from Harpoon" })
-        vim.keymap.set("n", "<leader>r" .. i, function()
+        map("n", "<leader>r" .. i, function()
             harpoon:list():replace_at(i)
         end, { desc = "Replace file " .. i .. " from harpoon" })
     end
@@ -82,7 +85,7 @@ end
 require("lualine").setup()
 
 -- Treesitter
-vim.api.nvim_create_autocmd("FileType", {
+autocmd("FileType", {
     callback = function(args)
         -- enable treesitter highlighting and disable regex syntax
         pcall(vim.treesitter.start, args.buf)
@@ -94,6 +97,9 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- Text completion and LSP
 do
+    -- eye candy!
+    require("fidget").setup()
+
     local blink = require("blink.cmp")
     blink.setup({
         keymap = {
@@ -116,14 +122,15 @@ do
         capabilities = blink.get_lsp_capabilities(),
     })
 
-    vim.api.nvim_create_autocmd("LspAttach", {
+    autocmd("LspAttach", {
         callback = function(args)
             local opts = { buf = args.buf, silent = true }
 
-            vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-            vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+            map("n", "gd", vim.lsp.buf.definition, opts)
+            map("n", "gD", vim.lsp.buf.declaration, opts)
         end
     })
+
     -- Default lsp setup
     vim.lsp.enable({
         "clangd",  -- C, C++
