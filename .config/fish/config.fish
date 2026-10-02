@@ -184,12 +184,27 @@ end
 # Create a temporary scratch workspace (directory) and open a shell in it
 # Once you close the shell the entire directory will be deleted
 function scr
+    argparse 'h/help' 'r/record' -- $argv; or return
+    if set -ql _flag_h
+        echo "usage: scr [-h | --help] [-r | --record]"
+        return 0
+    end
+
+    if set -ql _flag_record
+        require asciinema; or return 1
+    end
+
     set -l tdir "/tmp/scratch-$(random)"
     mkdir -p $tdir
     pushd $tdir
     echo "entering scratch workspace"
-    env SCRATCH_WORKSPACE=$tdir fish -C \
-        'functions -c fish_prompt __fish_prompt_orig; function fish_prompt; echo [(set_color red)scratch(set_color --reset)]; __fish_prompt_orig; end'
+    if set -ql _flag_record
+        asciinema record $HOME/"$(basename $tdir)"_recording.txt -c 'env SCRATCH_WORKSPACE=$tdir fish -C \
+            \'functions -c fish_prompt __fish_prompt_orig; function fish_prompt; echo [(set_color red)scratch(set_color --reset)]; __fish_prompt_orig; end\''
+    else
+        env SCRATCH_WORKSPACE=$tdir fish -C \
+            'functions -c fish_prompt __fish_prompt_orig; function fish_prompt; echo [(set_color red)scratch(set_color --reset)]; __fish_prompt_orig; end'
+    end
     echo "exiting scratch workspace"
     popd
     rm -rf $tdir
