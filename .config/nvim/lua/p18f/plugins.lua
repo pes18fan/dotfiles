@@ -95,11 +95,12 @@ autocmd("FileType", {
     end
 })
 
--- Text completion and LSP
+-- Language intelligence stuff
 do
     -- eye candy!
     require("fidget").setup()
 
+    -- Completion
     local blink = require("blink.cmp")
     blink.setup({
         keymap = {
@@ -128,6 +129,7 @@ do
 
             map("n", "gd", vim.lsp.buf.definition, opts)
             map("n", "gD", vim.lsp.buf.declaration, opts)
+            map("n", "<leader>f", vim.lsp.buf.format, opts)
         end
     })
 

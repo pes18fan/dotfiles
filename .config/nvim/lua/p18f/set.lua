@@ -74,15 +74,21 @@ do
         desc = "Highlight when yanking text",
         group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
         callback = function()
-            vim.highlight.on_yank()
+            vim.hl.on_yank()
         end,
     })
 
-    -- Format on save
+    -- Format on save when a valid LSP is attached
     autocmd("BufWritePre", {
-        desc = "Format on save",
         callback = function(args)
-            vim.lsp.buf.format({ bufnr = args.buf })
+            local clients = vim.lsp.get_clients({
+                bufnr = args.buf,
+                method = "textDocument/formatting",
+            })
+
+            if #clients > 0 then
+                vim.lsp.buf.format({ bufnr = args.buf })
+            end
         end,
     })
 

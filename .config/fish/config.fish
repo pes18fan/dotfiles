@@ -224,11 +224,3 @@ set --export SSH_AUTH_SOCK $XDG_RUNTIME_DIR/ssh-agent.socket
 if command --query zoxide
     zoxide init fish | source
 end
-
-# On distros like Debian, Ubuntu, Pop etc which use apt, bat and fd have weird
-# differing names to avoid conflicts. I just want my normal command names so
-# I alias them here
-if command --query apt
-    alias bat "batcat"
-    alias fd "fdfind"
-end
