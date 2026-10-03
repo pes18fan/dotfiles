@@ -1,26 +1,3 @@
-# Aliases
-if command --query eza
-    function ls --wraps="eza"
-        eza $argv
-    end
-
-    function tree --wraps="eza"
-        eza -T $argv
-    end
-end
-
-alias la "ls -a"
-alias ll "ls -l"
-alias cls "clear"
-
-alias rm "rm -i" # Good idea to avoid accidentally annihilating files
-
-if command --query fastfetch
-    function neofetch --wraps="fastfetch"
-        fastfetch --config neofetch $argv
-    end
-end
-
 # env vars
 if command --query helium-browser
     set --export BROWSER "helium-browser"
@@ -33,6 +10,28 @@ else
 end
 
 set --export OPENER "xdg-open"
+
+if command --query eza
+    function ls --wraps="eza"
+        eza $argv
+    end
+
+    function tree --wraps="eza"
+        eza -T $argv
+    end
+end
+
+# Aliases
+alias la "ls -a"
+alias ll "ls -l"
+
+alias rm "rm -i" # Good idea to avoid accidentally annihilating files
+
+if command --query fastfetch
+    function neofetch --wraps="fastfetch"
+        fastfetch --config neofetch $argv
+    end
+end
 
 function fish_greeting
     echo (set_color --bold efcf40)">"(set_color ef9540)"<"(set_color ea3838)">"(set_color normal) "welcome to fish, the friendly interactive shell"
