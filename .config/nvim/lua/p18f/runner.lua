@@ -1,4 +1,4 @@
--- Run a command in a toggleable floating/bottom terminal
+-- Create a function to run a command in a toggleable floating/bottom terminal
 ---@param cmd string
 ---@param opts? { floating?: boolean }
 local function new_runner(cmd, opts)

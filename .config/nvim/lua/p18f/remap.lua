@@ -22,9 +22,6 @@ map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
 map("n", "<leader>-", ":split<CR>", { desc = "Split horizontally" })
 map("n", "<leader>\\", ":vsplit<CR>", { desc = "Split vertically" })
 
--- Tabs, I generally don't use these for much other than terminal instances
-map("n", "<leader>n", ":tabnew<CR>", { desc = "Create a new tab" })
-
 -- Double esc to go to normal mode from terminal
 map("t", "<Esc><Esc>", "<C-\\><C-n>")
 
