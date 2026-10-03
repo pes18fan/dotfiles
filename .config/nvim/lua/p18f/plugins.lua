@@ -1,13 +1,17 @@
+-- Plugin setup
+
+-- Convenience wrapper to work with short repo names
 ---@param name string
 ---@return string
 local function gh(name)
     return "https://github.com/" .. name
 end
 
+-- Shortnames
 local map = vim.keymap.set
 local autocmd = vim.api.nvim_create_autocmd
 
--- Treesitter update hook
+-- Update treesitter parsers when nvim-treesitter updates
 autocmd("PackChanged", {
     callback = function(ev)
         local name, kind = ev.data.spec.name, ev.data.kind
@@ -20,18 +24,18 @@ autocmd("PackChanged", {
 
 -- All packages
 vim.pack.add({
-    { src = gh "catppuccin/nvim",      name = "catppuccin" },
-    gh "lewis6991/gitsigns.nvim",
-    gh "nvim-lua/plenary.nvim",
-    { src = gh "ThePrimeagen/harpoon", version = "harpoon2" },
-    gh "neovim/nvim-lspconfig",
-    { src = gh "saghen/blink.cmp", version = vim.version.range("1.*") },
-    gh "j-hui/fidget.nvim",
-    gh "nvim-mini/mini.icons",
-    gh "nvim-lualine/lualine.nvim",
-    gh "nvim-mini/mini.pick",
-    gh "stevearc/oil.nvim",
-    gh "nvim-treesitter/nvim-treesitter"
+    { src = gh "catppuccin/nvim",      name = "catppuccin" },            -- Cute theme :D
+    gh "lewis6991/gitsigns.nvim",                                        -- Git info in editor, staging hunks
+    gh "nvim-lua/plenary.nvim",                                          -- Harpoon dependency
+    { src = gh "ThePrimeagen/harpoon", version = "harpoon2" },           -- Quick switching between buffers
+    gh "neovim/nvim-lspconfig",                                          -- LSP config defaults
+    { src = gh "saghen/blink.cmp", version = vim.version.range("1.*") }, -- Autocomplete
+    gh "j-hui/fidget.nvim",                                              -- Little eye candy for notifications :)
+    gh "nvim-mini/mini.icons",                                           -- Icon pack
+    gh "nvim-lualine/lualine.nvim",                                      -- Statusline
+    gh "nvim-mini/mini.pick",                                            -- Fuzzy finder
+    gh "stevearc/oil.nvim",                                              -- File explorer
+    gh "nvim-treesitter/nvim-treesitter"                                 -- Overengineered syntax highlighting
 })
 
 -- Catppuccin, the goated theme

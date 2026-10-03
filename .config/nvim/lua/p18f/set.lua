@@ -61,11 +61,8 @@ vim.o.confirm = true
 
 vim.o.list = true
 
--- Better UI
-require("vim._core.ui2").enable()
-
 -- custom filetype for my little language
-vim.filetype.add({ zn = "zen" })
+vim.filetype.add({ extension = { zn = "zen" } })
 
 local autocmd = vim.api.nvim_create_autocmd
 do
