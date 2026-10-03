@@ -9,6 +9,16 @@ local mainMod     = "SUPER"
 
 -- Environment variables
 hl.env("AQ_DRM_DEVICES", "/dev/dri/amd-igpu")
+hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
+hl.env("XCURSOR_SIZE", "24")
+hl.env("HYPRCURSOR_THEME", "phinger-cursors-dark")
+hl.env("HYPRCURSOR_SIZE", "24")
+hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
+hl.env("XDG_SESSION_DESKTOP", "Hyprland")
+hl.env("GDK_BACKEND", "wayland,x11,*")
+hl.env("QT_QPA_PLATFORM", "wayland;xcb")
+hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
+hl.env("QS_ICON_THEME", "breeze-dark")
 
 -- Nvidia-specific things
 local handle = io.popen("envycontrol --query 2>/dev/null")
@@ -24,17 +34,6 @@ if handle then
         hl.env("NVD_BACKEND", "direct")
     end
 end
-
-hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
-hl.env("XCURSOR_SIZE", "24")
-hl.env("HYPRCURSOR_THEME", "phinger-cursors-dark")
-hl.env("HYPRCURSOR_SIZE", "24")
-hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
-hl.env("XDG_SESSION_DESKTOP", "Hyprland")
-hl.env("GDK_BACKEND", "wayland,x11,*")
-hl.env("QT_QPA_PLATFORM", "wayland;xcb")
-hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
-hl.env("QS_ICON_THEME", "breeze-dark")
 
 -- Autostart
 hl.on("hyprland.start", function()
@@ -159,23 +158,37 @@ hl.animation({ leaf = "zoomFactor", enabled = true, speed = 7, bezier = "quick" 
 -- Heavily i3-like with a few changes
 
 -- Basics
-hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal), { desc = "Launch terminal" })
-hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "left" }), { desc = "Focus on left window" })
-hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "down" }), { desc = "Focus on window below" })
-hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "up" }), { desc = "Focus on window above" })
-hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "right" }), { desc = "Focus on right window" })
+hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal),
+    { desc = "Launch terminal (" .. terminal .. ")" })
+
+hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "left" }),
+    { desc = "Focus on left window" })
+hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "down" }),
+    { desc = "Focus on window below" })
+hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "up" }),
+    { desc = "Focus on window above" })
+hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "right" }),
+    { desc = "Focus on right window" })
 
 -- Moving windows
-hl.bind(mainMod .. " + SHIFT + H", hl.dsp.window.move({ direction = "left" }), { desc = "Move window to left" })
-hl.bind(mainMod .. " + SHIFT + J", hl.dsp.window.move({ direction = "down" }), { desc = "Move window downward" })
-hl.bind(mainMod .. " + SHIFT + K", hl.dsp.window.move({ direction = "up" }), { desc = "Move window upward" })
-hl.bind(mainMod .. " + SHIFT + L", hl.dsp.window.move({ direction = "right" }), { desc = "Move window to the right" })
+hl.bind(mainMod .. " + SHIFT + H", hl.dsp.window.move({ direction = "left" }),
+    { desc = "Move window to left" })
+hl.bind(mainMod .. " + SHIFT + J", hl.dsp.window.move({ direction = "down" }),
+    { desc = "Move window downward" })
+hl.bind(mainMod .. " + SHIFT + K", hl.dsp.window.move({ direction = "up" }),
+    { desc = "Move window upward" })
+hl.bind(mainMod .. " + SHIFT + L", hl.dsp.window.move({ direction = "right" }),
+    { desc = "Move window to the right" })
 
 -- Modifying windows
-hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen(), { desc = "Open window in fullscreen" })
-hl.bind(mainMod .. " + P", hl.dsp.window.pseudo(), { desc = "Pseudotile window" })
-hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true, desc = "Drag window with mouse" })
-hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true, desc = "Resize window with mouse" })
+hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen(),
+    { desc = "Open window in fullscreen" })
+hl.bind(mainMod .. " + P", hl.dsp.window.pseudo(),
+    { desc = "Pseudotile window" })
+hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),
+    { mouse = true, desc = "Drag window with mouse" })
+hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(),
+    { mouse = true, desc = "Resize window with mouse" })
 
 -- Set up submap notifications
 hl.on("keybinds.submap", function(submap)
@@ -234,21 +247,27 @@ hl.bind(mainMod .. " + SHIFT + Space", hl.dsp.window.float({ action = "toggle" }
     { desc = "Toggle window to be floating" })
 
 -- Groups
-hl.bind(mainMod .. " + T", hl.dsp.group.toggle(), { desc = "Toggle grouping" })
-hl.bind(mainMod .. " + bracketleft", hl.dsp.group.prev(), { desc = "Move to the previous window in a group" })
-hl.bind(mainMod .. " + bracketright", hl.dsp.group.next(), { desc = "Move to the next window in a group" })
-hl.bind(mainMod .. " + backslash", hl.dsp.group.lock_active(), { desc = "Toggle group locking" })
+hl.bind(mainMod .. " + T", hl.dsp.group.toggle(),
+    { desc = "Toggle grouping" })
+hl.bind(mainMod .. " + bracketleft", hl.dsp.group.prev(),
+    { desc = "Move to the previous window in a group" })
+hl.bind(mainMod .. " + bracketright", hl.dsp.group.next(),
+    { desc = "Move to the next window in a group" })
+hl.bind(mainMod .. " + backslash", hl.dsp.group.lock_active(),
+    { desc = "Toggle group locking" })
 
 -- Workspaces
 for i = 1, 10 do
     local key = i % 10
-    hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }), { desc = "Focus on workspace " .. i })
+    hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }),
+        { desc = "Focus on workspace " .. i })
     hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }),
         { desc = "Move window to workspace " .. i })
 end
 
 -- Special workspace (scratchpad)
-hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("scratch"), { desc = "Open scratchpad workspace" })
+hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("scratch"),
+    { desc = "Open scratchpad workspace" })
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:scratch" }),
     { desc = "Move window to scratchpad workspace" })
 
@@ -259,21 +278,29 @@ hl.workspace_rule({
 })
 
 -- Scroll through workspaces
-hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }), { desc = "Scroll to next workspace" })
-hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }), { desc = "Scroll to previous workspace" })
-hl.bind(mainMod .. " + CTRL + right", hl.dsp.focus({ workspace = "e+1" }), { desc = "Focus on next workspace" })
-hl.bind(mainMod .. " + CTRL + left", hl.dsp.focus({ workspace = "e-1" }), { desc = "Focus on previous workspace" })
+hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }),
+    { desc = "Scroll to next workspace" })
+hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }),
+    { desc = "Scroll to previous workspace" })
+hl.bind(mainMod .. " + CTRL + right", hl.dsp.focus({ workspace = "e+1" }),
+    { desc = "Focus on next workspace" })
+hl.bind(mainMod .. " + CTRL + left", hl.dsp.focus({ workspace = "e-1" }),
+    { desc = "Focus on previous workspace" })
 
 -- Opening apps / closing windows
 hl.bind(mainMod .. " + W", hl.dsp.window.close(), { desc = "Close window" })
-hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd(menu), { desc = "Open menu (" .. menu .. ")" })
-hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager), { desc = "Open file manager (" .. fileManager .. ")" })
+hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd(menu),
+    { desc = "Open menu (" .. menu .. ")" })
+hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager),
+    { desc = "Open file manager (" .. fileManager .. ")" })
 
 -- Exit hyprland. Uses `hyprshutdown` if it is installed
 if not os.execute("which hyprshutdown 2> /dev/null") then
-    hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exit(), { desc = "Exit hyprland" })
+    hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exit(),
+        { desc = "Exit hyprland" })
 else
-    hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd("hyprshutdown"), { desc = "Exit hyprland (using hyprshutdown)" })
+    hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd("hyprshutdown"),
+        { desc = "Exit hyprland (using hyprshutdown)" })
 end
 
 -- Hyprlock
@@ -305,10 +332,14 @@ hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -e3 set 5%-"),
     { locked = true, repeating = true, desc = "Decrease brightness" })
 
 -- Media keys
-hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true, desc = "Switch to next track" })
-hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true, desc = "Pause/play track" })
-hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true, desc = "Play/pause track" })
-hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true, desc = "Switch to previous track" })
+hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"),
+    { locked = true, desc = "Switch to next track" })
+hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"),
+    { locked = true, desc = "Pause/play track" })
+hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"),
+    { locked = true, desc = "Play/pause track" })
+hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"),
+    { locked = true, desc = "Switch to previous track" })
 
 -- Dismiss notification
 local notification_dismisser = "fnottctl dismiss"
@@ -316,7 +347,8 @@ hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(notification_dismisser),
     { desc = "Dismiss notifications (" .. notification_dismisser .. ")" })
 
 -- Emoji picker
-hl.bind(mainMod .. " + period", hl.dsp.exec_cmd("exec ~/.local/bin/emoji-picker"), { desc = "Launch emoji picker" })
+hl.bind(mainMod .. " + period", hl.dsp.exec_cmd("exec ~/.local/bin/emoji-picker"),
+    { desc = "Launch emoji picker" })
 
 -- Touchpad gestures
 hl.gesture({
