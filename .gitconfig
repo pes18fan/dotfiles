@@ -4,10 +4,10 @@
 [init]
 	defaultBranch = main
 [alias]
-    ld = log --oneline --decorate --graph
-    dh = diff HEAD
-    c = commit
-    a = add -A
+	ld = log --oneline --decorate --graph
+	dh = diff HEAD
+	c = commit
+	a = add -A
 [pull]
 	rebase = true
 [core]
