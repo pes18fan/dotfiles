@@ -61,6 +61,14 @@ vim.o.confirm = true
 
 vim.o.list = true
 
+vim.api.nvim_create_user_command("Packupdate", function()
+    vim.pack.update()
+end, {})
+
+vim.api.nvim_create_user_command("Packsee", function()
+    vim.pack.update(nil, { offline = true })
+end, {})
+
 -- custom filetype for my little language
 vim.filetype.add({ extension = { zn = "zen" } })
 
