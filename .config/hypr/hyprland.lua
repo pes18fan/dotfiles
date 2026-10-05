@@ -161,14 +161,10 @@ hl.animation({ leaf = "zoomFactor", enabled = true, speed = 7, bezier = "quick" 
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal),
     { desc = "Launch terminal (" .. terminal .. ")" })
 
-hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "left" }),
-    { desc = "Focus on left window" })
-hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "down" }),
-    { desc = "Focus on window below" })
-hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "up" }),
-    { desc = "Focus on window above" })
-hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "right" }),
-    { desc = "Focus on right window" })
+hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "left" }), { desc = "Focus on left window" })
+hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "down" }), { desc = "Focus on window below" })
+hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "up" }), { desc = "Focus on window above" })
+hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "right" }), { desc = "Focus on right window" })
 
 -- Moving windows
 hl.bind(mainMod .. " + SHIFT + H", hl.dsp.window.move({ direction = "left" }),
@@ -271,12 +267,6 @@ hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("scratch"),
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:scratch" }),
     { desc = "Move window to scratchpad workspace" })
 
--- Open up a terminal when scratchpad workspace is opened
-hl.workspace_rule({
-    workspace = "special:scratch",
-    on_created_empty = "exec " .. terminal,
-})
-
 -- Scroll through workspaces
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }),
     { desc = "Scroll to next workspace" })
@@ -357,10 +347,11 @@ hl.gesture({
     action = "workspace",
 })
 
-hl.gesture({
-    fingers = 3,
-    direction = "up",
-    action = "fullscreen",
+-- Workspace rules
+-- Open up a terminal when scratchpad workspace is opened
+hl.workspace_rule({
+    workspace = "special:scratch",
+    on_created_empty = terminal .. " -e fish -c scr",
 })
 
 -- Window rules
