@@ -1,4 +1,4 @@
-require("monitors")
+pcall(require, "monitors")
 local colors      = require("colors")
 
 -- Programs
@@ -11,8 +11,6 @@ local mainMod     = "SUPER"
 hl.env("AQ_DRM_DEVICES", "/dev/dri/amd-igpu")
 hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
 hl.env("XCURSOR_SIZE", "24")
-hl.env("HYPRCURSOR_THEME", "phinger-cursors-dark")
-hl.env("HYPRCURSOR_SIZE", "24")
 hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 hl.env("GDK_BACKEND", "wayland,x11,*")
