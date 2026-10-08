@@ -1,7 +1,29 @@
 #!/bin/bash
-if [ -z "$1" ]; then
-  echo "bad usage, please provide a path to the wallpaper"
-  exit 1
+set -eo pipefail
+
+if [ -n "$1" ]; then
+    matugen image "$1"
+    exit 0
 fi
 
-matugen image "$1"
+if ! command -v fzf >/dev/null; then
+    echo "fzf needed for interactive picker, please install it"
+    exit 1
+fi
+
+WALLPAPER_DIR="$HOME/Pictures/walls"
+if [ ! -d "$WALLPAPER_DIR" ]; then
+    echo "wallpaper folder '$WALLPAPER_DIR' not found"
+    exit 1
+fi
+
+find "$WALLPAPER_DIR" -type f \
+    \( -iname '*.jpg' -or -iname '*.jpeg' -or -iname '*.png' \) -print0 |
+    fzf --read0 --print0 --preview='
+        sh -c "if command -v chafa >/dev/null; then
+            chafa -f sixel -s $(printf \"%sx%s\" \"$FZF_PREVIEW_COLUMNS\" \"$FZF_PREVIEW_LINES\") --polite on --animate off {}
+        else
+            file -Lb {}
+        fi"
+    ' |
+    xargs -0 -r matugen image --prefer saturation
