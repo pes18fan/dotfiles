@@ -15,8 +15,7 @@ hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 hl.env("GDK_BACKEND", "wayland,x11,*")
 hl.env("QT_QPA_PLATFORM", "wayland;xcb")
-hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
-hl.env("QS_ICON_THEME", "breeze-dark")
+hl.env("QT_QPA_PLATFORMTHEME", "hyprqt6engine")
 
 -- Nvidia-specific things
 local handle = io.popen("envycontrol --query 2>/dev/null")
