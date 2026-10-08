@@ -38,28 +38,31 @@ function fish_greeting
     echo ""
 end
 
-# Change directory to the one received from lf via the named pipe
-function lf_cd_handler --on-signal USR1
-    set --local fifo /tmp/lf_cwd_"$fish_pid".fifo
-    set --local dir (timeout 1s cat "$fifo" 2>/dev/null)
+# weird working-dir changing machinery for lf
+if command --query lf
+    # Change directory to the one received from lf via the named pipe
+    function lf_cd_handler --on-signal USR1
+        set --local fifo /tmp/lf_cwd_"$fish_pid".fifo
+        set --local dir (timeout 1s cat "$fifo" 2>/dev/null)
 
-    if test $status -ne 0
-        echo "lf: timed out waiting for directory on fifo"
-        return
+        if test $status -ne 0
+            echo "lf: timed out waiting for directory on fifo"
+            return
+        end
+
+        if test -n "$dir" -a -d "$dir"
+            cd "$dir"
+            commandline --function repaint
+        end
     end
 
-    if test -n "$dir" -a -d "$dir"
-        cd "$dir"
-        commandline --function repaint
+    # startup lf, but not before setting up a named pipe for parent shell cd commands
+    function lf --wraps="lf"
+        rm -f /tmp/lf_cwd_"$fish_pid".fifo
+        mkfifo /tmp/lf_cwd_"$fish_pid".fifo
+        env LF_PARENT_PID="$fish_pid" lf $argv
+        rm -f /tmp/lf_cwd_"$fish_pid".fifo
     end
-end
-
-# startup lf, but not before setting up a named pipe for parent shell cd commands
-function lf --wraps="lf"
-    rm -f /tmp/lf_cwd_"$fish_pid".fifo
-    mkfifo /tmp/lf_cwd_"$fish_pid".fifo
-    env LF_PARENT_PID="$fish_pid" lf $argv
-    rm -f /tmp/lf_cwd_"$fish_pid".fifo
 end
 
 # param 1: command name
@@ -106,8 +109,13 @@ end
 # Only works for relative links
 # If extra arguments are passed, those will go to the compiler or interpreter
 function run
+    if not test -n "$argv[1]"
+        echo "run what?"
+        return 1
+    end
+
     if not test -e $argv[1]
-        echo "$argv[1] does not exist."
+        echo "$argv[1] is not a file that exists."
         return 1
     end
 
@@ -153,7 +161,7 @@ function run
 
             zen $argv[1] $argv[2..]
         case "*"
-            echo "Please input a valid source file!" 1>&2
+            echo "$ext is not a filetype supported by run." 1>&2
             echo "Available options: c, cpp, odin, lua, py, cr, rs, dart, zn" 1>&2
             return 1
     end
@@ -197,6 +205,7 @@ function scr
     mkdir -p $tdir
     pushd $tdir
     echo "entering scratch workspace"
+
     if set -ql _flag_record
         asciinema record $HOME/"$(basename $tdir)"_recording.txt -c 'env SCRATCH_WORKSPACE=$tdir fish -C \
             \'functions -c fish_prompt __fish_prompt_orig; function fish_prompt; echo [(set_color red)scratch(set_color --reset)]; __fish_prompt_orig; end\''
@@ -204,6 +213,7 @@ function scr
         env SCRATCH_WORKSPACE=$tdir fish -C \
             'functions -c fish_prompt __fish_prompt_orig; function fish_prompt; echo [(set_color red)scratch(set_color --reset)]; __fish_prompt_orig; end'
     end
+
     echo "exiting scratch workspace"
     popd
     rm -rf $tdir
