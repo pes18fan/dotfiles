@@ -29,6 +29,10 @@ map("t", "<Esc><Esc>", "<C-\\><C-n>")
 map("v", "<", "<gv", { desc = "Indent left and reselect" })
 map("v", ">", ">gv", { desc = "Indent right and reselect" })
 
+-- Work with system clipboard
+map("v", "<leader>y", [["+y]], { desc = "Yank to system clipboard (register \"+)" })
+map("n", "<leader>p", [["+p]], { desc = "Put from system clipboard (register \"+)" })
+
 -- Remove arrow keys
 -- Not really 'remaps' but more like 'unremaps'
 map("n", "<Up>", "<nop>")
