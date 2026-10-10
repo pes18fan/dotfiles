@@ -35,7 +35,7 @@ vim.pack.add({
     gh "nvim-lualine/lualine.nvim",                                      -- Statusline
     gh "nvim-mini/mini.pick",                                            -- Fuzzy finder
     gh "stevearc/oil.nvim",                                              -- File explorer
-    gh "nvim-treesitter/nvim-treesitter"                                 -- Overengineered syntax highlighting
+    gh "nvim-treesitter/nvim-treesitter",                                -- Overengineered syntax highlighting
 })
 
 -- Catppuccin, the goated theme
