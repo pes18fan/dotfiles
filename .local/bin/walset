@@ -26,4 +26,4 @@ find "$WALLPAPER_DIR" -type f \
             file -Lb {}
         fi"
     ' |
-    xargs -0 -r matugen image --prefer saturation
+    xargs -0 -r matugen image --prefer value
