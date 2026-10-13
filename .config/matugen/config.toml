@@ -14,7 +14,7 @@ post_hook = 'pkill fnott; fnott &'
 [templates.foot]
 input_path = '~/.config/matugen/templates/foot-colors.ini'
 output_path = '~/.config/foot/colors.ini'
-post_hook = 'pkill -SIGUSR1 foot'
+post_hook   = 'pkill -SIGUSR1 foot'
 
 [templates.fuzzel]
 input_path = '~/.config/matugen/templates/fuzzel-colors.ini'
@@ -37,6 +37,10 @@ output_path = '~/.config/hypr/colors.lua'
 [templates.hyprlock]
 input_path = '~/.config/matugen/templates/hyprlock-colors.conf'
 output_path = '~/.config/hypr/colors.conf'
+
+[templates.quickshell]
+input_path = "~/.config/matugen/templates/quickshell.json"
+output_path = "~/.local/state/quickshell/generated/colors.json"
 
 [templates.waybar]
 input_path = '~/.config/matugen/templates/colors.css'
