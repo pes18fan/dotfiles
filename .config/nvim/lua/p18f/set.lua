@@ -1,15 +1,18 @@
 -- General settings
 
-vim.loader.enable()           -- faster startup
+vim.loader.enable()               -- faster startup
 
-vim.opt.nu = true             -- Line numbers
-vim.opt.relativenumber = true -- Relative line numbers
+require("vim._core.ui2").enable() -- nicer UI
+
+vim.opt.nu = true                 -- Line numbers
+vim.opt.relativenumber = true     -- Relative line numbers
 
 -- Indenting
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
+vim.o.list = true         -- Show tabs and spaces explicitly
 
 vim.opt.ignorecase = true -- Make search not be case-sensitive
 vim.opt.smartcase = true  -- ..unless a capital letter is in search
@@ -18,8 +21,7 @@ vim.o.infercase = true
 vim.opt.smartindent = true
 vim.opt.autoindent = true
 
--- Don't use word wrapping
-vim.opt.wrap = false
+vim.opt.wrap = false -- Don't use word wrapping
 
 -- Highlight search queries
 vim.opt.hlsearch = false
@@ -59,12 +61,9 @@ vim.o.pumborder = "single"   -- border for popup menu
 -- instead of just failing ask if you wanna save the file first
 vim.o.confirm = true
 
--- Show tabs and spaces explicitly
-vim.o.list = true
+vim.o.exrc = true -- Project-local configs
 
--- Project-local configs
-vim.o.exrc = true
-
+-- Some commands to interact with vim.pack easier
 vim.api.nvim_create_user_command("Packupdate", function()
     vim.pack.update()
 end, {})
@@ -73,7 +72,9 @@ vim.api.nvim_create_user_command("Packsee", function()
     vim.pack.update(nil, { offline = true })
 end, {})
 
-require("vim._core.ui2").enable()
+vim.api.nvim_create_user_command("Packdel", function(opts)
+    vim.pack.del(opts.fargs)
+end, { nargs = "+" })
 
 -- custom filetype for my little language
 vim.filetype.add({ extension = { zn = "zen" } })
