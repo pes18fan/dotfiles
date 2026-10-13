@@ -59,7 +59,11 @@ vim.o.pumborder = "single"   -- border for popup menu
 -- instead of just failing ask if you wanna save the file first
 vim.o.confirm = true
 
+-- Show tabs and spaces explicitly
 vim.o.list = true
+
+-- Project-local configs
+vim.o.exrc = true
 
 vim.api.nvim_create_user_command("Packupdate", function()
     vim.pack.update()
@@ -69,8 +73,31 @@ vim.api.nvim_create_user_command("Packsee", function()
     vim.pack.update(nil, { offline = true })
 end, {})
 
+require("vim._core.ui2").enable()
+
 -- custom filetype for my little language
 vim.filetype.add({ extension = { zn = "zen" } })
+
+-- Diagnostic opts
+-- Stolen from minimax :P
+local diagnostic_opts = {
+    -- Show signs on top of any other sign, but only for warnings and errors
+    signs = { priority = 9999, severity = { min = 'WARN', max = 'ERROR' } },
+
+    underline = { severity = { min = 'HINT', max = 'ERROR' } },
+
+    -- Show more details immediately for errors on the current line
+    virtual_lines = false,
+    virtual_text = {
+        current_line = true,
+        severity = { min = 'ERROR', max = 'ERROR' },
+    },
+
+    -- Don't update diagnostics when typing
+    update_in_insert = false,
+}
+
+vim.schedule(function() vim.diagnostic.config(diagnostic_opts) end)
 
 local autocmd = vim.api.nvim_create_autocmd
 do
@@ -105,13 +132,6 @@ do
             for _, group in ipairs(groups) do
                 vim.api.nvim_set_hl(0, group, { bg = 'NONE', ctermbg = 'NONE' })
             end
-        end,
-    })
-
-    -- Put diagnostics automatically in the location list
-    autocmd("DiagnosticChanged", {
-        callback = function()
-            vim.diagnostic.setloclist({ open = false })
         end,
     })
 end
