@@ -32,14 +32,14 @@ vim.pack.add({
     { src = gh "saghen/blink.cmp", version = vim.version.range("1.*") }, -- Autocomplete
     gh "j-hui/fidget.nvim",                                              -- Little eye candy for notifications :)
     gh "nvim-mini/mini.icons",                                           -- Icon pack
-    gh "nvim-lualine/lualine.nvim",                                      -- Statusline
     gh "nvim-mini/mini.pick",                                            -- Fuzzy finder
+    gh "nvim-lualine/lualine.nvim",                                      -- Statusline
     gh "stevearc/oil.nvim",                                              -- File explorer
     gh "nvim-treesitter/nvim-treesitter",                                -- Overengineered syntax highlighting
 })
 
 -- Catppuccin, the goated theme
-vim.cmd("colorscheme catppuccin")
+vim.cmd("colorscheme catppuccin-nvim")
 
 -- Oil, the better netrw
 -- Setup mini.icons first

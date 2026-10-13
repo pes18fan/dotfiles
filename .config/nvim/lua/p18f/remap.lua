@@ -69,15 +69,7 @@ map("n", "<leader>;", function()
         end
     end
 
-    local ll = vim.fn.getloclist(0)
-    if vim.tbl_isempty(ll) then
-        vim.api.nvim_echo({
-            { "Location list empty.", "MoreMsg" },
-        }, false, {})
-        return
-    end
-
-    vim.cmd.lopen()
+    vim.diagnostic.setloclist()
 end, { desc = "Toggle location list" })
 map("n", "<leader>]", "<cmd>lnext<CR>", { desc = "Go to next item in location list" })
 map("n", "<leader>[", "<cmd>lprev<CR>", { desc = "Go to previous item in location list" })
