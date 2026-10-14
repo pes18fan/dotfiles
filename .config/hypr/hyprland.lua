@@ -347,10 +347,6 @@ hl.gesture({
 hl.workspace_rule({
     workspace = "special:scratch",
     on_created_empty = terminal .. " -e fish -c scr",
-})
-
-hl.workspace_rule({
-    workspace = "1",
     layout = "scrolling",
 })
 
