@@ -57,8 +57,6 @@ map("n", "<leader>q", function()
     end
     vim.cmd.copen()
 end, { desc = "Toggle quickfix list" })
-map("n", "<leader>.", "<cmd>cnext<CR>", { desc = "Go to next item in quickfix list" })
-map("n", "<leader>,", "<cmd>cprev<CR>", { desc = "Go to previous item in quickfix list" })
 
 -- Location list mappings
 map("n", "<leader>;", function()
@@ -71,5 +69,3 @@ map("n", "<leader>;", function()
 
     vim.diagnostic.setloclist()
 end, { desc = "Toggle location list" })
-map("n", "<leader>]", "<cmd>lnext<CR>", { desc = "Go to next item in location list" })
-map("n", "<leader>[", "<cmd>lprev<CR>", { desc = "Go to previous item in location list" })
