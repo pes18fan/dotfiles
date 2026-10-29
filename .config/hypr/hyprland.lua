@@ -244,7 +244,7 @@ hl.bind(mainMod .. " + bracketleft", hl.dsp.group.prev(),
     { desc = "Move to the previous window in a group" })
 hl.bind(mainMod .. " + bracketright", hl.dsp.group.next(),
     { desc = "Move to the next window in a group" })
-hl.bind(mainMod .. " + backslash", hl.dsp.group.lock_active(),
+hl.bind(mainMod .. " + backslash", hl.dsp.group.lock(),
     { desc = "Toggle group locking" })
 
 -- Workspaces
@@ -346,9 +346,14 @@ hl.gesture({
 -- Open up a terminal when scratchpad workspace is opened
 hl.workspace_rule({
     workspace = "special:scratch",
-    on_created_empty = terminal .. " -e fish -c scr",
     layout = "scrolling",
 })
+
+hl.on("workspace.created", function(ws)
+    if ws.name == "special:scratch" and ws.is_empty then
+        hl.exec_cmd(terminal .. " -e fish -c scr")
+    end
+end)
 
 -- Window rules
 hl.window_rule({
