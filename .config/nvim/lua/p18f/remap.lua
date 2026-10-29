@@ -69,3 +69,42 @@ map("n", "<leader>;", function()
 
     vim.diagnostic.setloclist()
 end, { desc = "Toggle location list" })
+
+-- Arglist mappings
+-- Replaces harpoon!
+do
+    local function show_arglist()
+        if vim.fn.argc() == 0 then
+            vim.api.nvim_echo({ { "Arglist empty!", "MoreMsg" } }, false, {})
+            return
+        end
+
+        vim.cmd.args()
+    end
+
+    map("n", "<leader>a", function()
+        vim.cmd("argadd %")
+        vim.cmd("argdedup")
+        show_arglist()
+    end, { desc = "Add current file to arglist" })
+
+    map("n", "<leader>m", function()
+        show_arglist()
+    end, { desc = "Show arglist" })
+
+    map("n", "<leader>c", function()
+        vim.cmd("argdelete *")
+        show_arglist()
+    end, { desc = "Clear arglist" })
+
+    for i = 1, 5, 1 do
+        map("n", "<leader>" .. i, function()
+            vim.cmd("silent! " .. i .. "argument")
+            show_arglist()
+        end, { desc = "Select item " .. i .. " in arglist" })
+        map("n", "<leader>c" .. i, function()
+            vim.cmd(i .. "argdelete")
+            show_arglist()
+        end, { desc = "Remove item " .. i .. " in arglist" })
+    end
+end

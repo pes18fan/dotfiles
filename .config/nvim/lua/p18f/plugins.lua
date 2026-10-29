@@ -24,10 +24,8 @@ autocmd("PackChanged", {
 
 -- All packages
 vim.pack.add({
-    { src = gh "catppuccin/nvim",      name = "catppuccin" },            -- Cute theme :D
+    { src = gh "catppuccin/nvim",  name = "catppuccin" },                -- Cute theme :D
     gh "lewis6991/gitsigns.nvim",                                        -- Git info in editor, staging hunks
-    gh "nvim-lua/plenary.nvim",                                          -- Harpoon dependency
-    { src = gh "ThePrimeagen/harpoon", version = "harpoon2" },           -- Quick switching between buffers
     gh "neovim/nvim-lspconfig",                                          -- LSP config defaults
     { src = gh "saghen/blink.cmp", version = vim.version.range("1.*") }, -- Autocomplete
     gh "j-hui/fidget.nvim",                                              -- Little eye candy for notifications :)
@@ -42,8 +40,8 @@ vim.pack.add({
 vim.cmd("colorscheme catppuccin-nvim")
 
 -- Oil, the better netrw
--- Setup mini.icons first
 do
+    -- Setup mini.icons first
     require("mini.icons").setup()
 
     require("oil").setup({
@@ -63,26 +61,6 @@ do
 
     map("n", "<leader>pf", function() vim.cmd("Pick files") end)
     map("n", "<leader>ps", function() vim.cmd("Pick grep_live") end)
-end
-
--- Harpoon, the plugin of all time
-do
-    local harpoon = require("harpoon")
-    harpoon:setup()
-
-    map("n", "<leader>a", function() harpoon:list():add() end,
-        { desc = "Add current file to harpoon" })
-    map("n", "<leader>m", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
-        { desc = "Open harpoon menu" })
-    map("n", "<leader>c", function() harpoon:list():clear() end, { desc = "Clear harpoon list" })
-
-    for i = 1, 5, 1 do
-        map("n", "<leader>" .. i, function() harpoon:list():select(i) end,
-            { desc = "Select file " .. i .. " from Harpoon" })
-        map("n", "<leader>r" .. i, function()
-            harpoon:list():replace_at(i)
-        end, { desc = "Replace file " .. i .. " from harpoon" })
-    end
 end
 
 -- Lualine, simple statusline
@@ -139,12 +117,12 @@ do
 
     -- Default lsp setup
     vim.lsp.enable({
-        "clangd",  -- C, C++
-        "ols",     -- Odin
-        "ts_ls",   -- Typescript, Javascript
-        "lua_ls",  -- Lua
-        "gopls",   -- Go
-        "ty",      -- Python
-        "ocamllsp" -- OCaml
+        "clangd",   -- C, C++
+        "ols",      -- Odin
+        "ts_ls",    -- Typescript, Javascript
+        "lua_ls",   -- Lua
+        "gopls",    -- Go
+        "ty",       -- Python
+        "ocamllsp", -- OCaml
     })
 end

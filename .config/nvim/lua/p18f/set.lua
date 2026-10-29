@@ -77,7 +77,7 @@ vim.api.nvim_create_user_command("Packdel", function(opts)
 end, { nargs = "+" })
 
 -- custom filetype for my little language
-vim.filetype.add({ extension = { zn = "zen" } })
+vim.filetype.add({ extension = { zn = "zen", waz = "waz" } })
 
 -- Diagnostic opts
 -- Stolen from minimax :P
@@ -126,7 +126,7 @@ do
     })
 
     -- Make everything transparent every time a colorscheme is set
-    autocmd('ColorScheme', {
+    autocmd("ColorScheme", {
         callback = function()
             local groups = { 'Normal', 'NormalNC', 'NormalFloat', 'SignColumn',
                 'StatusLine', 'StatusLineNC' }
@@ -134,5 +134,12 @@ do
                 vim.api.nvim_set_hl(0, group, { bg = 'NONE', ctermbg = 'NONE' })
             end
         end,
+    })
+
+    -- Clear the argument list when entering nvim
+    autocmd("VimEnter", {
+        callback = function()
+            vim.cmd("argdelete *")
+        end
     })
 end
