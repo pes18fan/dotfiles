@@ -343,12 +343,12 @@ hl.gesture({
 })
 
 -- Workspace rules
--- Open up a terminal when scratchpad workspace is opened
 hl.workspace_rule({
     workspace = "special:scratch",
     layout = "scrolling",
 })
 
+-- Open up a terminal when scratchpad workspace is opened
 hl.on("workspace.created", function(ws)
     if ws.name == "special:scratch" and ws.is_empty then
         hl.exec_cmd(terminal .. " -e fish -c scr")
