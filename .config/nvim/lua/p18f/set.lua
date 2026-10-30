@@ -138,11 +138,4 @@ do
             end
         end,
     })
-
-    -- Clear the argument list when entering nvim
-    autocmd("VimEnter", {
-        callback = function()
-            vim.cmd("argdelete *")
-        end
-    })
 end

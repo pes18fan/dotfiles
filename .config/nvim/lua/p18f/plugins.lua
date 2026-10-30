@@ -28,6 +28,8 @@ vim.pack.add({
     gh "lewis6991/gitsigns.nvim",                                        -- Git info in editor, staging hunks
     gh "neovim/nvim-lspconfig",                                          -- LSP config defaults
     { src = gh "saghen/blink.cmp", version = vim.version.range("1.*") }, -- Autocomplete
+    gh "nvim-lua/plenary.nvim",                                          -- Harpoon dep
+    { src = gh "ThePrimeagen/harpoon", version = "harpoon2" },           -- Quick switching between bufs
     gh "j-hui/fidget.nvim",                                              -- Little eye candy for notifications :)
     gh "nvim-mini/mini.icons",                                           -- Icon pack
     gh "nvim-mini/mini.pick",                                            -- Fuzzy finder
@@ -53,6 +55,22 @@ do
     })
 
     map("n", "-", "<cmd>Oil<CR>", { desc = "Open oil.nvim" })
+end
+
+-- Harpoon, the plugin of all time
+do
+    local harpoon = require("harpoon")
+    harpoon:setup()
+
+    map("n", "<leader>a", function() harpoon:list():add() end,
+        { desc = "Add current file to harpoon" })
+    map("n", "<leader>m", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
+        { desc = "Open harpoon menu" })
+
+    for i = 1, 5, 1 do
+        map("n", "<leader>" .. i, function() harpoon:list():select(i) end,
+            { desc = "Select file " .. i .. " from Harpoon" })
+    end
 end
 
 -- Fuzzy file/text/whatever picker

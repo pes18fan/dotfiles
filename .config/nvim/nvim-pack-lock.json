@@ -17,6 +17,11 @@
       "rev": "74bbddd4b698f4d763c88f2b3e80d421de6bcfe6",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
+    "harpoon": {
+      "rev": "87b1a3506211538f460786c23f98ec63ad9af4e5",
+      "src": "https://github.com/ThePrimeagen/harpoon",
+      "version": "'harpoon2'"
+    },
     "lualine.nvim": {
       "rev": "221ce6b2d999187044529f49da6554a92f740a96",
       "src": "https://github.com/nvim-lualine/lualine.nvim"
@@ -40,6 +45,10 @@
     "oil.nvim": {
       "rev": "d3733d933833a0e59b813ecec99341527adf0c28",
       "src": "https://github.com/stevearc/oil.nvim"
+    },
+    "plenary.nvim": {
+      "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",
+      "src": "https://github.com/nvim-lua/plenary.nvim"
     }
   }
 }
