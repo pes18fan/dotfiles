@@ -47,7 +47,7 @@ map("i", "<Down>", "<nop>")
 map("i", "<Left>", "<nop>")
 map("i", "<Right>", "<nop>")
 
--- Quickfix list mappings
+-- Quickfix and location list mappings
 map("n", "<leader>q", function()
     for _, win in ipairs(vim.fn.getwininfo()) do
         if win.quickfix == 1 then
@@ -57,8 +57,6 @@ map("n", "<leader>q", function()
     end
     vim.cmd.copen()
 end, { desc = "Toggle quickfix list" })
-
--- Location list mappings
 map("n", "<leader>;", function()
     for _, win in ipairs(vim.fn.getwininfo()) do
         if win.loclist == 1 then

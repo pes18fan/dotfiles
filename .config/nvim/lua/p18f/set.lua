@@ -1,17 +1,17 @@
 -- General settings
 
 vim.loader.enable()               -- faster startup
-
 require("vim._core.ui2").enable() -- nicer UI
 
-vim.opt.nu = true                 -- Line numbers
-vim.opt.relativenumber = true     -- Relative line numbers
+-- Line numbers
+vim.opt.nu = true             -- Enable line numbers
+vim.opt.relativenumber = true -- Relative line numbers
 
 -- Indenting
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
+vim.opt.expandtab = true  -- Turn tabs into spaces?
 vim.o.list = true         -- Show tabs and spaces explicitly
 
 vim.opt.ignorecase = true -- Make search not be case-sensitive
@@ -64,17 +64,19 @@ vim.o.confirm = true
 vim.o.exrc = true -- Project-local configs
 
 -- Some commands to interact with vim.pack easier
-vim.api.nvim_create_user_command("Packupdate", function()
-    vim.pack.update()
-end, {})
+do
+    vim.api.nvim_create_user_command("Packupdate", function()
+        vim.pack.update()
+    end, {})
 
-vim.api.nvim_create_user_command("Packsee", function()
-    vim.pack.update(nil, { offline = true })
-end, {})
+    vim.api.nvim_create_user_command("Packsee", function()
+        vim.pack.update(nil, { offline = true })
+    end, {})
 
-vim.api.nvim_create_user_command("Packdel", function(opts)
-    vim.pack.del(opts.fargs)
-end, { nargs = "+" })
+    vim.api.nvim_create_user_command("Packdel", function(opts)
+        vim.pack.del(opts.fargs)
+    end, { nargs = "+" })
+end
 
 -- custom filetype for my little language
 vim.filetype.add({ extension = { zn = "zen", waz = "waz" } })
@@ -100,6 +102,7 @@ local diagnostic_opts = {
 
 vim.schedule(function() vim.diagnostic.config(diagnostic_opts) end)
 
+-- Common autocmds
 local autocmd = vim.api.nvim_create_autocmd
 do
     -- Highlight when yanking text, very cool
@@ -111,7 +114,7 @@ do
         end,
     })
 
-    -- Format on save when a valid LSP is attached
+    -- Format on save when a LSP that supports formatting is attached
     autocmd("BufWritePre", {
         callback = function(args)
             local clients = vim.lsp.get_clients({
