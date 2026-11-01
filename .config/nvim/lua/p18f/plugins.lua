@@ -98,7 +98,11 @@ autocmd("FileType", {
 -- Language intelligence stuff
 do
     -- eye candy!
-    require("fidget").setup()
+    require("fidget").setup({
+        notification = {
+            override_vim_notify = true,
+        }
+    })
 
     -- Completion
     local blink = require("blink.cmp")
