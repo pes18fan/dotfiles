@@ -83,29 +83,8 @@ function lyd
     yadm enter lazygit
 end
 
-# Kill a hyprland/graphical session and shut down (via hyprshutdown if it is available)
-function die
-    if test "$argv[1]" != "now"
-        read -p "set_color red; echo -n 'Shutdown? '; set_color --reset; echo -n '[y/N] '" -l QUERY
-        if test "$QUERY" != 'y'
-            return
-        end
-    end
-
-    if command --query hyprshutdown
-        hyprshutdown --post-cmd 'poweroff'
-    else if command --query hyprctl
-        hyprctl dispatch "hl.dsp.exit()"
-        poweroff
-    else if test -n "$XDG_CURRENT_DESKTOP" && command --query $XDG_CURRENT_DESKTOP
-        kill -TERM $XDG_CURRENT_DESKTOP
-        poweroff
-    else
-        poweroff
-    end
-end
-
-# Function to compile and run various types of source files
+# Function to compile and run various types of source files, or to run a binary
+# (ELF) directly
 # Only works for relative links
 # If extra arguments are passed, those will go to the compiler or interpreter
 function run
@@ -117,6 +96,11 @@ function run
     if not test -e $argv[1]
         echo "$argv[1] is not a file that exists."
         return 1
+    end
+
+    if test "ELF" = (file -Lb $argv[1] | cut -d, -f1 | cut -d' ' -f1)
+        ./$argv[1]
+        return $status
     end
 
     set -l ext (path extension $argv[1])
