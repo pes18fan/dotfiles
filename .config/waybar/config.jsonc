@@ -2,12 +2,12 @@
     "layer": "top",
     "position": "top",
     "height": 30,
-    "modules-left": ["custom/launcher", "hyprland/workspaces", "clock"],
-    "modules-center": ["hyprland/window"],
+    "modules-left": ["custom/launcher", "niri/workspaces", "clock"],
+    "modules-center": ["niri/window"],
     "modules-right": 
         [
             "tray",
-            "hyprland/language", "backlight", "pulseaudio",
+            "niri/language", "backlight", "pulseaudio",
             "network", "bluetooth", "battery", "idle_inhibitor", "power-profiles-daemon", "custom/power"
         ],
     "custom/launcher": {
@@ -15,15 +15,16 @@
         "on-click": "fuzzel",
         "tooltip-format": "application menu"
     },
-    "hyprland/workspaces": {
-        "format": "{name}",
-        "disable-scroll": true
+    "niri/workspaces": {
+        "format": "{value}",
     },
-    "hyprland/window": {
-        "max-length": 60,
-        "tooltip": false
+    "niri/window": {
+        "format": "{}",
+        "rewrite": {
+            "^(.{60}).*$": "$1..."
+        }
     },
-    "hyprland/language": {
+    "niri/language": {
         "format": "{short}"
     },
     "clock": {
