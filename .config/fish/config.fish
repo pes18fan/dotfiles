@@ -38,33 +38,6 @@ function fish_greeting
     echo ""
 end
 
-# weird working-dir changing machinery for lf
-if command --query lf
-    # Change directory to the one received from lf via the named pipe
-    function lf_cd_handler --on-signal USR1
-        set --local fifo /tmp/lf_cwd_"$fish_pid".fifo
-        set --local dir (timeout 1s cat "$fifo" 2>/dev/null)
-
-        if test $status -ne 0
-            echo "lf: timed out waiting for directory on fifo"
-            return
-        end
-
-        if test -n "$dir" -a -d "$dir"
-            cd "$dir"
-            commandline --function repaint
-        end
-    end
-
-    # startup lf, but not before setting up a named pipe for parent shell cd commands
-    function lf --wraps="lf"
-        rm -f /tmp/lf_cwd_"$fish_pid".fifo
-        mkfifo /tmp/lf_cwd_"$fish_pid".fifo
-        env LF_PARENT_PID="$fish_pid" lf $argv
-        rm -f /tmp/lf_cwd_"$fish_pid".fifo
-    end
-end
-
 # param 1: command name
 function require
     if not command --query $argv[1]
