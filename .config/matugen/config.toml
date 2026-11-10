@@ -6,22 +6,22 @@ command = "awww img --transition-type random {{ image }}"
 input_path = '~/.config/matugen/templates/Matugen.colors'
 output_path = '~/.local/share/color-schemes/Matugen.colors'
 
-[templates.fnott]
-input_path = '~/.config/matugen/templates/fnott.ini'
-output_path = '~/.config/fnott/fnott.ini'
-post_hook = 'pkill fnott; fnott &'
+[templates.mako]
+input_path = '~/.config/matugen/templates/mako'
+output_path = '~/.config/mako/mako-colors'
+post_hook = 'makoctl reload'
 
 [templates.foot]
-input_path = '~/.config/matugen/templates/foot-colors.ini'
+input_path = '~/.config/matugen/templates/foot.ini'
 output_path = '~/.config/foot/colors.ini'
 post_hook   = 'pkill -SIGUSR1 foot'
 
 [templates.fuzzel]
-input_path = '~/.config/matugen/templates/fuzzel-colors.ini'
+input_path = '~/.config/matugen/templates/fuzzel.ini'
 output_path = '~/.config/fuzzel/colors.ini'
 
 [templates.gtk3]
-input_path = '~/.config/matugen/templates/gtk-colors.css'
+input_path = '~/.config/matugen/templates/gtk.css'
 output_path = '~/.config/gtk-3.0/colors.css'
 post_hook = '''
 gsettings set org.gnome.desktop.interface gtk-theme ""
@@ -29,17 +29,17 @@ gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-{{mode}}
 '''
 
 [templates.gtk4]
-input_path = '~/.config/matugen/templates/gtk-colors.css'
+input_path = '~/.config/matugen/templates/gtk.css'
 output_path = '~/.config/gtk-4.0/colors.css'
 post_hook = 'bash ~/.config/matugen/scripts/gtk-color-refresh.sh'
 
 [templates.niri]
-input_path = '~/.config/matugen/templates/niri-colors.kdl'
+input_path = '~/.config/matugen/templates/niri.kdl'
 output_path = '~/.config/niri/colors.kdl'
 post_hook = 'niri msg action load-config-file'
 
 [templates.hyprlock]
-input_path = '~/.config/matugen/templates/hyprlock-colors.conf'
+input_path = '~/.config/matugen/templates/hyprlock.conf'
 output_path = '~/.config/hypr/colors.conf'
 
 [templates.waybar]
