@@ -25,7 +25,6 @@ input {
         // disabled-on-external-mouse
     }
 
-    // Uncomment this to make the mouse warp to the center of newly focused windows.
     warp-mouse-to-focus
 
     // Focus windows and outputs automatically when moving the mouse into them.
@@ -93,7 +92,7 @@ include "colors.kdl"
 spawn-at-startup "waybar"
 spawn-at-startup "foot" "--server"
 spawn-at-startup "awww-daemon"
-spawn-at-startup "fnott"
+spawn-at-startup "mako"
 spawn-at-startup "hypridle"
 spawn-at-startup "wlsunset" "-l" "27.7" "-L" "85.3"
 spawn-at-startup "systemctl" "--user" "start" "hyprpolkitagent.service"
@@ -193,7 +192,7 @@ binds {
     XF86AudioNext        allow-when-locked=true { spawn-sh "playerctl next"; }
 
     // Dismiss notifications
-    Mod+Q  hotkey-overlay-title="Dismiss notifications with fnottctl" { spawn "fnottctl" "dismiss"; }
+    Mod+Q  hotkey-overlay-title="Dismiss notifications (makoctl)" { spawn "makoctl" "dismiss"; }
 
     // Example brightness key mappings for brightnessctl.
     // You can use regular spawn with multiple arguments too (to avoid going through "sh"),
