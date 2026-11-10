@@ -25,6 +25,10 @@ input {
         // disabled-on-external-mouse
     }
 
+    mouse {
+        accel-profile "flat"
+    }
+
     warp-mouse-to-focus
 
     // Focus windows and outputs automatically when moving the mouse into them.
