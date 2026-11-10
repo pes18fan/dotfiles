@@ -5,8 +5,10 @@ end
 
 if command --query nvim
     set --export EDITOR "nvim"
+    set --export SUDO_EDITOR "nvim --clean"
 else
     set --export EDITOR "vim"
+    set --export SUDO_EDITOR "vim --clean"
 end
 
 set --export OPENER "xdg-open"
