@@ -4,58 +4,58 @@ vim.loader.enable()               -- faster startup
 require("vim._core.ui2").enable() -- nicer UI
 
 -- Line numbers
-vim.opt.nu = true             -- Enable line numbers
-vim.opt.relativenumber = true -- Relative line numbers
+vim.o.nu = true             -- Enable line numbers
+vim.o.relativenumber = true -- Relative line numbers
 
 -- Indenting
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true  -- Turn tabs into spaces?
-vim.o.list = true         -- Show tabs and spaces explicitly
+vim.o.tabstop = 4
+vim.o.softtabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true  -- Turn tabs into spaces?
+vim.o.list = true       -- Show tabs and spaces explicitly
 
-vim.opt.ignorecase = true -- Make search not be case-sensitive
-vim.opt.smartcase = true  -- ..unless a capital letter is in search
+vim.o.ignorecase = true -- Make search not be case-sensitive
+vim.o.smartcase = true  -- ..unless a capital letter is in search
 vim.o.infercase = true
 
-vim.opt.smartindent = true
-vim.opt.autoindent = true
+vim.o.smartindent = true
+vim.o.autoindent = true
 
-vim.opt.wrap = false -- Don't use word wrapping
+vim.o.wrap = false -- Don't use word wrapping
 
 -- Highlight search queries
-vim.opt.hlsearch = false
-vim.opt.incsearch = true
+vim.o.hlsearch = false
+vim.o.incsearch = true
 
 vim.o.breakindent = true
 
 -- Use proper terminal colors
-vim.opt.termguicolors = true
+vim.o.termguicolors = true
 
 -- Never have less than 12 characters at the bottom or top
-vim.opt.scrolloff = 12
+vim.o.scrolloff = 12
 
-vim.opt.updatetime = 250
+vim.o.updatetime = 250
 vim.o.timeoutlen = 300
 
-vim.opt.colorcolumn = "80"
+vim.o.colorcolumn = "80"
 
 vim.o.switchbuf = "useopen"
 vim.o.undofile = true -- Allow persistent undo
 
 -- Highlight the line the cursor is on
-vim.opt.cursorline = true
+vim.o.cursorline = true
 
 -- Don't show mode in cmdline, statusline already shows it
 vim.o.showmode = false
 
-vim.o.splitbelow = true
-vim.o.splitright = true
+vim.o.splitbelow = true -- Splitting puts the window below
+vim.o.splitright = true -- Vsplit puts the window to the right
 vim.o.splitkeep = "screen"
 
-vim.opt.signcolumn = "yes"
-vim.opt.winborder = "single" -- set border for floating windows
-vim.o.pumborder = "single"   -- border for popup menu
+vim.o.signcolumn = "yes"
+vim.o.winborder = "single" -- set border for floating windows
+vim.o.pumborder = "single" -- border for popup menu
 
 -- If performing an operation that would fail (like :q on an unsaved file),
 -- instead of just failing ask if you wanna save the file first
@@ -64,19 +64,17 @@ vim.o.confirm = true
 vim.o.exrc = true -- Project-local configs
 
 -- Some commands to interact with vim.pack easier
-do
-    vim.api.nvim_create_user_command("Packupdate", function()
-        vim.pack.update()
-    end, {})
+vim.api.nvim_create_user_command("Packupdate", function()
+    vim.pack.update()
+end, {})
 
-    vim.api.nvim_create_user_command("Packsee", function()
-        vim.pack.update(nil, { offline = true })
-    end, {})
+vim.api.nvim_create_user_command("Packsee", function()
+    vim.pack.update(nil, { offline = true })
+end, {})
 
-    vim.api.nvim_create_user_command("Packdel", function(opts)
-        vim.pack.del(opts.fargs)
-    end, { nargs = "+" })
-end
+vim.api.nvim_create_user_command("Packdel", function(opts)
+    vim.pack.del(opts.fargs)
+end, { nargs = "+" })
 
 -- custom filetype for my little language
 vim.filetype.add({ extension = { zn = "zen" } })
