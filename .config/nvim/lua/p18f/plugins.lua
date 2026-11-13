@@ -77,8 +77,8 @@ end
 do
     require("mini.pick").setup()
 
-    map("n", "<leader>pf", function() vim.cmd("Pick files") end)
-    map("n", "<leader>ps", function() vim.cmd("Pick grep_live") end)
+    map("n", "<leader>e", function() vim.cmd("Pick files") end)
+    map("n", "<leader>f", function() vim.cmd("Pick grep_live") end)
 end
 
 -- Lualine, simple statusline
@@ -133,31 +133,6 @@ do
 
             map("n", "gd", vim.lsp.buf.definition, opts)
             map("n", "gD", vim.lsp.buf.declaration, opts)
-            map("n", "<leader>f", vim.lsp.buf.format, opts)
         end
-    })
-
-    -- Lsp setup
-
-    -- Only use ruff for formatting
-    vim.api.nvim_create_autocmd("LspAttach", {
-        callback = function(args)
-            local client = vim.lsp.get_client_by_id(args.data.client_id)
-            if client and client.name == 'ruff' then
-                client.server_capabilities.diagnosticProvider = nil
-                client.server_capabilities.hoverProvider = false
-            end
-        end,
-    })
-
-    vim.lsp.enable({
-        "clangd",     -- C, C++
-        "ols",        -- Odin
-        "ts_ls",      -- Typescript, Javascript
-        "lua_ls",     -- Lua
-        "gopls",      -- Go
-        "ty", "ruff", -- Python
-        "ocamllsp",   -- OCaml
-        "zls",        -- Zig
     })
 end

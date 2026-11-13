@@ -24,6 +24,8 @@ map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
 map("n", "<leader>-", ":split<CR>", { desc = "Split horizontally" })
 map("n", "<leader>\\", ":vsplit<CR>", { desc = "Split vertically" })
 
+map("i", "<C-[>", "<Esc>")
+
 -- Double esc to go to normal mode from terminal
 map("t", "<Esc><Esc>", "<C-\\><C-n>")
 

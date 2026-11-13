@@ -79,7 +79,7 @@ do
 end
 
 -- custom filetype for my little language
-vim.filetype.add({ extension = { zn = "zen", waz = "waz" } })
+vim.filetype.add({ extension = { zn = "zen" } })
 
 -- Diagnostic opts
 -- Stolen from minimax :P
@@ -139,3 +139,15 @@ do
         end,
     })
 end
+
+-- Lsps
+vim.lsp.enable({
+    "clangd",   -- C, C++
+    "ols",      -- Odin
+    "ts_ls",    -- Typescript, Javascript
+    "lua_ls",   -- Lua
+    "gopls",    -- Go
+    "ty",       -- Python
+    "ocamllsp", -- OCaml
+    "zls",      -- Zig
+})
