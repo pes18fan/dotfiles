@@ -1,3 +1,5 @@
+fish_add_path ~/ols/
+
 # env vars
 if command --query helium-browser
     set --export BROWSER "helium-browser"
@@ -210,4 +212,8 @@ end
 
 if command --query opam
     eval (opam env)
+end
+
+if command --query niri
+    niri completions fish | source
 end
