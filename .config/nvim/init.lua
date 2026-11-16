@@ -328,6 +328,7 @@ do
 
     -- Update treesitter parsers when nvim-treesitter updates
     autocmd("PackChanged", {
+        group = vim.api.nvim_create_augroup("ts-update-hook", { clear = true }),
         callback = function(ev)
             local name, kind = ev.data.spec.name, ev.data.kind
             if name == "nvim-treesitter" and kind == "update" then
